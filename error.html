@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>出错了</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layadmin-tips">
+        <i class="layui-icon" style="font-size:100px;" face>&#xe664;</i>
+        <div style="font-size: 20px; text-align:left;">
+            <div class="layui-text" style="font-size: 20px; text-align:left; margin:0px;width:auto;">
+                <h1>
+                    出错啦<span class="layui-anim layui-anim-loop layui-anim-rotate">！</span>
+                </h1>
+                错误信息：The instance of entity type 'JKUPBtnModel' cannot be tracked because another instance with the same key value for {'ID'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+                <br />
+                错误详情：<span class="layui-anim layui-anim-loop layui-anim-">   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.ThrowIdentityConflict(InternalEntityEntry entry)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry, Boolean updateDuplicate)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.NullableKeyIdentityMap`1.Add(InternalEntityEntry entry)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.StartTracking(InternalEntityEntry entry)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState oldState, EntityState newState, Boolean acceptChanges)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState entityState, Boolean acceptChanges, Nullable`1 forceStateWhenUnknownKey)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.PaintAction(EntityEntryGraphNode node, Boolean force)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityEntryGraphIterator.TraverseGraph[TState](EntityEntryGraphNode node, TState state, Func`3 handleNode)<br/>   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.AttachGraph(InternalEntityEntry rootEntry, EntityState entityState, Boolean forceStateWhenUnknownKey)<br/>   at Microsoft.EntityFrameworkCore.DbContext.SetEntityState(InternalEntityEntry entry, EntityState entityState)<br/>   at Microsoft.EntityFrameworkCore.DbContext.SetEntityState[TEntity](TEntity entity, EntityState entityState)<br/>   at Microsoft.EntityFrameworkCore.DbContext.Update[TEntity](TEntity entity)<br/>   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Update(TEntity entity)<br/>   at QDP.Service.JKUP.JKUPBtnService.UpdateBtnModel(JKUPBtnModel jKUPBtnModel) in E:\working\QDP.Projects_bb\trunk\QDP.Project\QDP.Service\JKUP\JKUPBtnService.cs:line 63<br/>   at QDP.DBSWebAPI.Controllers.RsauController.UpdateBtnModel(JKUPBtnModel jKUPBtnModel) in E:\working\QDP.Projects_bb\trunk\QDP.Project\QDP.DBSWebAPI\Controllers\RsauController.cs:line 159<br/>   at lambda_method(Closure , Object , Object[] )<br/>   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()<br/>--- End of stack trace from previous location where exception was thrown ---<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()<br/>--- End of stack trace from previous location where exception was thrown ---<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)<br/>   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)<br/>   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)<br/>   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)<br/>   at QDP.WebBase.Middlewares.ControllerFMiddleware.Invoke(HttpContext context) in E:\working\QDP.Projects_bb\trunk\QDP.Project\QDP.WebBase\Middlewares\ControllerFMiddleware.cs:line 126</span><br />
+            </div>
+        </div>
+    </div>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index']);
+    </script>
+</body>
+</html>
