@@ -33,39 +33,55 @@ const routers = new Router({
             component: resolve => require(["@/views/admin"], resolve),
             meta: {auth: true},
             showMenu: true,  //展示菜单栏
-            title: '基础',
+            title: '后台管理',
+            name: '后台管理',
             children: [
                 {
                     path: "banner",
                     icon: "el-icon-menu",
-                    component: resolve => require(["@/views/banner/index"], resolve),
+                    component: page,
                     title: "banner管理",
+                    // name: "banner管理",
+                    children:[
+                        {
+                            path: "banner",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/banner/index"], resolve),
+                            title: "banner管理",
+                            name: "banner管理",
+                        },
+                        {
+                            path: "edit",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/banner/edit"], resolve),
+                            title: "banner新增",
+                            name: "banner新增",
+                            hideMenu: true,
+                        },
+                        {
+                            path: "add",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/banner/add"], resolve),
+                            title: "banner编辑",
+                            name: "banner编辑",
+                            hideMenu: true,
+                        },
+                    ]
                 },
-                {
-                    path: "banner/edit",
-                    icon: "el-icon-menu",
-                    component: resolve => require(["@/views/banner/edit"], resolve),
-                    title: "banner编辑",
-                    hideMenu:true,
-                },
-                {
-                    path: "banner/add",
-                    icon: "el-icon-menu",
-                    component: resolve => require(["@/views/banner/add"], resolve),
-                    title: "banner编辑",
-                    hideMenu:true,
-                },
+
                 {
                     path: "menu",
                     icon: "el-icon-menu",
                     component: resolve => require(["@/views/menu/index"], resolve),
                     title: "菜单管理",
+                    name: "菜单管理",
                 },
                 {
                     path: "content",
                     icon: "el-icon-menu",
                     component: resolve => require(["@/views/product/index"], resolve),
                     title: "内容管理",
+                    name: "内容管理",
                 },
             ],
         },

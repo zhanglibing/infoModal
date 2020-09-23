@@ -1,9 +1,6 @@
 <template>
     <el-container>
         <el-header height="64px">
-            <div class="logo_box">
-                <img src="../common/image/logo_white.png" alt="">
-            </div>
             <div class="header_content">
                 <div class="shop_info">
                     <b class="name">工业互联网信息模型联合实验室</b>
@@ -45,13 +42,13 @@
         <div class="container maxH ">
             <div class="aside" :class="{active:collapse}">
                 <div class="menu_list_box" v-if="!isShowMenu">
-                    <div class="current_module">
-                        <span v-if="!collapse">模块</span>
-                        <div class="icon_box">
-                            <img v-if="collapse" src="../common/image/menu_show.png" alt="" @click="collapse=false">
-                            <img v-else src="../common/image/menu_close.png" alt="" @click="collapse=true">
-                        </div>
-                    </div>
+<!--                    <div class="current_module">-->
+<!--                        <span v-if="!collapse">模块</span>-->
+<!--                        <div class="icon_box">-->
+<!--                            <img v-if="collapse" src="../common/image/menu_show.png" alt="" @click="collapse=false">-->
+<!--                            <img v-else src="../common/image/menu_close.png" alt="" @click="collapse=true">-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <el-menu
                             class="el-menu-vertical-demo"
                             @open="handleOpen"
@@ -96,7 +93,7 @@
                         <el-breadcrumb-item v-for="item in routerList"
                                             :key="item.path"
                                             :to="{path:item.path}">
-                            {{item.title}}
+                            {{item.name}}
                         </el-breadcrumb-item>
                     </el-breadcrumb>
                 </div>
@@ -186,6 +183,7 @@
                 return this.$route.path.includes('mall');
             },
             routerList() {
+                console.log(this.$route.matched)
                 return this.$route.matched;
             },
         },
@@ -229,26 +227,12 @@
     .el-header {
         position: relative;
         z-index: 2;
-        background: #fff;
+        background: rgba(0, 40, 77, 1);
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         padding: 0;
-
-        .logo_box {
-            width: 64px;
-            background: #002140;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            img {
-                width: 44px;
-                height: 22px;
-            }
-        }
 
         .header_content {
             flex: 1;
@@ -261,12 +245,13 @@
             & > div {
                 display: flex;
                 align-items: center;
-                color: #000;
+                color: #fff;
+
             }
 
             .shop_info {
                 .name {
-                    font-size: 16px;
+                    font-size: 18px;
                 }
 
             }
@@ -369,17 +354,15 @@
         }
 
         .el-menu-vertical-demo:not(.el-menu--collapse) {
-            width: 150px;
-            height: calc(100% - 50px);
-            min-height: calc(100vh - 120px);
 
+            min-height: calc(100vh - 120px);
+            background: rgba(0, 21, 41, 1);
             .el-menu-item {
-                width: 150px;
-                min-width: 150px;
                 padding: 0 20px !important;
                 height: 40px !important;
                 line-height: 40px !important;
-                color: rgb(102, 102, 102) !important;
+                color: #fff !important;
+                background: rgba(0, 21, 41, 1) !important;
 
                 &.is-active {
                     background: #0398FF !important;
@@ -388,8 +371,8 @@
             }
 
             .el-submenu__title {
-                width: 150px;
-                min-width: 150px;
+                /*width: 150px;*/
+                /*min-width: 150px;*/
                 padding: 0 20px !important;
                 height: 40px !important;
                 line-height: 40px !important;
