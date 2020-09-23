@@ -17,7 +17,7 @@
                     <template slot-scope="{row:{ISSHELF,ID,PSTS}}">
                         <el-button type="text" @click="goDetail(ID)">查看详情</el-button>
                         <el-divider direction="vertical"></el-divider>
-                        <el-button type="text" @click="setProduct(ID,1)">编辑</el-button>
+                        <el-button type="text" @click="goDetail(ID)">编辑</el-button>
                         <el-divider direction="vertical"></el-divider>
                         <el-button type="text" @click="deleteProduct(ID)" style="color:red;">删除</el-button>
                     </template>

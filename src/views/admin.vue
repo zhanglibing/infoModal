@@ -146,21 +146,21 @@
                         title: val.title,
                         icon: val.icon,
                     };
-                    if (val.children && val.children.length) {
-                        item.subs = [];
-                        item.isShow = true;
-                        val.children.forEach(v => {
-                            // 权限判断和是否在导航栏显示
-                            if (v.hideMenu) {
-                                return false;
-                            }
-                            let items = {
-                                index: item.index + "/" + v.path,
-                                title: v.title || "kong",
-                            };
-                            item.subs.push(items);
-                        });
-                    }
+                    // if (val.children && val.children.length) {
+                    //     item.subs = [];
+                    //     item.isShow = true;
+                    //     val.children.forEach(v => {
+                    //         // 权限判断和是否在导航栏显示
+                    //         if (v.hideMenu) {
+                    //             return false;
+                    //         }
+                    //         let items = {
+                    //             index: item.index + "/" + v.path,
+                    //             title: v.title || "kong",
+                    //         };
+                    //         item.subs.push(items);
+                    //     });
+                    // }
                     arr.push(item);
                 });
 
@@ -184,7 +184,7 @@
             },
             routerList() {
                 console.log(this.$route.matched)
-                return this.$route.matched;
+                return this.$route.matched.filter(v=>v.path!=='/admin');
             },
         },
     };
