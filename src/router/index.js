@@ -27,7 +27,23 @@ const routers = new Router({
             name: "login",
             component: login,
         },
-
+        {
+            path: "/home",
+            component: resolve => require(["@/views/wrapper"], resolve),
+            name: 'home',
+            children: [
+                {
+                    path: "",
+                    component: resolve => require(["@/views/home"], resolve),
+                    name: 'home',
+                },
+                {
+                    path: "list/:name/:child?/:id?",
+                    component: resolve => require(["@/views/list"], resolve),
+                    name: 'home',
+                }
+            ]
+        },
         {
             path: "/admin",
             component: resolve => require(["@/views/admin"], resolve),
@@ -42,7 +58,7 @@ const routers = new Router({
                     component: page,
                     title: "banner管理",
                     name: "banner管理",
-                    children:[
+                    children: [
                         {
                             path: "",
                             icon: "el-icon-menu",
@@ -79,9 +95,34 @@ const routers = new Router({
                 {
                     path: "content",
                     icon: "el-icon-menu",
-                    component: resolve => require(["@/views/product/index"], resolve),
+                    component: page,
                     title: "内容管理",
                     name: "内容管理",
+                    children: [
+                        {
+                            path: "",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/product/index"], resolve),
+                            title: "内容管理列表",
+                            name: "内容管理列表",
+                        },
+                        {
+                            path: "edit",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/product/edit"], resolve),
+                            title: "内容编辑",
+                            name: "内容编辑",
+                            hideMenu: true,
+                        },
+                        {
+                            path: "add",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/product/add"], resolve),
+                            title: "内容新增",
+                            name: "内容新增",
+                            hideMenu: true,
+                        },
+                    ]
                 },
             ],
         },

@@ -7,17 +7,22 @@
             <el-table :data="data"
                       ref="multipleTable"
                       :stripe="true" :size="size">
-                <el-table-column prop="INAME" label="Banner Id"></el-table-column>
-                <el-table-column prop="XPRICE" label="Banner 名称"></el-table-column>
-                <el-table-column prop="ZPRICE" label="位置"></el-table-column>
-                <el-table-column prop="IFROM" label="超链接"></el-table-column>
-                <el-table-column prop="PSTS" label="缩略图"></el-table-column>
+                <el-table-column prop="ID" label="ID"></el-table-column>
+                <el-table-column prop="INAME" label="Banner 名称"></el-table-column>
+                <el-table-column prop="IDETAILS" label="超链接"></el-table-column>
+                <el-table-column prop="BANNERIMGURL" label="缩略图">
+                    <template slot-scope="{row}">
+                        <el-image
+                                style="width: 100px; height: 50px"
+                                :src="row.BANNERIMGURL"
+                                :preview-src-list="[row.BANNERIMGURL]">
+                        </el-image>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="CREATEDATE" label="创建时间"></el-table-column>
-                <el-table-column label="操作" width="200">
+                <el-table-column label="操作" width="180">
                     <template slot-scope="{row:{ISSHELF,ID,PSTS}}">
                         <el-button type="text" @click="goDetail(ID)">查看详情</el-button>
-                        <el-divider direction="vertical"></el-divider>
-                        <el-button type="text" @click="goDetail(ID)">编辑</el-button>
                         <el-divider direction="vertical"></el-divider>
                         <el-button type="text" @click="deleteProduct(ID)" style="color:red;">删除</el-button>
                     </template>
@@ -38,27 +43,27 @@
     </div>
 </template>
 <script>
-    import mixin from '../product/mixin'
+    import mixin from "../product/mixin";
 
     export default {
         mixins: [mixin],
         data() {
             return {
-                PTYPE: '2', //产品大类型1心理课程2心理文章3心理fm
-            }
+                PTYPE: "2", //产品大类型1心理课程2心理文章3心理fm
+            };
         },
         methods: {
             goDetail(id) {
-                this.$router.push({path: '/admin/banner/edit', query: {id}});
+                this.$router.push({path: "/admin/banner/edit", query: {id}});
             },
             add() {
-                this.$router.push('/admin/banner/add');
-            }
+                this.$router.push("/admin/banner/add");
+            },
 
         },
-        computed: {}
+        computed: {},
 
-    }
+    };
 </script>
 <style lang="scss" scoped="">
 

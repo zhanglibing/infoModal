@@ -6,35 +6,12 @@
                     <b class="name">工业互联网信息模型联合实验室</b>
                 </div>
                 <div class="user_info">
-                    <div class="avatar">
-                        <img v-if="userInfo.HEADIMGURL" :src="userInfo.HEADIMGURL" alt="">
-                        <img v-else src="../common/image/default_avatar.png" alt="">
-                    </div>
                     <span class="username">
-                      {{userInfo.ULOGINNAME}}
+                      当前账户：{{userInfo.ULOGINNAME}}
                   </span>
                     <div class="menu_icon">
-                        <img src="../common/image/menu_icon.png" alt="">
-                        <div class="drow_box">
-                            <div class="box">
-                                <div class="popper__arrow"></div>
-                                <ul>
-                                    <router-link tag="li" to="/home">
-                                        <span class="el-icon-user-solid"></span>
-                                        账号主页
-                                    </router-link>
-                                    <li>
-                                        <span class="el-icon-question"></span>
-                                        帮助中心
-                                    </li>
-                                    <li @click="loginOut">
-                                        <span class="el-icon-eleme"></span>
-                                        退出
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
+                        <el-button size="mini">退出登录</el-button>
+                        <el-button size="mini" @click="$router.push('/home')">首页</el-button>
                     </div>
                 </div>
             </div>
@@ -42,13 +19,6 @@
         <div class="container maxH ">
             <div class="aside" :class="{active:collapse}">
                 <div class="menu_list_box" v-if="!isShowMenu">
-<!--                    <div class="current_module">-->
-<!--                        <span v-if="!collapse">模块</span>-->
-<!--                        <div class="icon_box">-->
-<!--                            <img v-if="collapse" src="../common/image/menu_show.png" alt="" @click="collapse=false">-->
-<!--                            <img v-else src="../common/image/menu_close.png" alt="" @click="collapse=true">-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <el-menu
                             class="el-menu-vertical-demo"
                             @open="handleOpen"
@@ -135,7 +105,7 @@
         },
         methods: {
             initMenu() {
-                let showMenu = this.$router.options.routes[2];
+                let showMenu = this.$router.options.routes[3];
                 let arr = [];
                 showMenu.children.forEach(val => {
                     if (val.hideMenu) {
@@ -146,21 +116,6 @@
                         title: val.title,
                         icon: val.icon,
                     };
-                    // if (val.children && val.children.length) {
-                    //     item.subs = [];
-                    //     item.isShow = true;
-                    //     val.children.forEach(v => {
-                    //         // 权限判断和是否在导航栏显示
-                    //         if (v.hideMenu) {
-                    //             return false;
-                    //         }
-                    //         let items = {
-                    //             index: item.index + "/" + v.path,
-                    //             title: v.title || "kong",
-                    //         };
-                    //         item.subs.push(items);
-                    //     });
-                    // }
                     arr.push(item);
                 });
 
@@ -183,7 +138,6 @@
                 return this.$route.path.includes('mall');
             },
             routerList() {
-                console.log(this.$route.matched)
                 return this.$route.matched.filter(v=>v.path!=='/admin');
             },
         },

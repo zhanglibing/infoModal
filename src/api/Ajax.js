@@ -12,7 +12,7 @@ import {Message} from "element-ui";
 /*
 * 9C9A354ED6304B8692B3E7891687CFCD  幸福某方中台
 * E28CC980022B4003B52C8427EB55CAC9   咨询师中台
-* C7A0AA1BFDD043AAA538DECC3B156821   咨询师c端
+*    咨询师c端
 * */
 const HOST = "http://47.100.204.170:90/api/";
 // const apiHost = HOST;
@@ -23,16 +23,10 @@ axios.defaults.timeout = 50000;
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8", "xml";//POST传参序列化
 axios.interceptors.request.use((config) => {
     // config.headers.common['Token'] = store.getters.getToken;
-    const shopId = store.getters.getActiveShopId;
     const expands = {
-        mid: shopId ? shopId : "E28CC980022B4003B52C8427EB55CAC9",
-        promid: "9C9A354ED6304B8692B3E7891687CFCD",
+        mid: "C7A0AA1BFDD043AAA538DECC3B156821",
         Token: store.state.token || "",
-        sid:shopId,
     };
-    if (shopId) {
-        expands.shopid = shopId;
-    }
     if (config.method === "post") {
         config.data = qs.stringify({
             ...expands,

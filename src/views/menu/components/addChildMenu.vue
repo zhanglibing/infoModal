@@ -9,11 +9,8 @@
             <el-form-item label="菜单URL" prop="PURL">
                 <el-input v-model="form.PURL" placeholder="菜单URL" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="菜单图标">
-                <el-input v-model="form.PLOGOURL" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="菜单描述">
-                <el-input type="textarea" v-model="form.PDIS" placeholder="菜单描述" autocomplete="off"></el-input>
+            <el-form-item label="banner">
+                <bannerUpload :imgPath="form.PLOGOURL" @getImgUrl="getImgUrl"></bannerUpload>
             </el-form-item>
             <el-form-item label="菜单状态">
                 <el-switch
@@ -32,82 +29,83 @@
     </el-dialog>
 </template>
 <script>
+    import bannerUpload from "@/components/bannerUpload";
 
     export default {
-        
+        components: {
+            bannerUpload,
+        },
         props: {
-             midType: {
-                type: String,
-                required: true,
-            },
             dialogVisible: {
                 type: Boolean,
                 default: false,
             },
             PPID: {
                 type: String,
-                default: '',
+                default: "",
             },
             data: {
                 type: Object,
                 default: () => {
                     return {};
                 },
-            }
+            },
         },
         data() {
             return {
                 form: {
-                    PNAME: '',
-                    PURL: '',
-                    PLOGOURL: '',
-                    PDIS: '',
-                    PSTS: 1
+                    PNAME: "",
+                    PURL: "",
+                    PLOGOURL: "",
+                    PDIS: "",
+                    PSTS: 1,
                 },
                 rules: {
                     PNAME: [
-                        {required: true, message: '请输入菜单名', trigger: 'blur'},
+                        {required: true, message: "请输入菜单名", trigger: "blur"},
                     ],
                     PURL: [
-                        {required: true, message: '请输入菜单URL', trigger: 'blur'},
+                        {required: true, message: "请输入菜单URL", trigger: "blur"},
                     ],
-                }
-            }
+                },
+            };
         },
         methods: {
             hideDialog() {
-                this.$emit('hideDialog');
+                this.$emit("hideDialog");
                 this.$refs.form.resetFields();
                 this.form = {
-                    PNAME: '',
-                    PURL: '',
-                    PLOGOURL: '',
-                    PDIS: '',
-                    PSTS: 1
-                }
+                    PNAME: "",
+                    PURL: "",
+                    PLOGOURL: "",
+                    PDIS: "",
+                    PSTS: 1,
+                };
             },
             async addMenu() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         let params = {
                             ...this.form,
-                            midType:this.midType,
-                        }
+                        };
                         // 新增和编辑有错位
                         if (!params.PPID) {
                             params.PPID = this.PPID;
                         }
                         let fun = this.form.ID ? this.api.menu.updateMenu : this.api.menu.addMenu;
                         fun(params).then(res => {
-                            this.$message.success('操作成功');
-                            this.$emit('hideDialog', true);
-                        })
+                            this.$message.success("操作成功");
+                            this.$emit("hideDialog", true);
+                        });
                     } else {
                         return false;
                     }
                 });
 
-            }
+            },
+            getImgUrl(url) {
+                this.form.PLOGOURL = url;
+            },
         },
         watch: {
             data: {
@@ -117,10 +115,10 @@
                         this.form = {...this.form, ...newValue};
                     }
                 },
-                deep: true
-            }
-        }
-    }
+                deep: true,
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

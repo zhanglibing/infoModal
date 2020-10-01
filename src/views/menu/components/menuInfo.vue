@@ -1,15 +1,19 @@
 <template>
     <el-card class="box-card" shadow="hover">
         <div slot="header" class="clearfix">
-            <span>菜单详细信息</span>
+            <span>{{data.PLVL}}菜单详细信息</span>
         </div>
         <el-form label-position="right" label-width="90px" v-if="data.ID">
             <el-form-item label="菜单名：">{{data.PNAME}}</el-form-item>
-            <el-form-item label="菜单状态：">{{data.PSTS=='1'?'启用':'暂停'}}</el-form-item>
-            <!--            <el-form-item label="菜单ID：">{{data.ID}}</el-form-item>-->
-            <el-form-item label="菜单描述：">{{data.PDIS}}</el-form-item>
-            <el-form-item label="菜单图标：">{{data.PLOGOURL}}</el-form-item>
             <el-form-item label="菜单URL：">{{data.PURL}}</el-form-item>
+            <el-form-item label="菜单状态：">{{data.PSTS=='1'?'启用':'暂停'}}</el-form-item>
+            <el-form-item label="banner：" v-if="data.PLVL>1">
+                <el-image
+                        style="width: 100px; height: 50px"
+                        :src="data.PLOGOURL"
+                        :preview-src-list="[data.PLOGOURL]">
+                </el-image>
+            </el-form-item>
         </el-form>
     </el-card>
 </template>
@@ -23,6 +27,9 @@
                 }
             }
         },
+        created() {
+            console.log(this.data)
+        }
     }
 </script>
 

@@ -57,7 +57,7 @@
     },
     watch:{
       defaultMsg(){
-        //this.editor.setContent(this.defaultMsg);
+        this.editor.setContent(this.defaultMsg);
       }
     }
 

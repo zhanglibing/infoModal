@@ -19,8 +19,8 @@
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">
                         <el-button type="text" @click="goDetail(scope.row.ID)">查看详情</el-button>
-                        <el-divider direction="vertical"></el-divider>
-                        <el-button type="text" @click="setProduct(scope.row.ID,0)">编辑</el-button>
+<!--                        <el-divider direction="vertical"></el-divider>-->
+<!--                        <el-button type="text" @click="setProduct(scope.row.ID,0)">编辑</el-button>-->
                         <el-divider direction="vertical"></el-divider>
                         <el-button type="text" @click="deleteProduct(scope.row.ID)" style="color:red;">删除</el-button>
                     </template>
@@ -52,10 +52,10 @@
         },
         methods: {
             goDetail(id) {
-                this.$router.push({path: '/product/course/edit', query: {id}});
+                this.$router.push({path: '/admin/content/edit', query: {id}});
             },
             add() {
-                this.$router.push('/product/course/add');
+                this.$router.push('/admin/content/add');
             }
 
         },

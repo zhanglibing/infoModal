@@ -1,12 +1,10 @@
 import editor from "@/components/editor/editor";
 import bannerUpload from "@/components/bannerUpload";
-import UploadAuth from "@/components/UploadAuth";
 
 export default {
     components: {
         editor,
         bannerUpload,
-        UploadAuth,
     },
     props: {
         type: {

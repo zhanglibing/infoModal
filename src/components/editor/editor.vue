@@ -35,7 +35,6 @@
     methods: {
       getUEContent() {
         return this.$refs.ue.getUEContent()
-        console.log(content)
       },
       getUEContentTxt() {
         return this.$refs.ue.getUEContentTxt(); // 调用子组件方法

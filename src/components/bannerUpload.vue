@@ -29,7 +29,7 @@
                 type:Object,
                 default:()=>{
                     return {
-                        width:'178px',
+                        width:'400px',
                         height:'178px',
                     }
                 }
@@ -90,6 +90,7 @@
 
     .el-icon-picture {
         font-size: 80px;
+        line-height: 178px;
     }
 
     .avatar {

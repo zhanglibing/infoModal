@@ -38,10 +38,7 @@ function setSessionVal(name, val) {
 const state = {
     userInfo: getSessionByName('myUserInfo'),
     token: getSessionByName('token') || '',
-    roleList: getSessionByName('roleList'),
-    activeShop: getSessionByName('activeShop'),
-    per: getSessionByName('per') || {},
-
+    menuList: getSessionByName('menuList') || [],
 }
 
 const mutations = {
@@ -53,21 +50,9 @@ const mutations = {
         state.token = val;
         setSessionVal('token', val);
     },
-    setActiveShop(state, shopInfo) {
-        state.activeShop = shopInfo;
-        setSessionVal('activeShop', shopInfo);
-    },
-    setRoleList(state, list) {
-        state.roleList = list;
-        setSessionVal('roleList', list);
-    },
-    updateUserInfo(state, val) {
-        state.userInfo = {...state.userInfo, ...val};
-        setSessionVal('myUserInfo', val);
-    },
-    setPer(state, val) {
-        state.per = val;
-        setSessionVal('per', val);
+    setMenuList(state,val){
+        state.menuList = val;
+        setSessionVal('menuList', val);
     }
 
 }
@@ -89,22 +74,19 @@ const actions = {
         });
         commit('setRoleList', data);
     },
-
-    // 获取当前登录权限
-    async getPer({commit, state}) {
-        const {data} = await api.user.getUserPer();
-        console.log('后台返回的权限数据', data);
-        console.log('前台整理后的权限', getPer(data));
-        commit('setPer', getPer(data));
+    async getMenuList({commit, state}, bool = false) {
+        const {data} =await api.menu.getRsPageModelByMID({})
+        commit('setMenuList', data);
+        return data;
     },
 
 }
 
 export default new Vuex.Store({
     state, mutations, getters, actions,
-    modules: {
-        customer,
-        account,
-        invoice,
-    }
+    // modules: {
+    //     customer,
+    //     account,
+    //     invoice,
+    // }
 })
