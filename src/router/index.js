@@ -143,7 +143,7 @@ const routers = new Router({
 // 全局判断登录访问权限
 routers.beforeEach((to, from, next) => {
     if (to.matched.some(m => m.meta.auth)) {// 对路由进行验证
-        document.title = to.name + ` / 咨询师中台`;
+        document.title = to.name + ` / 工业互联网信息模型联合实验室`;
         if (store.state.userInfo) { // 已经登陆
             // let {authId,authIds}=to.meta;
             // let permissions = store.state.userInfo.permissions;
