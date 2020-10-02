@@ -10,8 +10,8 @@
         <div class="news_wrapper" v-if="$store.state.menuList.length">
             <div class="new_box">
                 <div class="model_box">
-                    <span class="name">{{$store.state.menuList[0].PNAME}}</span>
-                    <router-link :to="`/home/list/${$store.state.menuList[0].PURL}`">更多</router-link>
+                    <span class="name"><img src="../assets/icon1.png" alt="">{{$store.state.menuList[0].PNAME}}</span>
+                    <router-link :to="`/home/list/${$store.state.menuList[0].PURL}`">更多 ></router-link>
                 </div>
                 <div class="new_item" v-for="item in 10" :key="item" @click="goView($store.state.menuList[0].PURL)">
                     <span class="time">2020-09-26</span>
@@ -20,8 +20,8 @@
             </div>
             <div class="new_box">
                 <div class="model_box">
-                    <span class="name">{{$store.state.menuList[1].PNAME}}</span>
-                    <router-link :to="`/home/list/${$store.state.menuList[1].PURL}`">更多</router-link>
+                    <span class="name"><img src="../assets/icon2.png" alt="">{{$store.state.menuList[1].PNAME}}</span>
+                    <router-link :to="`/home/list/${$store.state.menuList[1].PURL}`">更多 ></router-link>
                 </div>
                 <div class="new_item" v-for="item in 10" :key="item" @click="goView($store.state.menuList[1].PURL)">
                     <span class="time">2020-09-26</span>
@@ -56,7 +56,7 @@
                 this.count = count;
             },
             goView(url) {
-                this.$router.push(`/home/list/${url}/601D1C8B2EC24598B517D34354BF8FF3`);
+                this.$router.push(`/home/list/${url}/newmodel/601D1C8B2EC24598B517D34354BF8FF3`);
             },
         },
     };
@@ -87,6 +87,11 @@
                 .name {
                     font-size: 18px;
                     color: #000;
+                    display: flex;
+                    align-items: center;
+                    img{
+                        margin-right: 6px;
+                    }
                 }
             }
         }

@@ -22320,7 +22320,7 @@ UE.plugins['contextmenu'] = function () {
                     }
                     if ( subMenu.length ) {
                         function getLabel(){
-                            switch (item.icon){
+                            switch (item.arrow){
                                 case "table":
                                     return me.getLang( "contextMenu.table" );
                                 case "justifyjustify":
@@ -22340,7 +22340,7 @@ UE.plugins['contextmenu'] = function () {
                         contextItems.push( {
                             //todo 修正成自动获取方式
                             'label':getLabel(),
-                            className:'edui-for-' + item.icon,
+                            className:'edui-for-' + item.arrow,
                             'subMenu':{
                                 items:subMenu,
                                 editor:me
@@ -22355,7 +22355,7 @@ UE.plugins['contextmenu'] = function () {
 
                         contextItems.push( {
                             'label':item.label || me.getLang( "contextMenu." + item.cmdName ),
-                            className:'edui-for-' + (item.icon ? item.icon : item.cmdName + (item.value || '')),
+                            className:'edui-for-' + (item.arrow ? item.arrow : item.cmdName + (item.value || '')),
                             onclick:item.exec ? function () {
                                 item.exec.call( me );
                             } : function () {

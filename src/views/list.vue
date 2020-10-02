@@ -7,12 +7,18 @@
         </div>
         <div class="page_box">
             <div class="nav_box">
-                <ul>
-                    <router-link tag="li" :to="`/home/list/${$route.params.name}/${item.PURL}`" v-for="item in navs"
-                                 :key="item.ID">
-                        {{item.PNAME}}
-                    </router-link>
-                </ul>
+                <div class="nav_bg">
+                    <ul>
+                        <router-link tag="li" :to="`/home/list/${$route.params.name}/${item.PURL}`" v-for="item in navs"
+                                     :key="item.ID">
+                            {{item.PNAME}}
+                        </router-link>
+                    </ul>
+                    <div class="position">
+                        <img src="../assets/position.png" alt="">
+                    </div>
+                </div>
+
             </div>
             <div class="content_box">
                 <div class="banner_box">
@@ -86,6 +92,10 @@
             box-sizing: border-box;
             padding: 20px 12px 0;
 
+            .nav_bg {
+                background: #fff;
+            }
+
             ul {
                 background: #fff;
 
@@ -117,6 +127,16 @@
                             box-shadow: 0px 0px 5px 0px rgba(187, 187, 187, 0.38);
                         }
                     }
+                }
+            }
+
+            .position {
+                width: 100%;
+
+                img {
+                    width: 218px;
+                    margin-left: -4px;
+                    margin-top: -1px;
                 }
             }
         }

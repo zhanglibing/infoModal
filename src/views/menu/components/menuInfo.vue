@@ -1,7 +1,7 @@
 <template>
     <el-card class="box-card" shadow="hover">
         <div slot="header" class="clearfix">
-            <span>{{data.PLVL}}菜单详细信息</span>
+            <span>{{data.PLVL==1?'一级':'二级'}}菜单详细信息</span>
         </div>
         <el-form label-position="right" label-width="90px" v-if="data.ID">
             <el-form-item label="菜单名：">{{data.PNAME}}</el-form-item>

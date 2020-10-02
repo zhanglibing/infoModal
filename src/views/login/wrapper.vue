@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <div><img src="../../common/image/logo.png" alt=""></div>
+<!--        <div><img src="../../assets/logo.png" alt=""></div>-->
         <div class="wrapper">
             <div class="bg_box">
                 <img src="../../../static/images/login_bg.png" alt="">
