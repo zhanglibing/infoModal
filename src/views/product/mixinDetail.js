@@ -42,10 +42,11 @@ export default {
         //保存产品信息
         save() {
             this.newData.IDETAILS = this.$refs.editor.getUEContent();
+            // this.newData.Full = this.$refs.editor.getUEContent();
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     this.isHttp = true;
-                    const {updateProduct, addProduct} = this.api.product;
+                    const {updateProduct, addProduct, addContent} = this.api.product;
                     const fun = this.type === "add" ? addProduct : updateProduct;
                     fun(this.newData).then(res => {
                         this.isHttp = false;

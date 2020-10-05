@@ -9,6 +9,26 @@
                 <el-form-item prop="IDETAILS" label="内容">
                     <editor ref="editor" :msg="newData.IDETAILS"></editor>
                 </el-form-item>
+                <!--                <el-form-item prop="TITLE" label="标题">-->
+                <!--                    <el-input v-model.trim="newData.TITLE" placeholder="标题"></el-input>-->
+                <!--                </el-form-item>-->
+
+                <!--                <el-form-item prop="Full" label="内容">-->
+                <!--                    <editor ref="editor" :msg="newData.Full"></editor>-->
+                <!--                </el-form-item>-->
+                <el-form-item prop="IDETAILS" @change="rootChange" label="关联一级菜单">
+                    <el-select @change="rootChange" v-model="rootId">
+                        <el-option v-for="item in menuData" :key="item.ID" :value="item.ID"
+                                   :label="item.PNAME">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="CATEGORYID" label="关联二级菜单">
+                    <el-select v-model="newData.CATEGORYID">
+                        <el-option v-for="item in childData" :key="item.ID" :value="item.ID"
+                                   :label="item.PNAME"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item prop="IURL" label="文件上传">
                     <UploadAuth @getPath="getVideoInfo"></UploadAuth>
                 </el-form-item>
@@ -35,6 +55,8 @@
         mixins: [mixinDetail],
         data() {
             return {
+                menuData: [],
+                childData: [],
                 isHttp: false,
                 videoUrl: "",
                 newData: {
@@ -48,17 +70,49 @@
                     IDIC: "ceshi",
                     ISTOP: 0,
                     IDETAILS: "",
+
+                    // TITLE: '',
+                    // SHORT: '测试',
+                    // Full: '',
+                    // CATEGORYID: '',
+                    // PICTUREURL: 'null',
+                    // PUBLISHED: true,
+                    // FILEURL: 'null', //关联文件
+                    // ALLOWCOMMENTS: false,
+                    // METAKEYWORDS: 'ceshi ', //关键字
+                    // STARTDATEUTC: '',
+                    // ENDDATEUTC: '',
+                    // METADESCRIPTION: 'ceshi ',
+                    // METATITLE: 'ceshi',
                 },
                 rules: {
-                    INAME: [
+                    TITLE: [
                         {required: true, message: "标题不能为空", trigger: "blur"},
                     ],
-                    IDETAILS: [
+                    Full: [
                         {required: true, message: "内容不能为空", trigger: "blur"},
                     ],
                 },
+                rootId: '',
             };
         },
+        created() {
+            this.getRsPageModelByMID();
+        },
+        methods: {
+            async getRsPageModelByMID() {
+                const {data = []} = await this.api.menu.getRsPageModelByMID({});
+                this.menuData = data;
+            },
+            rootChange() {
+
+                const data = this.menuData.find(v => v.ID == this.rootId);
+                this.childData = data.Children;
+                console.log(data)
+            }
+        },
+
+
     };
 </script>
 <style lang="scss" scoped="">

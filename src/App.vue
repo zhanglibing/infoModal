@@ -16,6 +16,7 @@
     #app {
         background: #F0F2F5;
         min-height: calc(100vh);
+        min-width: 1240px;
     }
 
     .pagination_wrapper {

@@ -13,9 +13,10 @@
                     <span class="name"><img src="../assets/icon1.png" alt="">{{$store.state.menuList[0].PNAME}}</span>
                     <router-link :to="`/home/list/${$store.state.menuList[0].PURL}`">更多 ></router-link>
                 </div>
-                <div class="new_item" v-for="item in 10" :key="item" @click="goView($store.state.menuList[0].PURL)">
-                    <span class="time">2020-09-26</span>
-                    <div class="new_name">关于举办2020年全国工业互联网安全技术技能0赛的预通知关于举办2020年全国工业互联网安全技术技能</div>
+                <div class="new_item" v-for="item in list" :key="item.ID"
+                     @click="goView($store.state.menuList[0].PURL,item.ID)">
+                    <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
+                    <div class="new_name">{{item.INAME}}</div>
                 </div>
             </div>
             <div class="new_box">
@@ -23,9 +24,10 @@
                     <span class="name"><img src="../assets/icon2.png" alt="">{{$store.state.menuList[1].PNAME}}</span>
                     <router-link :to="`/home/list/${$store.state.menuList[1].PURL}`">更多 ></router-link>
                 </div>
-                <div class="new_item" v-for="item in 10" :key="item" @click="goView($store.state.menuList[1].PURL)">
-                    <span class="time">2020-09-26</span>
-                    <div class="new_name">关于举办2020年全国工业互联网安全技术技能0赛的预通知关于举办2020年全国工业互联网安全技术技能</div>
+                <div class="new_item" v-for="item in list" :key="item.ID"
+                     @click="goView($store.state.menuList[0].PURL,item.ID)">
+                    <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
+                    <div class="new_name">{{item.INAME}}</div>
                 </div>
             </div>
         </div>
@@ -37,10 +39,12 @@
             return {
                 menuData: [],
                 data: [],
+                list: [],
             };
         },
         created() {
             this.getList();
+            this.getContentList();
         },
         methods: {
             async getList() {
@@ -53,10 +57,23 @@
                 };
                 const {data, count} = await this.api.product.getProductList(params);
                 this.data = data;
+                console.log(data)
                 this.count = count;
             },
-            goView(url) {
-                this.$router.push(`/home/list/${url}/newmodel/601D1C8B2EC24598B517D34354BF8FF3`);
+            async getContentList() {
+                let params = {
+                    page: 1,
+                    limit: 10,
+                    PTYPE: 1, //产品大类型1心理课程2心理文章3心理fm
+                    PNAME: '',
+                    PSTS: -1,
+                };
+                const {data, count} = await this.api.product.getProductList(params);
+                this.list = data;
+                this.count = count;
+            },
+            goView(url, id) {
+                this.$router.push(`/home/list/${url}/newmodel/${id}`);
             },
         },
     };
@@ -89,7 +106,8 @@
                     color: #000;
                     display: flex;
                     align-items: center;
-                    img{
+
+                    img {
                         margin-right: 6px;
                     }
                 }
@@ -101,10 +119,18 @@
             align-items: center;
             cursor: pointer;
 
+            &:hover {
+                .time, .new_name {
+                    color: #02145F;
+                }
+
+            }
+
             .time {
                 width: 90px;
                 margin-right: 6px;
                 color: #666;
+                transition: all 0.3s;
             }
 
             .new_name {
@@ -113,6 +139,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 color: #000;
+                transition: all 0.3s;
             }
         }
     }

@@ -25,6 +25,7 @@ axios.interceptors.request.use((config) => {
     // config.headers.common['Token'] = store.getters.getToken;
     const expands = {
         mid: "C7A0AA1BFDD043AAA538DECC3B156821",
+        SID: "C7A0AA1BFDD043AAA538DECC3B156821",
         Token: store.state.token || "",
     };
     if (config.method === "post") {

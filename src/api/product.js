@@ -72,6 +72,51 @@ function viewProductById(option) {
     return post('/BProduct/SetProductViscount', option)
 }
 
+/**
+ Title
+ Short
+ Full
+ CATEGORYID
+ PUBLISHED:1,
+ FILEURL: 关联文件
+ ALLOWCOMMENTS:false,
+ * */
+
+
+function addContent(option) {
+    return post('/Content/AddContent', option)
+}
+
+function updateContent(option) {
+    return post('/Content/UpdateContent', option)
+}
+
+/*
+*获取详情
+* cid
+* */
+function getContent(option) {
+    return post('/Content/GetContent', option)
+}
+
+/*
+* 删除
+* cid
+* */
+function delContent(option) {
+    return post('/Content/DeleteContent', option)
+}
+
+/*
+* 获取列表
+* page
+* limit
+* categoryId 分类
+* */
+function delContentList(option) {
+    return post('/Content/SelectContent', option)
+}
+
 export default {
     addProduct,
     updateProduct,
@@ -80,4 +125,9 @@ export default {
     getProductList,
     getProductById,
     viewProductById,
+    addContent,
+    updateContent,
+    delContent,
+    getContent,
+    delContentList,
 }

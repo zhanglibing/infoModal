@@ -102,7 +102,8 @@
                 li {
                     position: relative;
                     line-height: 60px;
-                    box-shadow: 0px 0px 5px 0px rgba(187, 187, 187, 0.38);
+                    /*box-shadow: 0px 0px 5px 0px rgba(187, 187, 187, 0.38);*/
+                    border-bottom: 1px solid rgba(187, 187, 187, 0.38);
                     padding-left: 40px;
                     font-size: 16px;
                     color: #000000;
@@ -136,7 +137,7 @@
                 img {
                     width: 218px;
                     margin-left: -4px;
-                    margin-top: -1px;
+                    margin-top: -4px;
                 }
             }
         }

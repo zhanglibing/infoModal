@@ -11,10 +11,10 @@
             <el-table :data="data"
                       ref="multipleTable"
                       :stripe="true" :size="size">
-                <el-table-column prop="INAME" label="ID"></el-table-column>
-                <el-table-column prop="XPRICE" label="标题名称"></el-table-column>
+                <el-table-column prop="ID" label="ID"></el-table-column>
+                <el-table-column prop="INAME" label="标题名称"></el-table-column>
                 <el-table-column prop="ZPRICE" label="一级导航"></el-table-column>
-                <el-table-column prop="IFROM" label="二级导航"></el-table-column>
+                <el-table-column prop="ZPRICE" label="二级导航"></el-table-column>
                 <el-table-column prop="CREATEDATE" label="创建时间"></el-table-column>
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">

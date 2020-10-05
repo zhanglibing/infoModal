@@ -111,6 +111,52 @@ function deleteBtnModel(btnId) {
     return post('/Rsau/DelBtnModel', {btnId});
 }
 
+/*
+* 删除菜单中的功能
+
+NAME:'',
+DESCRIPTION
+PARENTCATEGORYID:0,
+PICTUREURL:'',
+SHOWONHOMEPAGE:false,
+INCLUDEINTOPMENU
+PUBLISHED
+DISPLAYORDER
+*
+*
+* */
+function add(params) {
+    return post('/Category/AddCategory', params);
+}
+
+/*
+* 删除菜单中的功能
+* cid 菜单id
+* */
+function del(params) {
+    return post('/Category/DeleteCategory', params);
+}
+
+/*
+* */
+function updateCategory(params) {
+    return post('/Category/UpdateCategory', params);
+}
+
+/*
+cid
+* */
+function getCategory(params) {
+    return post('/Category/GetCategory', params);
+}
+
+/*
+* */
+function getCategoryList(params) {
+    return post('/Category/SelectCategory', params);
+}
+
+
 export default {
     getRoleList,
     addRole,
@@ -126,4 +172,9 @@ export default {
     getBtnModelByPid,
     addBtnModel,
     updateBtnModel,
+    add,
+    del,
+    updateCategory,
+    getCategory,
+    getCategoryList,
 }

@@ -13,10 +13,20 @@
         <div class="nav_box">
             <div class="content_box">
                 <router-link tag="div" to="/home" class="home">首页</router-link>
-                <router-link tag="div" :to="`/home/list/${item.PURL}`" class="other"
-                             v-for="item in $store.state.menuList"
-                             :key="item.ID">{{item.PNAME}}
-                </router-link>
+                <div v-for="item in $store.state.menuList"
+                     :key="item.ID">
+                    <router-link tag="div" :to="`/home/list/${item.PURL}`" class="other"
+                    >{{item.PNAME}}
+                    </router-link>
+                    <div class="select_box">
+                        <router-link class="child_item" tag="div" :to="`/home/list/${item.PURL}/${child.PURL}`"
+                                     v-for="child in item.Children"
+                                     :key="child.ID"
+                        >{{child.PNAME}}
+                        </router-link>
+                    </div>
+                </div>
+
             </div>
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
@@ -32,32 +42,36 @@
         },
     };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .header_box {
         width: 1200px;
         margin: 0 auto;
 
-        .content{
+        .content {
             display: flex;
             align-items: center;
             justify-content: center;
             padding-top: 20px;
-            color:#000;
-            img{
+            color: #000;
+
+            img {
                 width: 133px;
                 height: 60px;
                 margin-right: 20px;
             }
-            .zh{
+
+            .zh {
                 font-size: 26px;
             }
-            .en{
+
+            .en {
                 font-size: 14px;
             }
         }
-        .name{
+
+        .name {
             text-align: right;
-            color:#000;
+            color: #000;
             margin-bottom: 10px;
         }
     }
@@ -66,6 +80,8 @@
         background: #02145F;
         height: 60px;
         width: 100%;
+        position: relative;
+        z-index: 10;
 
         .content_box {
             width: 1200px;
@@ -78,14 +94,45 @@
                 margin-right: 20px;
                 cursor: pointer;
                 font-size: 16px;
+                line-height: 20px;
                 color: #fff;
+                position: relative;
+                padding: 20px 0;
+
+                &:hover {
+                    .select_box {
+                        height: auto;
+                    }
+                }
+
+                .select_box {
+                    position: absolute;
+                    left: 0;
+                    top: 60px;
+                    background: #02145F;
+                    min-width: 160px;
+                    height: 0;
+                    overflow: hidden;
+                    transition: all 0.4s;
+
+                    .child_item {
+                        padding: 10px 16px;
+                        color: #fff;
+                        font-size: 14px;
+                        transition: all .3s;
+
+                        &:hover,&.router-link-active {
+                            background: #001A89;
+                        }
+                    }
+                }
 
                 &.home.router-link-exact-active {
                     color: #F27102;
                     font-weight: bold;
                 }
 
-                &.other.router-link-active {
+                .other.router-link-active {
                     color: #F27102;
                     font-weight: bold;
                 }

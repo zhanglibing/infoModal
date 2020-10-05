@@ -1,28 +1,49 @@
 <template>
     <div class="list_box">
-        <ul >
-            <li class="new_item" v-for="item in 10" :key="item" @click="goView(12)">
-                <span class="time">2020-09-26</span>
+        <ul>
+            <li class="new_item" v-for="item in list" :key="item.ID" @click="goView(item.ID)">
+                <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
                 <div class="new_name">
-                    关于举办2020年全国工业互联网安全技术技能0赛的预通知关于举办2020年全国工业互联网安全技术技年全国工业互联网安全技术技年全国工业互联网安全技术技能
+                    {{item.INAME}}
                 </div>
             </li>
         </ul>
-        <div class="more">。。。加载更多</div>
+        <div class="more" @click="loadingMore" v-if="count>page*limit">加载更多</div>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
+                list: [],
+                page: 1,
+                limit: 10,
+                count: 0,
 
             };
         },
         created() {
+            this.getContentList();
         },
         methods: {
-            goView(id){
-                this.$router.push(`${this.$route.path}/601D1C8B2EC24598B517D34354BF8FF3`)
+            goView(id) {
+                this.$router.push(`${this.$route.path}/${id}`)
+            },
+            async getContentList() {
+                let params = {
+                    page: this.page,
+                    limit: this.limit,
+                    PTYPE: 1, //产品大类型1心理课程2心理文章3心理fm
+                    PNAME: '',
+                    PSTS: -1,
+                };
+                const {data, count} = await this.api.product.getProductList(params);
+                this.list = this.list.concat(data);
+                this.count = count;
+            },
+            loadingMore() {
+                this.page = this.page + 1;
+                this.getContentList();
             }
         },
     };
@@ -43,10 +64,18 @@
             line-height: 30px;
             cursor: pointer;
 
+            &:hover {
+                .time, .new_name {
+                    color: #02145F;
+                }
+
+            }
+
             .time {
                 width: 90px;
                 margin-right: 6px;
                 color: #666;
+                transition: all 0.3s;
             }
 
             .new_name {
@@ -55,6 +84,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 color: #000;
+                transition: all 0.3s;
             }
         }
 
