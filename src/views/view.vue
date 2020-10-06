@@ -5,13 +5,12 @@
             <div class="time">{{detail.CREATEDATE.slice(0,10)}}</div>
             <div v-html="detail.IDETAILS"></div>
         </div>
-        <div class="card_box">
-            <div class="upload_box">
-                <div class="btn">下载专区</div>
-                点击下载
-            </div>
-
-        </div>
+<!--        <div class="card_box">-->
+<!--            <div class="upload_box">-->
+<!--                <div class="btn">下载专区</div>-->
+<!--                点击下载-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 <script>

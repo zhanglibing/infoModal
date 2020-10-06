@@ -5,7 +5,7 @@
         </div>
         <el-form label-position="right" label-width="90px" v-if="data.ID">
             <el-form-item label="菜单名：">{{data.PNAME}}</el-form-item>
-            <el-form-item label="菜单URL：">{{data.PURL}}</el-form-item>
+            <el-form-item label="英文名：">{{data.PURL}}</el-form-item>
             <el-form-item label="菜单状态：">{{data.PSTS=='1'?'启用':'暂停'}}</el-form-item>
             <el-form-item label="banner：" v-if="data.PLVL>1">
                 <el-image

@@ -2,8 +2,21 @@
     <div>
         <div class="banner_box">
             <el-carousel height="450px">
-                <el-carousel-item v-for="item in data" :key="item.ID">
-                    <img :src="item.BANNERIMGURL" alt="" class="banner_img">
+                <el-carousel-item v-for="item in data" :key="item.ID"
+
+                >
+                    <img :src="item.BANNERIMGURL" alt="" class="banner_img" @click="goBanner(item.IDETAILS)">
+                    <div class="tip_wrapper">
+                        <div class="title">
+                            {{item.INAME}}
+                        </div>
+                        <div class="desc">
+                            {{item.IDIC}}
+                        </div>
+                        <div class="more_box">
+                            <div class="more" @click="goBanner(item.IDETAILS)">了解更多</div>
+                        </div>
+                    </div>
                 </el-carousel-item>
             </el-carousel>
         </div>
@@ -31,6 +44,12 @@
                 </div>
             </div>
         </div>
+        <div class="partners">
+            <div class="partners_list">
+                <a :href="item.BANNERIMGURL" target="_blank" v-for="item in partnersList"
+                   :key="item.ID">{{item.INAME}}</a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -40,11 +59,14 @@
                 menuData: [],
                 data: [],
                 list: [],
+                partnersList: [],
+                bannerDetail: {}
             };
         },
         created() {
             this.getList();
             this.getContentList();
+            this.getPartnersList();
         },
         methods: {
             async getList() {
@@ -57,8 +79,27 @@
                 };
                 const {data, count} = await this.api.product.getProductList(params);
                 this.data = data;
-                console.log(data)
+                data.forEach(val => this.getProduct(val.ID))
                 this.count = count;
+            },
+            async getProduct(PID) {
+                try {
+                    const data = await this.api.product.getProductById({PID});
+                    this.bannerDetail = {
+                        ...this.bannerDetail,
+                        PID: data,
+                    }
+                    this.data.some(v => {
+                        if (v.ID === PID) {
+                            v.IDIC = data.IDIC;
+                            v.IDETAILS = data.IDETAILS;
+                            return true;
+                        }
+                    })
+                    console.log(this.data)
+                } catch (e) {
+                    this.$message.error(e);
+                }
             },
             async getContentList() {
                 let params = {
@@ -72,9 +113,23 @@
                 this.list = data;
                 this.count = count;
             },
+            async getPartnersList() {
+                let params = {
+                    page: 1,
+                    limit: 10,
+                    PTYPE: 3, //产品大类型1心理课程2心理文章3心理fm
+                    PNAME: '',
+                    PSTS: -1,
+                };
+                const {data, count} = await this.api.product.getProductList(params);
+                this.partnersList = data;
+            },
             goView(url, id) {
                 this.$router.push(`/home/list/${url}/newmodel/${id}`);
             },
+            goBanner(ID) {
+                this.$router.push(`/home/list/info/newmodel/${ID}`);
+            }
         },
     };
 </script>
@@ -97,13 +152,13 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+                border-bottom: 1px solid #F27102;
                 margin-bottom: 10px;
                 padding: 4px;
 
                 .name {
                     font-size: 18px;
-                    color: #000;
+                    color: #F27102;
                     display: flex;
                     align-items: center;
 
@@ -121,7 +176,7 @@
 
             &:hover {
                 .time, .new_name {
-                    color: #02145F;
+                    color: #F27102;
                 }
 
             }
@@ -144,24 +199,70 @@
         }
     }
 
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 150px;
-        margin: 0;
+
+    .partners {
+        background: #02145f;
+        color: #fff;
+        padding: 30px 0 0;
+        border-bottom: 1px solid #636060;
+
+        .partners_list {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            a {
+                margin-right: 40px;
+                margin-bottom: 30px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
     }
 
-    .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
-    }
-
-    .el-carousel__item:nth-child(2n+1) {
-        background-color: #d3dce6;
+    .el-carousel__item {
+        cursor: pointer;
     }
 
     .banner_img {
         width: 100%;
         height: 100%;
+    }
+
+    .tip_wrapper {
+        position: absolute;
+        top: 225px;
+        right: 100px;
+        transform: translate(0, -50%);
+        width: 400px;
+        background: rgba(0, 0, 0, .6);
+        color: #fff;
+        border-radius: 6px;
+        overflow: hidden;
+
+        .title {
+            background: #f3d548;
+            padding: 8px 15px;
+            font-size: 16px;
+        }
+
+        .desc {
+            padding: 15px;
+            line-height: 30px;
+        }
+
+        .more_box {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 15px;
+
+            .more {
+
+            }
+        }
     }
 </style>

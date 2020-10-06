@@ -6,8 +6,8 @@
             <el-form-item label="菜单名" prop="PNAME">
                 <el-input v-model="form.PNAME" placeholder="菜单名称" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="菜单URL" prop="PURL">
-                <el-input v-model="form.PURL" placeholder="菜单URL" autocomplete="off"></el-input>
+            <el-form-item label="英文名" prop="PURL">
+                <el-input v-model.trim="form.PURL" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="banner">
                 <bannerUpload :imgPath="form.PLOGOURL" @getImgUrl="getImgUrl"></bannerUpload>

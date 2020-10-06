@@ -5,24 +5,18 @@
                 <el-form-item prop="INAME" label="banner名称">
                     <el-input v-model.trim="newData.INAME" placeholder="banner名称"></el-input>
                 </el-form-item>
+                <el-form-item prop="IDIC" label="介绍">
+                    <el-input type="textarea" v-model.trim="newData.IDIC" placeholder="介绍"></el-input>
+                </el-form-item>
                 <el-form-item prop="BANNERIMGURL" label="banner展示图片">
                     <bannerUpload :imgPath="newData.BANNERIMGURL" @getImgUrl="getImgUrl"></bannerUpload>
                 </el-form-item>
-<!--                <el-form-item prop="IDIC" label="描述">-->
-<!--                    <el-input type="textarea" v-model.trim="newData.IDIC" placeholder="描述"></el-input>-->
-<!--                </el-form-item>-->
-                <el-form-item prop="IDETAILS" label="超链接">
-                    <el-input v-model.trim="newData.IDETAILS" placeholder="超链接"></el-input>
+                <el-form-item prop="IDETAILS" label="产品ID">
+                    <el-input v-model.trim="newData.IDETAILS" placeholder="产品ID"></el-input>
                 </el-form-item>
-                <template v-if="type==='edit'">
-                    <el-form-item label="浏览人次">
-                        {{newData.VISCOUNT}}
-                    </el-form-item>
-                    <el-form-item label="创建时间">
-                        {{newData.CREATEDATE}}
-                    </el-form-item>
-                </template>
-
+                <el-form-item label="创建时间" v-if="newData.ID">
+                    {{newData.CREATEDATE}}
+                </el-form-item>
                 <el-form-item label="">
                     <el-button @click="$router.back()">取消</el-button>
                     <el-button type="primary" @click="save" :loading="isHttp">确定</el-button>
@@ -56,9 +50,10 @@
                     ITYPE: 0, //产品类型0实体产品1虚拟产品
                     PTYPE: "2", //产品大类型1心理课程2心理文章3心理fm
                     IURL: "",
-                    IDIC: "ceshi",
+                    IDIC: "",
                     ISTOP: 0,
                     IDETAILS: "",
+                    IFROM: '',
                 },
                 rules: {
                     INAME: [
@@ -67,9 +62,9 @@
                     BANNERIMGURL: [
                         {required: true, message: "banner不能为空", trigger: "blur"},
                     ],
-                    // IDIC: [
-                    //     {required: true, message: "描述不能为空", trigger: "blur"},
-                    // ],
+                    IFROM: [
+                        {required: true, message: "介绍不能为空", trigger: "blur"},
+                    ],
                     IDETAILS: [
                         {required: true, message: "超链接", trigger: "blur"},
                     ],

@@ -1,4 +1,4 @@
-import {axios, post, get} from './Ajax';
+import { post, get} from './Ajax';
 import store from '../vuex/store';
 
 
@@ -6,18 +6,14 @@ import store from '../vuex/store';
 * 新增产品
 * */
 function addProduct(option) {
-    return post('/BProduct/AddProduct', {
-        ...option,
-        IFROM: '幸福谋方',
-        SHOPID: store.getters.getActiveShopId
-    })
+    return post('/BProduct/AddProduct', option)
 }
 
 /*
 * 更新产品
 * */
 function updateProduct(option) {
-    return post('/BProduct/UpdateProduct', {...option, IFROM: '幸福谋方'})
+    return post('/BProduct/UpdateProduct', option)
 }
 
 

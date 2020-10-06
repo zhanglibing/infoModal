@@ -123,6 +123,37 @@ const routers = new Router({
                             hideMenu: true,
                         },
                     ]
+                }, {
+                    path: "partners",
+                    icon: "el-icon-menu",
+                    component: page,
+                    title: "合作单位管理",
+                    name: "合作单位管理",
+                    children: [
+                        {
+                            path: "",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/partners/index"], resolve),
+                            title: "合作单位列表",
+                            name: "合作单位列表",
+                        },
+                        {
+                            path: "edit",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/partners/edit"], resolve),
+                            title: "合作单位编辑",
+                            name: "合作单位编辑",
+                            hideMenu: true,
+                        },
+                        {
+                            path: "add",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/partners/add"], resolve),
+                            title: "合作单位新增",
+                            name: "合作单位新增",
+                            hideMenu: true,
+                        },
+                    ]
                 },
             ],
         },
