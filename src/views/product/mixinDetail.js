@@ -41,13 +41,14 @@ export default {
         },
         //保存产品信息
         save() {
-            this.newData.IDETAILS = this.$refs.editor.getUEContent();
-            // this.newData.Full = this.$refs.editor.getUEContent();
+            // this.newData.IDETAILS = this.$refs.editor.getUEContent();
+            this.newData.Full = this.$refs.editor.getUEContent();
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     this.isHttp = true;
                     const {updateProduct, addProduct, addContent} = this.api.product;
-                    const fun = this.type === "add" ? addProduct : updateProduct;
+                    const fun = this.type === "add" ? addContent : updateProduct;
+                    alert(1)
                     fun(this.newData).then(res => {
                         this.isHttp = false;
                         this.$message.success(`${this.type === "add" ? "新增" : "更新"}成功`);
@@ -63,15 +64,6 @@ export default {
 
         },
 
-        //提交审核
-        submit() {
-            this.api.approve.productPassOrNot({PID: this.PID, PSTS: 1}).then(res => {
-                this.$message.success("操作成功!");
-                this.getProduct();
-            }).catch(err => {
-                this.$message.error(err);
-            });
-        },
         getImgUrl(url) {
             this.newData.BANNERIMGURL = url;
         },
@@ -80,13 +72,6 @@ export default {
         },
     },
     computed: {
-        isShowSave() {
-            const {PSTS} = this.newData;
-            return !this.PID || (PSTS != 2 && PSTS != 1);
-        },
-        isShowSubmit() {
-            const {PSTS} = this.newData;
-            return this.PID && PSTS != 2 && PSTS != 1;
-        },
+
     },
 };

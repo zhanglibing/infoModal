@@ -3,14 +3,14 @@
         <div class="card_box">
             <div class="title">{{detail.INAME}}</div>
             <div class="time">{{detail.CREATEDATE.slice(0,10)}}</div>
-            <div v-html="detail.IDETAILS"></div>
+            <div v-html="detail.IDETAILS" class="desc"></div>
         </div>
-<!--        <div class="card_box">-->
-<!--            <div class="upload_box">-->
-<!--                <div class="btn">下载专区</div>-->
-<!--                点击下载-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="card_box">-->
+        <!--            <div class="upload_box">-->
+        <!--                <div class="btn">下载专区</div>-->
+        <!--                点击下载-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </template>
 <script>
@@ -26,7 +26,10 @@
         methods: {
             async getProduct() {
                 try {
-                    this.detail = await this.api.product.getProductById({PID: this.$route.params.id});
+                    const data = await this.api.product.getProductById({PID: this.$route.params.id});
+                    data.IDETAILS=data.IDETAILS.replace('<img',"<img style='max-width:100%;'")
+                    console.log( this.detail.IDETAILS)
+                    this.detail=data;
                     console.log(this.detail);
                 } catch (e) {
                     this.$message.error(e);
@@ -55,6 +58,13 @@
         font-size: 12px;
         color: #999;
         margin-bottom: 15px;
+    }
+
+    .desc  {
+        img{
+            max-width: 700px !important;
+        }
+
     }
 
     .upload_box {
