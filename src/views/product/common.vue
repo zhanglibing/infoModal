@@ -2,19 +2,12 @@
     <div class="customerEdit">
         <el-card>
             <el-form label-position="right" ref="ruleForm" label-width="130px" :rules="rules" :model="newData">
-                <!--                <el-form-item prop="INAME" label="标题">-->
-                <!--                    <el-input v-model.trim="newData.INAME" placeholder="标题"></el-input>-->
-                <!--                </el-form-item>-->
-
-                <!--                <el-form-item prop="IDETAILS" label="内容">-->
-                <!--                    <editor ref="editor" :msg="newData.IDETAILS"></editor>-->
-                <!--                </el-form-item>-->
                 <el-form-item prop="TITLE" label="标题">
                     <el-input v-model.trim="newData.TITLE" placeholder="标题"></el-input>
                 </el-form-item>
 
                 <el-form-item prop="Full" label="内容">
-                    <editor ref="editor" :msg="newData.Full"></editor>
+                    <editor ref="editor" :msg="newData.FULL"></editor>
                 </el-form-item>
                 <el-form-item prop="IDETAILS" @change="rootChange" label="关联一级菜单">
                     <el-select @change="rootChange" v-model="rootId">
@@ -32,14 +25,9 @@
                 <el-form-item prop="IURL" label="文件上传">
                     <UploadAuth @getPath="getVideoInfo"></UploadAuth>
                 </el-form-item>
-                <template v-if="type==='edit'">
-                    <el-form-item label="浏览人次">
-                        {{newData.VISCOUNT}}
-                    </el-form-item>
-                    <el-form-item label="创建时间">
-                        {{newData.CREATEDATE}}
-                    </el-form-item>
-                </template>
+                <el-form-item label="创建时间" v-if="newData.ID">
+                    {{newData.CREATEDDATE}}
+                </el-form-item>
                 <el-form-item label="">
                     <el-button @click="$router.back()">取消</el-button>
                     <el-button type="primary" @click="save" :loading="isHttp">确定</el-button>

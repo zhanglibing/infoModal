@@ -26,9 +26,9 @@ export default {
     methods: {
         async getProduct() {
             try {
-                this.newData = await this.api.product.getProductById({PID: this.PID});
+                this.newData = await this.api.product.getContent({cid: this.PID});
                 if (this.newData.IURL) {
-                    this.getVideoUrl();
+                    // this.getVideoUrl();
                 }
             } catch (e) {
                 this.$message.error(e);
@@ -41,14 +41,12 @@ export default {
         },
         //保存产品信息
         save() {
-            // this.newData.IDETAILS = this.$refs.editor.getUEContent();
             this.newData.Full = this.$refs.editor.getUEContent();
             this.$refs.ruleForm.validate((valid) => {
                 if (valid) {
                     this.isHttp = true;
-                    const {updateProduct, addProduct, addContent} = this.api.product;
-                    const fun = this.type === "add" ? addContent : updateProduct;
-                    alert(1)
+                    const {updateContent, addContent} = this.api.product;
+                    const fun = this.type === "add" ? addContent : updateContent;
                     fun(this.newData).then(res => {
                         this.isHttp = false;
                         this.$message.success(`${this.type === "add" ? "新增" : "更新"}成功`);

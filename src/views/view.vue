@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="card_box">
-            <div class="title">{{detail.INAME}}</div>
-            <div class="time">{{detail.CREATEDATE.slice(0,10)}}</div>
-            <div v-html="detail.IDETAILS" class="desc"></div>
+            <div class="title">{{detail.TITLE}}</div>
+            <div class="time">{{detail.CREATEDDATE.slice(0,10)}}</div>
+            <div v-html="detail.FULL" class="desc"></div>
         </div>
         <!--        <div class="card_box">-->
         <!--            <div class="upload_box">-->
@@ -26,11 +26,9 @@
         methods: {
             async getProduct() {
                 try {
-                    const data = await this.api.product.getProductById({PID: this.$route.params.id});
-                    data.IDETAILS=data.IDETAILS.replace('<img',"<img style='max-width:100%;'")
-                    console.log( this.detail.IDETAILS)
+                    const data = await this.api.product.getContent({cid: this.$route.params.id});
+                    data.FULL=data.FULL.replace('<img',"<img style='max-width:100%;'")
                     this.detail=data;
-                    console.log(this.detail);
                 } catch (e) {
                     this.$message.error(e);
                 }

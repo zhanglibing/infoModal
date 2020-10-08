@@ -28,8 +28,8 @@
                 </div>
                 <div class="new_item" v-for="item in list" :key="item.ID"
                      @click="goView($store.state.menuList[0].PURL,item.ID)">
-                    <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
-                    <div class="new_name">{{item.INAME}}</div>
+                    <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
+                    <div class="new_name">{{item.TITLE}}</div>
                 </div>
             </div>
             <div class="new_box">
@@ -39,8 +39,8 @@
                 </div>
                 <div class="new_item" v-for="item in list" :key="item.ID"
                      @click="goView($store.state.menuList[0].PURL,item.ID)">
-                    <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
-                    <div class="new_name">{{item.INAME}}</div>
+                    <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
+                    <div class="new_name">{{item.TITLE}}</div>
                 </div>
             </div>
         </div>
@@ -105,11 +105,9 @@
                 let params = {
                     page: 1,
                     limit: 10,
-                    PTYPE: 1, //产品大类型1心理课程2心理文章3心理fm
-                    PNAME: '',
-                    PSTS: -1,
+
                 };
-                const {data, count} = await this.api.product.getProductList(params);
+                const {data, count} = await this.api.product.getContentList(params);
                 this.list = data;
                 this.count = count;
             },
@@ -117,11 +115,8 @@
                 let params = {
                     page: 1,
                     limit: 10,
-                    PTYPE: 3, //产品大类型1心理课程2心理文章3心理fm
-                    PNAME: '',
-                    PSTS: -1,
                 };
-                const {data, count} = await this.api.product.getProductList(params);
+                const {data, count} = await this.api.product.getContentList(params);
                 this.partnersList = data;
             },
             goView(url, id) {

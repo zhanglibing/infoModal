@@ -109,7 +109,7 @@ function delContent(option) {
 * limit
 * categoryId 分类
 * */
-function delContentList(option) {
+function getContentList(option) {
     return post('/Content/SelectContent', option)
 }
 
@@ -125,5 +125,5 @@ export default {
     updateContent,
     delContent,
     getContent,
-    delContentList,
+    getContentList,
 }

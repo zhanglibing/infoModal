@@ -1,51 +1,5 @@
 import {post} from './Ajax';
 
-//角色接口
-
-/*
-* 新增角色列表
-* */
-function getRoleList(params) {
-    return post('/Rsau/GetRsauByMid', params);
-}
-
-/*
-* 新增角色
-* */
-function addRole(params) {
-    return post('/Rsau/AddRsauModel', params);
-}
-
-/*
-* 更新角色
-* */
-function updateRole(params) {
-    return post('/Rsau/UpdateRsauModel', params);
-}
-
-/*
-* 删除角色
-* rsid 角色id
-* */
-function deleteRole(rsid) {
-    return post('/Rsau/DelRsauModel', {rsid});
-}
-
-/*
-* 获取角色下所有的菜单数据   新增、修改
-* rsid 角色id
-* */
-function getRsPageByAuidMid(auId) {
-    return post('/Rsau/QGetRsPageByAuidMid', {auId});
-}
-
-
-/*
-* 保存和修改角色权限
-* */
-function saveAllAupageModel(params) {
-    return post('/Rsau/QSaveAllAupageModel', params);
-}
 
 
 //菜单接口
@@ -158,12 +112,6 @@ function getCategoryList(params) {
 
 
 export default {
-    getRoleList,
-    addRole,
-    updateRole,
-    deleteRole,
-    getRsPageByAuidMid,
-    saveAllAupageModel,
     deleteMenu,
     deleteBtnModel,
     addMenu,

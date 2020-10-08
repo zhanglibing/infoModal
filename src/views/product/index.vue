@@ -12,15 +12,15 @@
                       ref="multipleTable"
                       :stripe="true" :size="size">
                 <el-table-column prop="ID" label="ID"></el-table-column>
-                <el-table-column prop="INAME" label="标题名称"></el-table-column>
+                <el-table-column prop="TITLE" label="标题名称"></el-table-column>
                 <el-table-column prop="ZPRICE" label="一级导航"></el-table-column>
-                <el-table-column prop="ZPRICE" label="二级导航"></el-table-column>
-                <el-table-column prop="CREATEDATE" label="创建时间"></el-table-column>
+                <el-table-column prop="CATEGORYID" label="二级导航"></el-table-column>
+                <el-table-column prop="CREATEDDATE" label="创建时间"></el-table-column>
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">
                         <el-button type="text" @click="goDetail(scope.row.ID)">查看详情</el-button>
-<!--                        <el-divider direction="vertical"></el-divider>-->
-<!--                        <el-button type="text" @click="setProduct(scope.row.ID,0)">编辑</el-button>-->
+                        <!--                        <el-divider direction="vertical"></el-divider>-->
+                        <!--                        <el-button type="text" @click="setProduct(scope.row.ID,0)">编辑</el-button>-->
                         <el-divider direction="vertical"></el-divider>
                         <el-button type="text" @click="deleteProduct(scope.row.ID)" style="color:red;">删除</el-button>
                     </template>
