@@ -22,9 +22,9 @@
                                    :label="item.PNAME"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item prop="IURL" label="文件上传">
-                    <UploadAuth @getPath="getVideoInfo"></UploadAuth>
-                </el-form-item>
+<!--                <el-form-item prop="IURL" label="文件上传">-->
+<!--                    <UploadAuth @getPath="getVideoInfo"></UploadAuth>-->
+<!--                </el-form-item>-->
                 <el-form-item label="创建时间" v-if="newData.ID">
                     {{newData.CREATEDDATE}}
                 </el-form-item>
