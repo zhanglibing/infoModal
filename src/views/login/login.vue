@@ -26,7 +26,7 @@
             <div>
                 <el-checkbox v-model="checked"></el-checkbox>
                 记住用户名
-                <router-link to="/findpwd">忘记密码 ?</router-link>
+<!--                <router-link to="/findpwd">忘记密码 ?</router-link>-->
             </div>
             <el-button type="primary" :loading="loading" @click="login">登录</el-button>
         </div>
