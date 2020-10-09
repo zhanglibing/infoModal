@@ -9,6 +9,9 @@
             <el-form-item label="英文名" prop="PURL">
                 <el-input v-model.trim="form.PURL" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="显示顺序" prop="PINDEX">
+                <el-input-number v-model="form.PINDEX" @change="handleChange" :min="0" :max="1000" label="显示顺序"></el-input-number>
+            </el-form-item>
             <el-form-item label="首页是否展示">
                 <el-switch
                         v-model="form.PDIS"
@@ -74,6 +77,7 @@
                     PLOGOURL: "",
                     PDIS: '0', //是否在首页展示
                     PSTS: 1, //是否启用
+                    PINDEX: 0,
 
                     // NAME: '',
                     // DESCRIPTION: '测试', //  说明

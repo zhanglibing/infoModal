@@ -21,7 +21,7 @@
 
             </div>
             <div class="content_box" v-if="currentChild">
-                <div class="banner_box">
+                <div class="banner_box" v-if="currentChild.PLOGOURL">
                     <el-image :src="currentChild.PLOGOURL"></el-image>
                 </div>
                 <new-list v-if="$route.params.child&&!$route.params.id" :categoryId="currentChild.ID"></new-list>

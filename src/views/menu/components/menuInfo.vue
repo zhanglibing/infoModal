@@ -17,6 +17,9 @@
             <el-form-item label="首页是否展示：" v-if="data.PLVL==1">
                 {{data.PDIS==1?'展示':'不展示'}}
             </el-form-item>
+            <el-form-item label="显示顺序：" v-if="data.PLVL==1">
+                {{data.PINDEX}}
+            </el-form-item>
         </el-form>
     </el-card>
 </template>

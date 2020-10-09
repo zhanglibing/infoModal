@@ -16,7 +16,9 @@
                             :default-checked-keys="[1]">
                         <div class="custom-tree-node" slot-scope="{ node, data }">
                             <div :class="`flex_box ${clickId==data.ID?'active':''}`">
-                                <span>{{ data.PNAME }}</span>
+                                <span>{{ data.PNAME }}
+                                    <span v-if="data.PLVL==1"
+                                        style="color:red;font-size:10px;"> 顺序：{{data.PINDEX}}</span></span>
                                 <div class="tree_btn_box" v-if="clickId==data.ID">
                                     <template>
                                         <i v-if="data.PLVL==1" class="el-icon-circle-plus"
@@ -73,8 +75,9 @@
         },
         methods: {
             async getRsPageModelByMID() {
-                const {data = []} = await this.api.menu.getRsPageModelByMID({});
+                let {data = []} = await this.api.menu.getRsPageModelByMID({});
                 // const {data = []} = await this.api.menu.getCategory({});
+                data = data.sort((a, b) => a.PINDEX - b.PINDEX)
                 this.data = data;
             },
             add(data, node) {

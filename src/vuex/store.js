@@ -75,7 +75,8 @@ const actions = {
         commit('setRoleList', data);
     },
     async getMenuList({commit, state}, bool = false) {
-        const {data} =await api.menu.getRsPageModelByMID({})
+        let {data} =await api.menu.getRsPageModelByMID({})
+        data=data.sort((a,b)=> a.PINDEX-b.PINDEX)
         commit('setMenuList', data);
         return data;
     },
