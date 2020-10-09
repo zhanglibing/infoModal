@@ -2,9 +2,9 @@
     <div class="list_box">
         <ul>
             <li class="new_item" v-for="item in list" :key="item.ID" @click="goView(item.ID)">
-                <span class="time">{{item.CREATEDATE.slice(0,10)}}</span>
+                <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
                 <div class="new_name">
-                    {{item.INAME}}
+                    {{item.TITLE}}
                 </div>
             </li>
         </ul>
@@ -13,13 +13,19 @@
 </template>
 <script>
     export default {
+        props: {
+            categoryId: {
+                type: String,
+                require: true,
+            },
+        },
         data() {
+
             return {
                 list: [],
                 page: 1,
                 limit: 10,
                 count: 0,
-
             };
         },
         created() {
@@ -27,24 +33,22 @@
         },
         methods: {
             goView(id) {
-                this.$router.push(`${this.$route.path}/${id}`)
+                this.$router.push(`${this.$route.path}/${id}`);
             },
             async getContentList() {
                 let params = {
                     page: this.page,
                     limit: this.limit,
-                    PTYPE: 1, //产品大类型1心理课程2心理文章3心理fm
-                    PNAME: '',
-                    PSTS: -1,
+                    categoryId:this.categoryId,
                 };
-                const {data, count} = await this.api.product.getProductList(params);
+                const {data, count} = await this.api.product.getContentList(params);
                 this.list = this.list.concat(data);
                 this.count = count;
             },
             loadingMore() {
                 this.page = this.page + 1;
                 this.getContentList();
-            }
+            },
         },
     };
 </script>

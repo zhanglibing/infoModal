@@ -6,7 +6,7 @@
                     <el-input v-model.trim="newData.TITLE" placeholder="标题"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="Full" label="内容">
+                <el-form-item prop="FULL" label="内容">
                     <editor ref="editor" :msg="newData.FULL"></editor>
                 </el-form-item>
                 <el-form-item prop="IDETAILS" @change="rootChange" label="关联一级菜单">
@@ -37,41 +37,38 @@
     </div>
 </template>
 <script>
-    import mixinDetail from "./mixinDetail";
+    import editor from "@/components/editor/editor";
 
     export default {
-        mixins: [mixinDetail],
+        components: {
+            editor,
+        },
+        props: {
+            type: {
+                type: String,
+                default: "add",
+            },
+        },
         data() {
             return {
+                isHttp: false,
+                PID: this.$route.query.id,
                 menuData: [],
                 childData: [],
-                isHttp: false,
-                videoUrl: "",
                 newData: {
-                    // INAME: "",
-                    // XPRICE: "0",
-                    // ZPRICE: "0",
-                    // BANNERIMGURL: "",
-                    // ITYPE: 0, //产品类型0实体产品1虚拟产品
-                    // PTYPE: "1", //产品大类型1心理课程2心理文章3心理fm
-                    // IURL: "123",
-                    // IDIC: "ceshi",
-                    // ISTOP: 0,
-                    // IDETAILS: "",
-
-                    TITLE: '',
-                    SHORT: '测试',
-                    Full: '',
-                    CATEGORYID: '',
-                    PICTUREURL: 'null',
+                    TITLE: "",
+                    SHORT: "测试",
+                    FULL: "",
+                    CATEGORYID: "",
+                    PICTUREURL: "null",
                     PUBLISHED: true,
-                    FILEURL: 'null', //关联文件
+                    FILEURL: "null", //关联文件
                     ALLOWCOMMENTS: false,
-                    METAKEYWORDS: 'ceshi ', //关键字
-                    STARTDATEUTC: '',
-                    ENDDATEUTC: '',
-                    METADESCRIPTION: 'ceshi ',
-                    METATITLE: 'ceshi',
+                    METAKEYWORDS: "ceshi ", //关键字
+                    STARTDATEUTC: "",
+                    ENDDATEUTC: "",
+                    METADESCRIPTION: "ceshi ",
+                    METATITLE: "ceshi",
                 },
                 rules: {
                     TITLE: [
@@ -81,22 +78,74 @@
                         {required: true, message: "内容不能为空", trigger: "blur"},
                     ],
                 },
-                rootId: '',
+                rootId: "",
             };
         },
         created() {
             this.getRsPageModelByMID();
+            if (this.type === "edit") {
+                this.getProduct();
+            }
         },
         methods: {
+            //获取菜单
             async getRsPageModelByMID() {
                 const {data = []} = await this.api.menu.getRsPageModelByMID({});
                 this.menuData = data;
             },
             rootChange() {
-
                 const data = this.menuData.find(v => v.ID == this.rootId);
                 this.childData = data.Children;
-            }
+            },
+            // 获取产品详情
+            async getProduct() {
+                try {
+                    this.newData = await this.api.product.getContent({cid: this.PID});
+                    this.init();
+                } catch (e) {
+                    this.$message.error(e);
+                }
+            },
+            init() {
+                const CATEGORYID = this.newData.CATEGORYID;
+                this.menuData.some(v => {
+                    if (v.Children.some(val => val.ID === CATEGORYID)) {
+                        this.rootId = v.ID;
+                        this.rootChange();
+                        return true;
+                    }
+                });
+            },
+            getVideoUrl() {
+                this.api.file.getPlayURL({videoId: this.newData.IURL}).then(res => {
+                    this.videoUrl = res.PlayInfoList[0].PlayURL;
+                });
+            },
+            //保存产品信息
+            save() {
+                this.newData.FULL = this.$refs.editor.getUEContent();
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        this.isHttp = true;
+                        const {addContent, updateContent} = this.api.product;
+                        const fun = this.type === "add" ? addContent : updateContent;
+                        fun(this.newData).then(res => {
+                            this.isHttp = false;
+                            this.$message.success(`${this.type === "add" ? "新增" : "更新"}成功`);
+                            this.$router.back();
+                        }).catch(res => {
+                            this.isHttp = false;
+                            this.$message.error(res);
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+
+            },
+            getVideoInfo(url) {
+                this.newData.IURL = url;
+            },
         },
 
 

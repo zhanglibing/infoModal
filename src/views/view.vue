@@ -3,7 +3,7 @@
         <div class="card_box">
             <div class="title">{{detail.TITLE}}</div>
             <div class="time">{{detail.CREATEDDATE.slice(0,10)}}</div>
-            <div v-html="detail.FULL" class="desc"></div>
+            <div v-html="detail.FULL"></div>
         </div>
         <!--        <div class="card_box">-->
         <!--            <div class="upload_box">-->
@@ -26,9 +26,7 @@
         methods: {
             async getProduct() {
                 try {
-                    const data = await this.api.product.getContent({cid: this.$route.params.id});
-                    data.FULL=data.FULL.replace('<img',"<img style='max-width:100%;'")
-                    this.detail=data;
+                    this.detail = await this.api.product.getContent({cid: this.$route.params.id});
                 } catch (e) {
                     this.$message.error(e);
                 }
@@ -56,13 +54,6 @@
         font-size: 12px;
         color: #999;
         margin-bottom: 15px;
-    }
-
-    .desc  {
-        img{
-            max-width: 700px !important;
-        }
-
     }
 
     .upload_box {

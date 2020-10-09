@@ -2,9 +2,7 @@
     <div>
         <div class="banner_box">
             <el-carousel height="450px">
-                <el-carousel-item v-for="item in data" :key="item.ID"
-
-                >
+                <el-carousel-item v-for="item in data" :key="item.ID">
                     <img :src="item.BANNERIMGURL" alt="" class="banner_img" @click="goBanner(item.IDETAILS)">
                     <div class="tip_wrapper">
                         <div class="title">
@@ -21,28 +19,7 @@
             </el-carousel>
         </div>
         <div class="news_wrapper" v-if="$store.state.menuList.length">
-            <div class="new_box">
-                <div class="model_box">
-                    <span class="name"><img src="../assets/icon1.png" alt="">{{$store.state.menuList[0].PNAME}}</span>
-                    <router-link :to="`/home/list/${$store.state.menuList[0].PURL}`">更多 ></router-link>
-                </div>
-                <div class="new_item" v-for="item in list" :key="item.ID"
-                     @click="goView($store.state.menuList[0].PURL,item.ID)">
-                    <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
-                    <div class="new_name">{{item.TITLE}}</div>
-                </div>
-            </div>
-            <div class="new_box">
-                <div class="model_box">
-                    <span class="name"><img src="../assets/icon2.png" alt="">{{$store.state.menuList[1].PNAME}}</span>
-                    <router-link :to="`/home/list/${$store.state.menuList[1].PURL}`">更多 ></router-link>
-                </div>
-                <div class="new_item" v-for="item in list" :key="item.ID"
-                     @click="goView($store.state.menuList[0].PURL,item.ID)">
-                    <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
-                    <div class="new_name">{{item.TITLE}}</div>
-                </div>
-            </div>
+            <newBox :currentMenu="item" v-for="item in showHomeMenu" :key="item.ID"></newBox>
         </div>
         <div class="partners">
             <div class="partners_list">
@@ -53,22 +30,27 @@
     </div>
 </template>
 <script>
+    import newBox from "./newBox";
+
     export default {
+        components: {
+            newBox,
+        },
         data() {
             return {
                 menuData: [],
                 data: [],
                 list: [],
                 partnersList: [],
-                bannerDetail: {}
+                bannerDetail: {},
             };
         },
         created() {
             this.getList();
-            this.getContentList();
             this.getPartnersList();
         },
         methods: {
+            // 获取banner list
             async getList() {
                 let params = {
                     page: 1,
@@ -79,7 +61,7 @@
                 };
                 const {data, count} = await this.api.product.getProductList(params);
                 this.data = data;
-                data.forEach(val => this.getProduct(val.ID))
+                data.forEach(val => this.getProduct(val.ID));
                 this.count = count;
             },
             async getProduct(PID) {
@@ -88,44 +70,38 @@
                     this.bannerDetail = {
                         ...this.bannerDetail,
                         PID: data,
-                    }
+                    };
                     this.data.some(v => {
                         if (v.ID === PID) {
                             v.IDIC = data.IDIC;
                             v.IDETAILS = data.IDETAILS;
                             return true;
                         }
-                    })
-                    console.log(this.data)
+                    });
                 } catch (e) {
                     this.$message.error(e);
                 }
-            },
-            async getContentList() {
-                let params = {
-                    page: 1,
-                    limit: 10,
-
-                };
-                const {data, count} = await this.api.product.getContentList(params);
-                this.list = data;
-                this.count = count;
             },
             async getPartnersList() {
                 let params = {
                     page: 1,
                     limit: 10,
+                    PTYPE: 3, //产品大类型1心理课程2心理文章3心理fm
+                    PNAME: "",
+                    PSTS: -1,
                 };
-                const {data, count} = await this.api.product.getContentList(params);
+                const {data, count} = await this.api.product.getProductList(params);
                 this.partnersList = data;
-            },
-            goView(url, id) {
-                this.$router.push(`/home/list/${url}/newmodel/${id}`);
             },
             goBanner(ID) {
                 this.$router.push(`/home/list/info/newmodel/${ID}`);
-            }
+            },
         },
+        computed: {
+            showHomeMenu() {
+                return this.$store.state.menuList.filter(v => v.PDIS == '1')
+            }
+        }
     };
 </script>
 <style lang="scss">
@@ -133,65 +109,7 @@
         display: flex;
         width: 1200px;
         margin: 20px auto 50px;
-
-        .new_box {
-            flex: 1;
-            max-width: 580px;
-            line-height: 30px;
-
-            &:first-child {
-                margin-right: 40px;
-            }
-
-            .model_box {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border-bottom: 1px solid #F27102;
-                margin-bottom: 10px;
-                padding: 4px;
-
-                .name {
-                    font-size: 18px;
-                    color: #F27102;
-                    display: flex;
-                    align-items: center;
-
-                    img {
-                        margin-right: 6px;
-                    }
-                }
-            }
-        }
-
-        .new_item {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-
-            &:hover {
-                .time, .new_name {
-                    color: #F27102;
-                }
-
-            }
-
-            .time {
-                width: 90px;
-                margin-right: 6px;
-                color: #666;
-                transition: all 0.3s;
-            }
-
-            .new_name {
-                flex: 1;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                color: #000;
-                transition: all 0.3s;
-            }
-        }
+        flex-wrap: wrap;
     }
 
 

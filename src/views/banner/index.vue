@@ -44,7 +44,7 @@
     </div>
 </template>
 <script>
-    import mixin from "../product/mixin";
+    import mixin from "../partners/mixin";
 
     export default {
         mixins: [mixin],

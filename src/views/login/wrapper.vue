@@ -1,14 +1,16 @@
 <template>
     <div class="login">
-<!--        <div><img src="../../assets/logo.png" alt=""></div>-->
-        <div class="wrapper">
-            <div class="bg_box">
-                <img src="../../../static/images/login_bg.png" alt="">
-            </div>
-            <div class="login-box">
-                <slot></slot>
+        <div class="login_wrapper">
+            <div class="wrapper">
+                <div class="bg_box">
+                    <img src="../../../static/images/login_bg.png" alt="">
+                </div>
+                <div class="login-box">
+                    <slot></slot>
+                </div>
             </div>
         </div>
+
         <footerModel></footerModel>
     </div>
 </template>
@@ -33,7 +35,11 @@
         flex-direction: column;
         justify-content: space-between;
         min-height: 700px;
-
+        .login_wrapper{
+            height:calc(100vh - 60px);
+            display: flex;
+            align-items: center;
+        }
         .wrapper {
             width: 1000px;
             height: 500px;

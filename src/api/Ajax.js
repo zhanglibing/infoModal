@@ -14,7 +14,8 @@ import {Message} from "element-ui";
 * E28CC980022B4003B52C8427EB55CAC9   咨询师中台
 *    咨询师c端
 * */
-const HOST = "http://47.100.204.170:90/api/";
+// const HOST = "http://47.100.204.170:90/api/";
+const HOST = "http://47.100.204.170:91/api/";
 // const apiHost = HOST;
 window.apiHost = HOST;
 axios.defaults.baseURL = HOST;
@@ -65,7 +66,7 @@ axios.interceptors.response.use(response => {
                 case 401:
                     Message.error("登录失效");
                     setTimeout(() => {
-                        router.replace("/");
+                        // router.replace("/");
                     }, 1000);
                 case 403:
                     err.message = "拒绝访问(403)";

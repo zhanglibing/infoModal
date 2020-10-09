@@ -73,8 +73,8 @@
         },
         methods: {
             async getRsPageModelByMID() {
-                // const {data = []} = await this.api.menu.getRsPageModelByMID({});
-                const {data = []} = await this.api.menu.getCategory({});
+                const {data = []} = await this.api.menu.getRsPageModelByMID({});
+                // const {data = []} = await this.api.menu.getCategory({});
                 this.data = data;
             },
             add(data, node) {

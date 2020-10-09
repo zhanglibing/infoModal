@@ -20,11 +20,11 @@
                 </div>
 
             </div>
-            <div class="content_box">
+            <div class="content_box" v-if="currentChild">
                 <div class="banner_box">
                     <el-image :src="currentChild.PLOGOURL"></el-image>
                 </div>
-                <new-list v-if="$route.params.child&&!$route.params.id"></new-list>
+                <new-list v-if="$route.params.child&&!$route.params.id" :categoryId="currentChild.ID"></new-list>
                 <views v-if="$route.params.id"></views>
             </div>
         </div>
@@ -43,11 +43,10 @@
             return {
                 navs: [],
                 currentMenu: {},
-                currentChild: {},
+                currentChild: null,
             };
         },
         created() {
-            console.log(this.$route.params);
             this.init();
         },
         methods: {
