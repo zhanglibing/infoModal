@@ -93,15 +93,40 @@
                 const {data, count} = await this.api.product.getProductList(params);
                 this.partnersList = data;
             },
-            goBanner(ID) {
-                this.$router.push(`/home/list/info/newmodel/${ID}`);
+            goBanner(obj) {
+                const {ID, CATEGORYID} = JSON.parse(obj);
+                const menuData = this.getMenu(CATEGORYID);
+                this.$router.push(`/home/list/${menuData.parent.PURL}/${menuData.child.PURL}/${ID}`);
+            },
+            getMenu(CATEGORYID) {
+                let child;
+                let parent;
+                if (!CATEGORYID) {
+                    return "";
+                }
+                this.$store.state.menuList.some(v => {
+                    if (v.Children.some(val => {
+                        if (val.ID === CATEGORYID) {
+                            child = val;
+                            return true;
+                        }
+                    })) {
+                        parent = v;
+                        return true;
+                    }
+                });
+                return {
+                    child,
+                    parent,
+                };
             },
         },
         computed: {
             showHomeMenu() {
-                return this.$store.state.menuList.filter(v => v.PDIS == '1')
-            }
-        }
+                return this.$store.state.menuList.filter(v => v.PDIS == "1");
+            },
+        },
+
     };
 </script>
 <style lang="scss">

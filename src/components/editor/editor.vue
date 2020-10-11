@@ -1,7 +1,5 @@
 <template>
   <div class="components-container">
-    <!--<button @click="getUEContent()">获取内容</button>-->
-    <!--<button @click="getUEContentTxt()">获取无文本内容</button>-->
     <div class="editor-container">
       <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
     </div>

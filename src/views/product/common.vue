@@ -22,9 +22,9 @@
                                    :label="item.PNAME"></el-option>
                     </el-select>
                 </el-form-item>
-<!--                <el-form-item prop="IURL" label="文件上传">-->
-<!--                    <UploadAuth @getPath="getVideoInfo"></UploadAuth>-->
-<!--                </el-form-item>-->
+                <!--                <el-form-item prop="IURL" label="文件上传">-->
+                <!--                    <UploadAuth @getPath="getVideoInfo"></UploadAuth>-->
+                <!--                </el-form-item>-->
                 <el-form-item label="创建时间" v-if="newData.ID">
                     {{newData.CREATEDDATE}}
                 </el-form-item>
@@ -74,8 +74,11 @@
                     TITLE: [
                         {required: true, message: "标题不能为空", trigger: "blur"},
                     ],
-                    Full: [
+                    FULL: [
                         {required: true, message: "内容不能为空", trigger: "blur"},
+                    ],
+                    CATEGORYID: [
+                        {required: true, message: "请选择二级菜单", trigger: "change"},
                     ],
                 },
                 rootId: "",
