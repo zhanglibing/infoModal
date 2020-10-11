@@ -9,7 +9,7 @@
             <div class="nav_box">
                 <div class="nav_bg">
                     <ul>
-                        <router-link tag="li" :to="`/home/list/${$route.params.name}/${item.PURL}`" v-for="item in navs"
+                        <router-link tag="li" :to="`/home/list/${$route.params.name}/${item.PURL}${item.PINDEX&&item.PDIS?`/${item.PDIS}`:''}`" v-for="item in navs"
                                      :key="item.ID">
                             {{item.PNAME}}
                         </router-link>

@@ -19,7 +19,8 @@
                     >{{item.PNAME}}
                     </router-link>
                     <div class="select_box">
-                        <router-link class="child_item" tag="div" :to="`/home/list/${item.PURL}/${child.PURL}`"
+                        <router-link class="child_item" tag="div"
+                                     :to="`/home/list/${item.PURL}/${child.PURL}${child.PINDEX&&child.PDIS?`/${child.PDIS}`:''}`"
                                      v-for="child in item.Children"
                                      :key="child.ID"
                         >{{child.PNAME}}
@@ -121,7 +122,7 @@
                         font-size: 14px;
                         transition: all .3s;
 
-                        &:hover,&.router-link-active {
+                        &:hover, &.router-link-active {
                             background: #001A89;
                         }
                     }

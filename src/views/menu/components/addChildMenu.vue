@@ -9,6 +9,19 @@
             <el-form-item label="英文名" prop="PURL">
                 <el-input v-model.trim="form.PURL" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="展示类型">
+                <el-switch
+                        v-model="form.PINDEX"
+                        :active-value="0"
+                        :inactive-value="1"
+                        active-text="列表"
+                        inactive-text="详情">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="关联内容ID" prop="PDIS" v-if="form.PINDEX==1">
+                <el-input v-model.trim="form.PDIS" placeholder="关联内容ID" autocomplete="off"></el-input>
+                <p style="color:red;">如果填写了关联内容ID，则直接跳转对应的内容详情否则将查找对应列表的第一个内容作为展示</p>
+            </el-form-item>
             <el-form-item label="banner">
                 <bannerUpload :imgPath="form.PLOGOURL" @getImgUrl="getImgUrl"></bannerUpload>
             </el-form-item>
@@ -59,6 +72,7 @@
                     PLOGOURL: "",
                     PDIS: "",
                     PSTS: 1,
+                    PINDEX: 0,
                 },
                 rules: {
                     PNAME: [
