@@ -9,11 +9,8 @@ import Vuex from 'vuex';
 import api from '../api';
 import {getPer} from '@/utils/utils'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-import customer from './customer'
-import account from './account'
-import invoice from './invoice'
 
 //获取session值
 function getSessionByName(name) {
@@ -38,7 +35,8 @@ function setSessionVal(name, val) {
 const state = {
     userInfo: getSessionByName('myUserInfo'),
     token: getSessionByName('token') || '',
-    menuList: getSessionByName('menuList') || [],
+    menuList: [],
+    isHttpMenu: false,
 }
 
 const mutations = {
@@ -50,9 +48,10 @@ const mutations = {
         state.token = val;
         setSessionVal('token', val);
     },
-    setMenuList(state,val){
+    setMenuList(state, val) {
         state.menuList = val;
-        setSessionVal('menuList', val);
+        state.isHttpMenu = true;
+        // setSessionVal('menuList', val);
     }
 
 }
@@ -61,22 +60,18 @@ const mutations = {
 //
 //权限配置
 const getters = {
-    getActiveShopId(state) {
-        return state.activeShop ? state.activeShop.ID : '';
-    }
+    // getActiveShopId(state) {
+    //     return state.activeShop ? state.activeShop.ID : '';
+    // }
 }
 
 const actions = {
-    async getRoleList({commit, state}, bool = false) {
-        const {data} = await api.menu.getRoleList({
-            page: 1,
-            limit: 100
-        });
-        commit('setRoleList', data);
-    },
     async getMenuList({commit, state}, bool = false) {
-        let {data} =await api.menu.getRsPageModelByMID({})
-        data=data.sort((a,b)=> a.PINDEX-b.PINDEX)
+        if (state.isHttpMenu) {
+            return state.menuList;
+        }
+        let {data} = await api.menu.getRsPageModelByMID({})
+        data = data.sort((a, b) => a.PINDEX - b.PINDEX)
         commit('setMenuList', data);
         return data;
     },
@@ -85,9 +80,4 @@ const actions = {
 
 export default new Vuex.Store({
     state, mutations, getters, actions,
-    // modules: {
-    //     customer,
-    //     account,
-    //     invoice,
-    // }
 })

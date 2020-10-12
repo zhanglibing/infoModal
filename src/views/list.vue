@@ -57,7 +57,6 @@
                 const data = await this.$store.dispatch("getMenuList");
                 this.currentMenu = data.find(v => v.PURL === name);
                 this.navs = data.find(v => v.PURL === name).Children;
-                console.log(this.navs)
                 if (!child && this.navs.length && !id) {
                     const child = this.navs[0];
                     this.$router.push(`/home/list/${name}/${child.PURL}${child.PINDEX && child.PDIS ? `/${child.PDIS}` : ''}`);
