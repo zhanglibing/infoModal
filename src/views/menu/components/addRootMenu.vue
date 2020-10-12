@@ -21,13 +21,13 @@
                         inactive-text="不展示">
                 </el-switch>
             </el-form-item>
-            <el-form-item label="菜单状态">
+            <el-form-item label="是否在导航栏展示">
                 <el-switch
                         v-model="form.PSTS"
                         :active-value="1"
                         :inactive-value="0"
-                        active-text="启用"
-                        inactive-text="暂停">
+                        active-text="展示"
+                        inactive-text="不展示">
                 </el-switch>
             </el-form-item>
         </el-form>

@@ -9,7 +9,9 @@
             <div class="nav_box">
                 <div class="nav_bg">
                     <ul>
-                        <router-link tag="li" :to="`/home/list/${$route.params.name}/${item.PURL}${item.PINDEX&&item.PDIS?`/${item.PDIS}`:''}`" v-for="item in navs"
+                        <router-link tag="li"
+                                     :to="`/home/list/${$route.params.name}/${item.PURL}${item.PINDEX&&item.PDIS?`/${item.PDIS}`:''}`"
+                                     v-for="item in navs"
                                      :key="item.ID">
                             {{item.PNAME}}
                         </router-link>
@@ -55,8 +57,10 @@
                 const data = await this.$store.dispatch("getMenuList");
                 this.currentMenu = data.find(v => v.PURL === name);
                 this.navs = data.find(v => v.PURL === name).Children;
+                console.log(this.navs)
                 if (!child && this.navs.length && !id) {
-                    this.$router.push(`/home/list/${name}/${this.navs[0].PURL}`);
+                    const child = this.navs[0];
+                    this.$router.push(`/home/list/${name}/${child.PURL}${child.PINDEX && child.PDIS ? `/${child.PDIS}` : ''}`);
                 } else {
                     this.currentChild = this.navs.find(v => v.PURL === child);
                 }

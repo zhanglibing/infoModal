@@ -13,10 +13,10 @@
         <div class="nav_box">
             <div class="content_box">
                 <router-link tag="div" to="/home" class="home">首页</router-link>
-                <div v-for="item in $store.state.menuList"
+                <div v-for="item in showMenu"
                      :key="item.ID">
-                    <router-link tag="div" :to="`/home/list/${item.PURL}`" class="other"
-                    >{{item.PNAME}}
+                    <router-link tag="div" :to="`/home/list/${item.PURL}`" class="other">
+                        {{item.PNAME}}
                     </router-link>
                     <div class="select_box">
                         <router-link class="child_item" tag="div"
@@ -41,6 +41,12 @@
         created() {
             this.$store.dispatch("getMenuList");
         },
+        computed: {
+            showMenu() {
+                // PSTS
+                return this.$store.state.menuList.filter(val => val.PSTS == 1);
+            }
+        }
     };
 </script>
 <style lang="scss" scoped>
@@ -133,7 +139,7 @@
                     font-weight: bold;
                 }
 
-                .other.router-link-active {
+                .other.router-link-active, .active {
                     color: #F27102;
                     font-weight: bold;
                 }
