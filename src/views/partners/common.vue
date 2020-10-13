@@ -2,16 +2,16 @@
     <div class="customerEdit">
         <el-card>
             <el-form label-position="right" ref="ruleForm" label-width="130px" :rules="rules" :model="newData">
-                <el-form-item prop="INAME" label="合作单位名称">
-                    <el-input v-model.trim="newData.INAME" placeholder="合作单位名称"></el-input>
+                <el-form-item prop="title" label="合作单位名称">
+                    <el-input v-model.trim="newData.title" placeholder="合作单位名称"></el-input>
                 </el-form-item>
 
-                <el-form-item prop="BANNERIMGURL" label="跳转链接">
-                    <el-input v-model.trim="newData.BANNERIMGURL" placeholder="跳转链接"></el-input>
+                <el-form-item prop="bannerUrl" label="跳转链接">
+                    <el-input v-model.trim="newData.bannerUrl" placeholder="跳转链接"></el-input>
                 </el-form-item>
                 <template v-if="type==='edit'">
                     <el-form-item label="创建时间">
-                        {{newData.CREATEDATE}}
+                        {{newData.updatedAt}}
                     </el-form-item>
                 </template>
                 <el-form-item label="">
@@ -23,37 +23,70 @@
     </div>
 </template>
 <script>
-    import mixinDetail from "./mixinDetail";
-
     export default {
-        mixins: [mixinDetail],
+        props: {
+            type: {
+                type: String,
+                default: "add",
+            },
+        },
         data() {
             return {
                 menuData: [],
                 childData: [],
                 isHttp: false,
                 newData: {
-                    INAME: "",
-                    XPRICE: "0",
-                    ZPRICE: "0",
-                    BANNERIMGURL: "",
-                    ITYPE: 0, //产品类型0实体产品1虚拟产品
-                    PTYPE: "3", //产品大类型1心理课程2心理文章3心理fm
-                    IURL: "null",
-                    IDIC: "null",
-                    ISTOP: 0,
-                    IDETAILS: "null",
-
+                    title: "",
+                    bannerUrl: "",
+                    type: 1,
+                    content1: "",
+                    content: "qwe",
+                    categoryId: "",
                 },
                 rules: {
-                    INAME: [
+                    title: [
                         {required: true, message: "合作单位名称不能为空", trigger: "blur"},
                     ],
-                    BANNERIMGURL: [
+                    bannerUrl: [
                         {required: true, message: "跳转链接不能为空", trigger: "blur"},
                     ],
                 },
             };
+        },
+        created() {
+            if (this.type === "edit") {
+                this.getProduct();
+            }
+        },
+        methods: {
+            async getProduct() {
+                try {
+                    this.newData = await this.api.content.detail({id: this.$route.query.id});
+                } catch (e) {
+                    this.$message.error(e);
+                }
+            },
+            //保存产品信息
+            save() {
+                this.$refs.ruleForm.validate((valid) => {
+                    if (valid) {
+                        this.isHttp = true;
+                        const {add, update} = this.api.content;
+                        const fun = this.type === "add" ? add : update;
+                        fun(this.newData).then(res => {
+                            this.isHttp = false;
+                            this.$message.success(`${this.type === "add" ? "新增" : "更新"}成功`);
+                            this.$router.back();
+                        }).catch(res => {
+                            this.isHttp = false;
+                            this.$message.error(res);
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+
+            },
         },
 
     };

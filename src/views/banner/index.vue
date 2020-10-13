@@ -5,27 +5,24 @@
                 <el-button type="primary" @click="add">新增</el-button>
             </div>
             <el-table :data="data"
-                      ref="multipleTable"
                       :stripe="true" :size="size">
-                <el-table-column prop="ID" label="ID"></el-table-column>
-                <el-table-column prop="INAME" label="Banner 名称"></el-table-column>
-                <!--                <el-table-column prop="IDIC" label="介绍"></el-table-column>-->
-                <!--                <el-table-column prop="IDETAILS" label="超链接"></el-table-column>-->
-                <el-table-column prop="BANNERIMGURL" label="缩略图">
+                <el-table-column prop="id" label="ID"></el-table-column>
+                <el-table-column prop="title" label="Banner 名称"></el-table-column>
+                <el-table-column prop="bannerUrl" label="缩略图">
                     <template slot-scope="{row}">
                         <el-image
                                 style="width: 100px; height: 50px"
-                                :src="row.BANNERIMGURL"
-                                :preview-src-list="[row.BANNERIMGURL]">
+                                :src="row.bannerUrl"
+                                :preview-src-list="[row.bannerUrl]">
                         </el-image>
                     </template>
                 </el-table-column>
-                <el-table-column prop="CREATEDATE" label="创建时间"></el-table-column>
+                <el-table-column prop="createdAt" label="创建时间"></el-table-column>
                 <el-table-column label="操作" width="180">
-                    <template slot-scope="{row:{ISSHELF,ID,PSTS}}">
-                        <el-button type="text" @click="goDetail(ID)">查看详情</el-button>
+                    <template slot-scope="{row:{id}}">
+                        <el-button type="text" @click="goDetail(id)">查看详情</el-button>
                         <el-divider direction="vertical"></el-divider>
-                        <el-button type="text" @click="deleteProduct(ID)" style="color:red;">删除</el-button>
+                        <el-button type="text" @click="deleteProduct(id)" style="color:red;">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -50,7 +47,7 @@
         mixins: [mixin],
         data() {
             return {
-                PTYPE: "2", //产品大类型1心理课程2心理文章3心理fm
+                PTYPE: 0, //产品大类型1心理课程2心理文章3心理fm
             };
         },
         methods: {

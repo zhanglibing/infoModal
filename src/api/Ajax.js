@@ -9,13 +9,7 @@ import store from "../vuex/store";
 import router from "../router";
 import {Message} from "element-ui";
 
-/*
-* 9C9A354ED6304B8692B3E7891687CFCD  幸福某方中台
-* E28CC980022B4003B52C8427EB55CAC9   咨询师中台
-*    咨询师c端
-* */
-// const HOST = "http://47.100.204.170:90/api/";
-const HOST = "http://47.100.204.170:91/api/";
+const HOST = "http://localhost:5000/api/";
 // const apiHost = HOST;
 window.apiHost = HOST;
 axios.defaults.baseURL = HOST;
@@ -23,22 +17,15 @@ axios.defaults.timeout = 50000;
 // axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8", "xml";// 这个无需使用qs转化
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8", "xml";//POST传参序列化
 axios.interceptors.request.use((config) => {
-    // config.headers.common['Token'] = store.getters.getToken;
-    const expands = {
-        mid: "C7A0AA1BFDD043AAA538DECC3B156821",
-        SID: "C7A0AA1BFDD043AAA538DECC3B156821",
-        Token: store.state.token || "",
-    };
+    config.headers.common["Token"] = store.getters.getToken;
+
     if (config.method === "post") {
         config.data = qs.stringify({
-            ...expands,
+            createId: store.state.userInfo.id,
             ...config.data,
         });
-        // console.log(config.data)
     } else {
-
         config.params = {
-            ...expands,
             ...config.params,
         };
     }
@@ -107,11 +94,11 @@ axios.interceptors.response.use(response => {
 export function get(url, params = {}) {
     return new Promise((resolve, reject) => {
         axios.get(url, {params}).then(res => {
-            let {code, msg} = res;
-            if (code == 0) {
-                resolve(res);
+            let {code, message,data} = res;
+            if (code == 200) {
+                resolve(data);
             }
-            reject(msg);
+            reject(message);
         });
     });
 }
@@ -119,14 +106,11 @@ export function get(url, params = {}) {
 export function post(url, params = {}) {
     return new Promise((resolve, reject) => {
         axios.post(url, params).then(res => {
-            let {code, data, msg} = res;
-            if (code == 0) {
-                if (Array.isArray(data)) {
-                    resolve(res);
-                }
-                resolve(data)
+            let {code, data, message} = res;
+            if (code == 200) {
+                resolve(data);
             }
-            reject(msg);
+            reject(message);
         });
     });
 }
