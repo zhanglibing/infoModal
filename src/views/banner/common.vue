@@ -51,9 +51,10 @@
                     title: "",
                     bannerUrl: "https://element.eleme.cn/2.0/static/hamburger.50e4091.png",
                     type: 0,
-                    content1:'',
-                    content:'qwe',
-                    categoryId:'',
+                    content1: '',
+                    content: '',
+                    categoryId: '',
+                    content2: '',
                 },
                 rules: {
                     title: [
@@ -76,10 +77,11 @@
         methods: {
             setSelect({id, title, categoryId}) {
                 this.newData = {
-                    content1:categoryId,
-                    content:title,
-                    categoryId:id,
                     ...this.newData,
+                    content1: id,
+                    content: title,
+                    categoryId,
+
                 };
             },
             async getProduct() {
@@ -94,8 +96,8 @@
                 this.$refs.ruleForm.validate((valid) => {
                     if (valid) {
                         this.isHttp = true;
-                        const { add} = this.api.content;
-                        const fun = this.type === "add" ? add : add;
+                        const {add, update} = this.api.content;
+                        const fun = this.type === "add" ? add : update;
                         fun(this.newData).then(res => {
                             this.isHttp = false;
                             this.$message.success(`${this.type === "add" ? "新增" : "更新"}成功`);

@@ -4,15 +4,15 @@
             <div class="search-box">
                 <label for=""><b>一级菜单标签：</b>
                     <el-select @change="rootChange" v-model="rootId" clearable>
-                        <el-option v-for="item in menuData" :key="item.ID" :value="item.ID"
-                                   :label="item.PNAME">
+                        <el-option v-for="item in menuData" :key="item.id" :value="item.id"
+                                   :label="item.name">
                         </el-option>
                     </el-select>
                 </label>
                 <label for=""><b>二级菜单标签：</b>
                     <el-select @change="getList" v-model="categoryId" clearable>
-                        <el-option v-for="item in childData" :key="item.ID" :value="item.ID"
-                                   :label="item.PNAME">
+                        <el-option v-for="item in childData" :key="item.id" :value="item.id"
+                                   :label="item.name">
                         </el-option>
                     </el-select>
                 </label>
@@ -22,24 +22,24 @@
             <el-table :data="data"
                       ref="multipleTable"
                       :stripe="true" :size="size">
-                <el-table-column prop="ID" label="ID"></el-table-column>
-                <el-table-column prop="TITLE" label="标题名称"></el-table-column>
+                <el-table-column prop="id" label="id"></el-table-column>
+                <el-table-column prop="title" label="标题名称"></el-table-column>
                 <el-table-column prop="ZPRICE" label="一级导航">
-                    <template slot-scope="{row:{CATEGORYID}}">
-                        {{getPname(CATEGORYID,"root")}}
+                    <template slot-scope="{row:{categoryId}}">
+                        {{getPname(categoryId,"root")}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="CATEGORYID" label="二级导航">
-                    <template slot-scope="{row:{CATEGORYID}}">
-                        {{getPname(CATEGORYID,"child")}}
+                    <template slot-scope="{row:{categoryId}}">
+                        {{getPname(categoryId,"child")}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="CREATEDDATE" label="创建时间"></el-table-column>
+                <el-table-column prop="createdAt" label="创建时间"></el-table-column>
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">
-                        <el-button type="text" @click="goDetail(scope.row.ID)">查看详情</el-button>
+                        <el-button type="text" @click="goDetail(scope.row.id)">查看详情</el-button>
                         <el-divider direction="vertical"></el-divider>
-                        <el-button type="text" @click="deleteProduct(scope.row.ID)" style="color:red;">删除</el-button>
+                        <el-button type="text" @click="deleteProduct(scope.row.id)" style="color:red;">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -58,16 +58,15 @@
     </div>
 </template>
 <script>
+    import mixins from "../partners/mixin";
 
     export default {
+        mixins: [mixins],
         data() {
             return {
+                PTYPE: 3,
                 size: "mini",
                 data: [],
-                page: 1,
-                limit: 10,
-                count: 0,
-                PNAME: "",
                 menuData: [],
                 childData: [],
                 rootId: "",
@@ -75,86 +74,49 @@
             };
         },
         created() {
-            this.getRsPageModelByMID();
-
+            this.getMenus();
         },
         methods: {
             //获取菜单
-            async getRsPageModelByMID() {
-                const {data = []} = await this.api.menu.getRsPageModelByMID({});
+            async getMenus() {
+                const data = await this.api.menu.getList({});
                 this.menuData = data;
                 this.getList();
             },
             rootChange() {
                 if (!this.rootId) {
                     this.childData = [];
-                    this.categoryId = '';
+                    this.categoryId = "";
                     return false;
                 }
-                const data = this.menuData.find(v => v.ID == this.rootId);
-                this.childData = data.Children;
+                const data = this.menuData.find(v => v.id == this.rootId);
+                this.childData = data.menus;
                 this.getList();
             },
-            handleSelectionChange(val) {
-            },
-            handleSizeChange(val) {
-                this.limit = val;
-                this.getList();
-            },
-            handleCurrentChange(val) {
-                this.page = val;
-                this.getList();
-            },
-            async getList() {
-                let params = {
-                    page: this.page,
-                    limit: this.limit,
-                    categoryId: this.categoryIds,
-                };
-                const {data, count} = await this.api.product.getContentList(params);
-                this.data = data;
-                this.count = count;
-            },
-            // 删除内容
-            deleteProduct(cid) {
-                this.$confirm("确认删除该产品?", "提示", {
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    type: "warning",
-                }).then(() => {
-                    this.api.product.delContent({cid}).then(res => {
-                        this.$message.success("删除成功!");
-                        this.getList();
-                    }).catch(err => {
-                        this.$message.error(err);
-                    });
-                }).catch(() => {
+            getPname(categoryId, type = "child") {
+                let child = "";
+                let parent = "";
+                if (!categoryId) {
+                    return "";
+                }
+                this.menuData.some(v => {
+                    if (v.menus.some(val => {
+                        if (val.id == categoryId) {
+                            child = val.name;
+                            return true;
+                        }
+                    })) {
+                        parent = v.name;
+                        return true;
+                    }
                 });
+                return type == "child" ? child : parent;
             },
             goDetail(id) {
                 this.$router.push({path: "/admin/content/edit", query: {id}});
             },
             add() {
                 this.$router.push("/admin/content/add");
-            },
-            getPname(CATEGORYID, type = "child") {
-                let child = "";
-                let parent = "";
-                if (!CATEGORYID) {
-                    return "";
-                }
-                this.menuData.some(v => {
-                    if (v.Children.some(val => {
-                        if (val.ID === CATEGORYID) {
-                            child = val.PNAME;
-                            return true;
-                        }
-                    })) {
-                        parent = v.PNAME;
-                        return true;
-                    }
-                });
-                return type == "child" ? child : parent;
             },
         },
         computed: {
@@ -163,7 +125,7 @@
                     return this.categoryId;
                 }
                 if (this.rootId) {
-                    const data = this.menuData.find(v => v.ID == this.rootId).Children.map(v => v.ID);
+                    const data = this.menuData.find(v => v.id == this.rootId).menus.map(v => v.id);
                     return data.join(",");
                 }
                 return "";
@@ -194,3 +156,4 @@
         margin-bottom: 15px;
     }
 </style>
+

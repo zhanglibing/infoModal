@@ -32,9 +32,10 @@ export default {
                 page: this.page,
                 pageSize: this.limit,
                 type: this.PTYPE,
-                title:this.title,
+                title: this.title,
+                categoryId: this.categoryIds || '',
             };
-            const {count,rows} = await this.api.content.getList(params);
+            const {count, rows} = await this.api.content.getList(params);
             this.data = rows;
             this.count = count;
         },

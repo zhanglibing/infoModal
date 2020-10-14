@@ -3,28 +3,28 @@
         <div class="banner_box">
             <el-carousel height="450px">
                 <el-carousel-item v-for="item in data" :key="item.ID">
-                    <img :src="item.BANNERIMGURL" alt="" class="banner_img" @click="goBanner(item.IDETAILS)">
+                    <img :src="item.bannerUrl" alt="" class="banner_img" @click="goBanner(item.IDETAILS)">
                     <div class="tip_wrapper">
                         <div class="title">
-                            {{item.INAME}}
+                            {{item.title}}
                         </div>
                         <div class="desc">
-                            {{item.IDIC}}
+                            {{item.introduce}}
                         </div>
                         <div class="more_box">
-                            <div class="more" @click="goBanner(item.IDETAILS)">了解更多</div>
+                            <div class="more" @click="goBanner(item)">了解更多</div>
                         </div>
                     </div>
                 </el-carousel-item>
             </el-carousel>
         </div>
         <div class="news_wrapper" v-if="$store.state.menuList.length">
-            <newBox :currentMenu="item" v-for="item in showHomeMenu" :key="item.ID"></newBox>
+            <newBox :currentMenu="item" v-for="item in showHomeMenu" :key="item.id"></newBox>
         </div>
         <div class="partners">
             <div class="partners_list">
-                <a :href="item.BANNERIMGURL" target="_blank" v-for="item in partnersList"
-                   :key="item.ID">{{item.INAME}}</a>
+                <a :href="item.bannerUrl" target="_blank" v-for="item in partnersList"
+                   :key="item.ID">{{item.title}}</a>
             </div>
         </div>
     </div>
@@ -55,13 +55,10 @@
                 let params = {
                     page: 1,
                     limit: 10,
-                    PTYPE: 2, //产品大类型1心理课程2心理文章3心理fm
-                    PNAME: "",
-                    PSTS: -1,
+                    type: 0,
                 };
-                const {data, count} = await this.api.product.getProductList(params);
-                this.data = data;
-                data.forEach(val => this.getProduct(val.ID));
+                const {rows, count} = await this.api.content.getList(params);
+                this.data = rows;
                 this.count = count;
             },
             async getProduct(PID) {
@@ -85,28 +82,31 @@
             async getPartnersList() {
                 let params = {
                     page: 1,
-                    limit: 10,
-                    PTYPE: 3, //产品大类型1心理课程2心理文章3心理fm
-                    PNAME: "",
-                    PSTS: -1,
+                    pageSize: 100,
+                    type: 1,
                 };
-                const {data, count} = await this.api.product.getProductList(params);
-                this.partnersList = data;
+                const {rows, count} = await this.api.content.getList(params);
+                this.partnersList = rows;
             },
             goBanner(obj) {
-                const {ID, CATEGORYID} = JSON.parse(obj);
-                const menuData = this.getMenu(CATEGORYID);
-                this.$router.push(`/home/list/${menuData.parent.PURL}/${menuData.child.PURL}/${ID}`);
+                // content1: id,
+                //     content: title,
+                //     categoryId,
+                console.log(obj)
+                const {categoryId, content1} = obj;
+                const menuData = this.getMenu(categoryId);
+                this.$router.push(`/home/list/${menuData.parent.url}/${menuData.child.url}/${content1}`);
             },
-            getMenu(CATEGORYID) {
+            getMenu(categoryId) {
                 let child;
                 let parent;
-                if (!CATEGORYID) {
+                if (!categoryId) {
                     return "";
                 }
+                console.log(this.$store.state.menuList)
                 this.$store.state.menuList.some(v => {
-                    if (v.Children.some(val => {
-                        if (val.ID === CATEGORYID) {
+                    if (v.menus.some(val => {
+                        if (val.id == categoryId) {
                             child = val;
                             return true;
                         }
@@ -123,7 +123,7 @@
         },
         computed: {
             showHomeMenu() {
-                return this.$store.state.menuList.filter(v => v.PDIS == "1");
+                return this.$store.state.menuList.filter(v => v.showType == 1);
             },
         },
 

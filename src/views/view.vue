@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="card_box">
-            <div class="title">{{detail.TITLE}}</div>
-            <div class="time">{{detail.CREATEDDATE.slice(0,10)}}</div>
-            <div v-html="detail.FULL"></div>
+            <div class="title">{{detail.title}}</div>
+            <div class="time">{{detail.createdAt.slice(0,10)}}</div>
+            <div v-html="detail.content"></div>
         </div>
         <!--        <div class="card_box">-->
         <!--            <div class="upload_box">-->
@@ -26,7 +26,7 @@
         methods: {
             async getProduct() {
                 try {
-                    this.detail = await this.api.product.getContent({cid: this.$route.params.id});
+                    this.detail = await this.api.content.detail({id: this.$route.params.id});
                 } catch (e) {
                     this.$message.error(e);
                 }

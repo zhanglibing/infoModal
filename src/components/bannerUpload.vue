@@ -40,13 +40,16 @@
                 imageUrl: '',
             }
         },
+        created(){
+            console.log(this.getHttp())
+        },
         methods: {
             getHttp(){ //返回上传图片host
-                return `${apiHost}Media/UploadingFormFile?prefix=banner`;
+                return `${apiHost}upload`;
             },
             handleAvatarSuccess(res, file) {
-                let {code, data} = res;
-                if (code == 0) {
+                let {code,data} = res;
+                if (code == 200) {
                     this.$message.success("上传成功");
                     this.imageUrl = data;
                     this.$emit('getImgUrl', data);

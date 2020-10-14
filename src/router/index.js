@@ -2,15 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import login from "@/views/login/login";
 import page from "@/views/page";
-import store from '../vuex/store';
+import store from "../vuex/store";
 
 const routerPush = Router.prototype.push;
 
 Router.prototype.push = function push(location) {
 
-    return routerPush.call(this, location).catch(error => error)
+    return routerPush.call(this, location).catch(error => error);
 
-}
+};
 
 
 Vue.use(Router);
@@ -30,28 +30,67 @@ const routers = new Router({
         {
             path: "/home",
             component: resolve => require(["@/views/wrapper"], resolve),
-            name: 'home',
+            name: "home",
             children: [
                 {
                     path: "",
                     component: resolve => require(["@/views/home"], resolve),
-                    name: 'home',
+                    name: "home",
+                },
+                {
+                    path: "unit",
+                    component: resolve => require(["@/views/unit"], resolve),
+                    name: "unit",
                 },
                 {
                     path: "list/:name/:child?/:id?",
                     component: resolve => require(["@/views/list"], resolve),
-                    name: 'home',
-                }
-            ]
+                    name: "home",
+                },
+            ],
         },
         {
             path: "/admin",
             component: resolve => require(["@/views/admin"], resolve),
             meta: {auth: true},
             showMenu: true,  //展示菜单栏
-            title: '后台管理',
-            name: '后台管理',
+            title: "后台管理",
+            name: "后台管理",
             children: [
+                {
+                    path: "customer",
+                    component: page,
+                    title: "用户管理",
+                    name: "用户管理",
+                    icon: "el-icon-setting",
+                    meta: {
+                        auth: true,
+                    },
+                    children: [
+                        {
+                            path: "",
+                            component: resolve => require(["@/views/customer/list"], resolve),
+                            title: "账户列表",
+                            name: "账户列表",
+                        },
+                        {
+                            path: "role",
+                            component: resolve => require(["@/views/customer/role"], resolve),
+                            name: "用户列表",
+                            title: "用户列表",
+                            meta: {
+                                auth: true,
+                            },
+                        },
+                        {
+                            path: "edit",
+                            name: "用户详情",
+                            title: "用户详情",
+                            component: resolve => require(["@/views/customer/edit"], resolve),
+                            hidMenu: true,
+                        },
+                    ],
+                },
                 {
                     path: "banner",
                     icon: "el-icon-menu",
@@ -82,7 +121,7 @@ const routers = new Router({
                             name: "banner新增",
                             hideMenu: true,
                         },
-                    ]
+                    ],
                 },
 
                 {
@@ -122,8 +161,41 @@ const routers = new Router({
                             name: "内容新增",
                             hideMenu: true,
                         },
-                    ]
-                }, {
+                    ],
+                },
+                {
+                    path: "business",
+                    icon: "el-icon-menu",
+                    component: page,
+                    title: "联合单位管理",
+                    name: "联合单位管理",
+                    children: [
+                        {
+                            path: "",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/business/index"], resolve),
+                            title: "联合单位管理列表",
+                            name: "联合单位管理列表",
+                        },
+                        {
+                            path: "edit",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/business/edit"], resolve),
+                            title: "联合单位管理编辑",
+                            name: "联合单位管理编辑",
+                            hideMenu: true,
+                        },
+                        {
+                            path: "add",
+                            icon: "el-icon-menu",
+                            component: resolve => require(["@/views/business/add"], resolve),
+                            title: "联合单位管理新增",
+                            name: "联合单位管理新增",
+                            hideMenu: true,
+                        },
+                    ],
+                },
+                {
                     path: "partners",
                     icon: "el-icon-menu",
                     component: page,
@@ -153,7 +225,7 @@ const routers = new Router({
                             name: "合作单位新增",
                             hideMenu: true,
                         },
-                    ]
+                    ],
                 },
             ],
         },
@@ -186,12 +258,12 @@ routers.beforeEach((to, from, next) => {
             //         next({path:'/'});
             //     }
             // }
-            next()
+            next();
         } else {
-            next({path: '/'})
+            next({path: "/"});
         }
     } else {
-        next()
+        next();
     }
-})
+});
 export default routers;

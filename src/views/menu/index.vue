@@ -15,13 +15,13 @@
                             @node-click="nodeClick"
                             :default-checked-keys="[1]">
                         <div class="custom-tree-node" slot-scope="{ node, data }">
-                            <div :class="`flex_box ${clickId==data.ID?'active':''}`">
-                                <span>{{ data.PNAME }}
-                                    <span v-if="data.PLVL==1"
-                                        style="color:red;font-size:10px;"> 顺序：{{data.PINDEX}}</span></span>
-                                <div class="tree_btn_box" v-if="clickId==data.ID">
+                            <div :class="`flex_box ${clickId==data.id?'active':''}`">
+                                <span>{{ data.name }}
+                                    <span v-if="data.parentId==0"
+                                          style="color:red;font-size:10px;"> 顺序：{{data.sort}}</span></span>
+                                <div class="tree_btn_box" v-if="clickId==data.id">
                                     <template>
-                                        <i v-if="data.PLVL==1" class="el-icon-circle-plus"
+                                        <i v-if="data.parentId==0" class="el-icon-circle-plus"
                                            @click="() => add(data,node)"></i>
                                         <i class="el-icon-edit-outline" @click="() => edit(data,node)"></i>
                                         <i class="el-icon-delete" @click="() => deleteMenu(data,node)"></i>
@@ -38,8 +38,8 @@
             </div>
         </div>
 
-        <add-root-menu :data="activeMenu" :dialogVisible="isShowRootDialog" @hideDialog="hideDialog"></add-root-menu>
-        <add-child-menu :data="activeMenu" :PPID="clickId" :dialogVisible="isShowChildDialog"
+        <add-root-menu :data="activeMenu" v-if="isShowRootDialog" :dialogVisible="isShowRootDialog" @hideDialog="hideDialog"></add-root-menu>
+        <add-child-menu :data="activeMenu" v-if="isShowChildDialog" :PPID="clickId" :dialogVisible="isShowChildDialog"
                         @hideDialog="hideDialog"></add-child-menu>
 
     </el-card>
@@ -60,8 +60,8 @@
                 activeName: "first",
                 data: [],
                 defaultProps: {
-                    children: "Children",
-                    label: "PNAME",
+                    children: "menus",
+                    label: "name",
                 },
                 activeMenu: {},
                 showInfoMenu: {},
@@ -71,13 +71,11 @@
             };
         },
         created() {
-            this.getRsPageModelByMID();
+            this.getList();
         },
         methods: {
-            async getRsPageModelByMID() {
-                let {data = []} = await this.api.menu.getRsPageModelByMID({});
-                // const {data = []} = await this.api.menu.getCategory({});
-                data = data.sort((a, b) => a.PINDEX - b.PINDEX)
+            async getList() {
+                let data = await this.api.menu.getList({});
                 this.data = data;
             },
             add(data, node) {
@@ -85,7 +83,7 @@
             },
             edit(data, node) {
                 this.activeMenu = data;
-                if (data.PLVL == 1) {
+                if (data.parentId == 0) {
                     this.isShowRootDialog = true;
                 } else {
                     this.isShowChildDialog = true;
@@ -97,31 +95,32 @@
                 this.isShowRootDialog = false;
                 this.isShowChildDialog = false;
                 if (isRefresh) {
-                    this.getRsPageModelByMID();
+                    this.getList();
                 }
 
             },
             nodeClick(node) {
                 setTimeout(() => {
                     this.showInfoMenu = node;
-                    this.clickId = node.ID;
+                    this.clickId = node.id;
                 });
             },
             handleClick() {
 
             },
             deleteMenu(data, node) {
+                console.log(data,node)
                 this.$confirm("确认删除该菜单吗?", "提示", {
                     confirmButtonText: "确定",
                     cancelButtonText: "取消",
                     type: "warning",
                 }).then(() => {
-                    this.api.menu.deleteMenu(data.ID).then(res => {
+                    this.api.menu.deleteMenu({id:data.id}).then(res => {
                         this.$message({
                             type: "success",
                             message: "删除成功!",
                         });
-                        this.getRsPageModelByMID();
+                        this.getList();
                     }).catch(err => {
                         this.$message.error(err);
                     });

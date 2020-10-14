@@ -3,33 +3,33 @@
                :close-on-click-modal="false"
                @close="hideDialog">
         <el-form :model="form" ref="form" :rules="rules" label-position="right" label-width="90px">
-            <el-form-item label="菜单名" prop="PNAME">
-                <el-input v-model="form.PNAME" placeholder="菜单名称" autocomplete="off"></el-input>
+            <el-form-item label="菜单名" prop="name">
+                <el-input v-model="form.name" placeholder="菜单名称" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="英文名" prop="PURL">
-                <el-input v-model.trim="form.PURL" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
+            <el-form-item label="英文名" prop="url">
+                <el-input v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="展示类型">
                 <el-switch
-                        v-model="form.PINDEX"
+                        v-model="form.showType"
                         :active-value="0"
                         :inactive-value="1"
                         active-text="列表"
                         inactive-text="详情">
                 </el-switch>
             </el-form-item>
-            <el-form-item label="关联内容ID" prop="PDIS" v-if="form.PINDEX==1">
-                <el-input v-model.trim="form.PDIS" placeholder="关联内容ID" autocomplete="off"></el-input>
+            <el-form-item label="关联内容ID" prop="contentId" v-if="form.showType==1">
+                <el-input v-model.trim="form.contentId" placeholder="关联内容ID" autocomplete="off"></el-input>
                 <p style="color:red;">如果填写了关联内容ID，则直接跳转对应的内容详情否则将查找对应列表的第一个内容作为展示</p>
             </el-form-item>
             <el-form-item label="banner">
-                <bannerUpload :imgPath="form.PLOGOURL" @getImgUrl="getImgUrl"></bannerUpload>
+                <bannerUpload :imgPath="form.bannerUrl" @getImgUrl="getImgUrl"></bannerUpload>
             </el-form-item>
             <el-form-item label="菜单状态">
                 <el-switch
-                        v-model="form.PSTS"
-                        :active-value="1"
-                        :inactive-value="0"
+                        v-model="form.status"
+                        :active-value="true"
+                        :inactive-value="false"
                         active-text="启用"
                         inactive-text="暂停">
                 </el-switch>
@@ -67,21 +67,27 @@
         data() {
             return {
                 form: {
-                    PNAME: "",
-                    PURL: "",
-                    PLOGOURL: "",
-                    PDIS: "",
-                    PSTS: 1,
-                    PINDEX: 0,
+                    name: "",
+                    url: "",
+                    bannerUrl: "",
+                    contentId: "",
+                    status: true,
+                    showType: 0,
                 },
                 rules: {
-                    PNAME: [
+                    name: [
                         {required: true, message: "请输入菜单名", trigger: "blur"},
                     ],
-                    PURL: [
+                    url: [
                         {required: true, message: "请输入菜单URL", trigger: "blur"},
                     ],
                 },
+            };
+        },
+        created(){
+            this.form = {
+                ...this.form,
+                ...this.data,
             };
         },
         methods: {
@@ -89,11 +95,11 @@
                 this.$emit("hideDialog");
                 this.$refs.form.resetFields();
                 this.form = {
-                    PNAME: "",
-                    PURL: "",
-                    PLOGOURL: "",
-                    PDIS: "",
-                    PSTS: 1,
+                    name: "",
+                    url: "",
+                    bannerUrl: "",
+                    showType: "",
+                    status: 1,
                 };
             },
             async addMenu() {
@@ -103,10 +109,10 @@
                             ...this.form,
                         };
                         // 新增和编辑有错位
-                        if (!params.PPID) {
-                            params.PPID = this.PPID;
+                        if (!params.parentId) {
+                            params.parentId = this.PPID;
                         }
-                        let fun = this.form.ID ? this.api.menu.updateMenu : this.api.menu.addMenu;
+                        let fun = this.form.id ? this.api.menu.update : this.api.menu.add;
                         fun(params).then(res => {
                             this.$message.success("操作成功");
                             this.$emit("hideDialog", true);
@@ -118,15 +124,15 @@
 
             },
             getImgUrl(url) {
-                this.form.PLOGOURL = url;
+                this.form.bannerUrl = url;
             },
         },
         watch: {
             data: {
                 handler(newValue, oldValue) {
-                    const {ID} = newValue;
-                    if (ID) {
-                        this.form = {...this.form, ...newValue};
+                    const {id} = newValue;
+                    if (id) {
+                        this.form = {...this.form, ...newValue,};
                     }
                 },
                 deep: true,

@@ -1,13 +1,13 @@
 <template>
     <div class="new_box">
         <div class="model_box">
-            <span class="name"><img src="../assets/icon1.png" alt="">{{currentMenu.PNAME}}</span>
-            <router-link :to="`/home/list/${currentMenu.PURL}`">更多 ></router-link>
+            <span class="name"><img src="../assets/icon1.png" alt="">{{currentMenu.name}}</span>
+            <router-link :to="`/home/list/${currentMenu.url}`">更多 ></router-link>
         </div>
         <div class="new_item" v-for="item in list" :key="item.ID"
              @click="goView(item)">
-            <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
-            <div class="new_name">{{item.TITLE}}</div>
+            <span class="time">{{item.createdAt.slice(0,10)}}</span>
+            <div class="new_name">{{item.title}}</div>
         </div>
     </div>
 </template>
@@ -32,17 +32,19 @@
             async getContentList() {
                 let params = {
                     page: 1,
-                    limit: 10,
-                    categoryId: this.currentMenu.Children.map(v => v.ID).join(','),
+                    pageSize: 10,
+                    type: 3,
+                    categoryId: this.currentMenu.menus.map(v => v.id).join(','),
                 };
-                const {data, count} = await this.api.product.getContentList(params);
-                this.list = data;
+                const {rows, count} = await this.api.content.getList(params);
+                this.list = rows;
                 this.count = count;
             },
-            goView({ID, CATEGORYID}) {
-                const {PURL, Children = []} = this.currentMenu;
-                const childUrl = Children.find(v => v.ID == CATEGORYID) || {};
-                this.$router.push(`/home/list/${PURL}/${childUrl.PURL || ""}/${ID}`);
+            goView({id, categoryId}) {
+                const {url, menus = []} = this.currentMenu;
+                const childUrl = menus.find(v => v.id == categoryId) || {};
+                console.log(`/home/list/${url}/${childUrl.url || ""}/${id}`)
+                this.$router.push(`/home/list/${url}/${childUrl.url || ""}/${id}`);
             },
         },
     };

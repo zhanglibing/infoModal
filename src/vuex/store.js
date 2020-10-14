@@ -70,8 +70,7 @@ const actions = {
         if (state.isHttpMenu) {
             return state.menuList;
         }
-        let {data} = await api.menu.getRsPageModelByMID({})
-        data = data.sort((a, b) => a.PINDEX - b.PINDEX)
+        let data = await api.menu.getList({})
         commit('setMenuList', data);
         return data;
     },

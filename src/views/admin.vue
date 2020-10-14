@@ -7,7 +7,7 @@
                 </div>
                 <div class="user_info">
                     <span class="username">
-                      当前账户：{{userInfo.ULOGINNAME}}
+                      当前账户：{{userInfo.username}}
                   </span>
                     <div class="menu_icon">
                         <el-button size="mini" @click="loginOut">退出登录</el-button>
@@ -18,7 +18,7 @@
         </el-header>
         <div class="container maxH ">
             <div class="aside" :class="{active:collapse}">
-                <div class="menu_list_box" v-if="!isShowMenu">
+                <div class="menu_list_box" v-if="!isShowMenu&&userInfo.isSystemUser">
                     <el-menu
                             class="el-menu-vertical-demo"
                             @open="handleOpen"
@@ -58,7 +58,7 @@
 
             </div>
             <div class="main-container">
-                <div class="bread_box">
+                <div class="bread_box" v-if="userInfo.isSystemUser">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item v-for="item in routerList"
                                             :key="item.path"
@@ -93,9 +93,7 @@
                 collapse: false,
                 items: [],
                 activeModelType: '/basic',  // 当前激活的模块
-                menus: [
-
-                ]
+                menus: []
             };
         },
         created() {
@@ -126,7 +124,9 @@
             },
             //注销登录
             loginOut() {
-                this.api.login.loginOut();
+                this.$store.commit('setUserInfo', null);
+                this.$router.push('/')
+                // this.api.login.loginOut();
             },
         },
         computed: {
@@ -138,7 +138,7 @@
                 return this.$route.path.includes('mall');
             },
             routerList() {
-                return this.$route.matched.filter(v=>v.path!=='/admin');
+                return this.$route.matched.filter(v => v.path !== '/admin');
             },
         },
     };
@@ -311,6 +311,7 @@
 
             min-height: calc(100vh - 120px);
             background: rgba(0, 21, 41, 1);
+
             .el-menu-item {
                 padding: 0 20px !important;
                 height: 40px !important;

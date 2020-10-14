@@ -1,10 +1,10 @@
 <template>
     <div class="list_box">
         <ul>
-            <li class="new_item" v-for="item in list" :key="item.ID" @click="goView(item.ID)">
-                <span class="time">{{item.CREATEDDATE.slice(0,10)}}</span>
+            <li class="new_item" v-for="item in list" :key="item.id" @click="goView(item.id)">
+                <span class="time">{{item.createdAt.slice(0,10)}}</span>
                 <div class="new_name">
-                    {{item.TITLE}}
+                    {{item.title}}
                 </div>
             </li>
         </ul>
@@ -38,11 +38,12 @@
             async getContentList() {
                 let params = {
                     page: this.page,
-                    limit: this.limit,
-                    categoryId:this.categoryId,
+                    pageSize: this.limit,
+                    categoryId: this.categoryId,
+                    type: 3,
                 };
-                const {data, count} = await this.api.product.getContentList(params);
-                this.list = this.list.concat(data);
+                const {rows, count} = await this.api.content.getList(params);
+                this.list = this.list.concat(rows);
                 this.count = count;
             },
             loadingMore() {

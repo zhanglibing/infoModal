@@ -10,10 +10,10 @@
                 <div class="nav_bg">
                     <ul>
                         <router-link tag="li"
-                                     :to="`/home/list/${$route.params.name}/${item.PURL}${item.PINDEX&&item.PDIS?`/${item.PDIS}`:''}`"
+                                     :to="`/home/list/${$route.params.name}/${item.url}${item.contentId&&item.showType==1?'/'+item.contentId:''}`"
                                      v-for="item in navs"
-                                     :key="item.ID">
-                            {{item.PNAME}}
+                                     :key="item.id">
+                            {{item.name}}
                         </router-link>
                     </ul>
                     <div class="position">
@@ -23,10 +23,10 @@
 
             </div>
             <div class="content_box" v-if="currentChild">
-                <div class="banner_box" v-if="currentChild.PLOGOURL">
-                    <el-image :src="currentChild.PLOGOURL"></el-image>
+                <div class="banner_box" v-if="currentChild.bannerUrl">
+                    <el-image :src="currentChild.bannerUrl"></el-image>
                 </div>
-                <new-list v-if="$route.params.child&&!$route.params.id" :categoryId="currentChild.ID"></new-list>
+                <new-list v-if="$route.params.child&&!$route.params.id" :categoryId="currentChild.id"></new-list>
                 <views v-if="$route.params.id"></views>
             </div>
         </div>
@@ -55,13 +55,13 @@
             async init() {
                 const {name, child, id} = this.$route.params;
                 const data = await this.$store.dispatch("getMenuList");
-                this.currentMenu = data.find(v => v.PURL === name);
-                this.navs = data.find(v => v.PURL === name).Children;
+                this.currentMenu = data.find(v => v.url == name);
+                this.navs = data.find(v => v.url == name).menus;
                 if (!child && this.navs.length && !id) {
                     const child = this.navs[0];
-                    this.$router.push(`/home/list/${name}/${child.PURL}${child.PINDEX && child.PDIS ? `/${child.PDIS}` : ''}`);
+                    this.$router.push(`/home/list/${name}/${child.url}${child.contentId && child.showType == 1 ? '/' + child.contentId : ''}`);
                 } else {
-                    this.currentChild = this.navs.find(v => v.PURL === child);
+                    this.currentChild = this.navs.find(v => v.url === child);
                 }
             },
             goView(id) {

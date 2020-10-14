@@ -9,7 +9,7 @@ import store from "../vuex/store";
 import router from "../router";
 import {Message} from "element-ui";
 
-const HOST = "http://localhost:5000/api/";
+const HOST = "http://106.13.74.51:8888/api/";
 // const apiHost = HOST;
 window.apiHost = HOST;
 axios.defaults.baseURL = HOST;
@@ -21,7 +21,7 @@ axios.interceptors.request.use((config) => {
 
     if (config.method === "post") {
         config.data = qs.stringify({
-            createId: store.state.userInfo.id,
+            createId: store.state.userInfo ? store.state.userInfo.id : '',
             ...config.data,
         });
     } else {
@@ -94,7 +94,7 @@ axios.interceptors.response.use(response => {
 export function get(url, params = {}) {
     return new Promise((resolve, reject) => {
         axios.get(url, {params}).then(res => {
-            let {code, message,data} = res;
+            let {code, message, data} = res;
             if (code == 200) {
                 resolve(data);
             }

@@ -3,51 +3,35 @@
                :close-on-click-modal="false"
                @close="hideDialog">
         <el-form :model="form" :rules="rules" ref="form" label-position="right" label-width="110px">
-            <el-form-item label="菜单名" prop="PNAME">
-                <el-input v-model="form.PNAME" placeholder="菜单名称" autocomplete="off"></el-input>
+            <el-form-item label="菜单名" prop="name">
+                <el-input v-model="form.name" placeholder="菜单名称" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="英文名" prop="PURL">
-                <el-input v-model.trim="form.PURL" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
+                <el-input v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="显示顺序" prop="PINDEX">
-                <el-input-number v-model="form.PINDEX" @change="handleChange" :min="0" :max="1000" label="显示顺序"></el-input-number>
+            <el-form-item label="显示顺序" prop="sort">
+                <el-input-number v-model="form.sort" @change="handleChange" :min="0" :max="1000"
+                                 label="显示顺序"></el-input-number>
             </el-form-item>
             <el-form-item label="首页是否展示">
                 <el-switch
-                        v-model="form.PDIS"
-                        active-value="1"
-                        inactive-value="0"
-                        active-text="展示"
-                        inactive-text="不展示">
-                </el-switch>
-            </el-form-item>
-            <el-form-item label="是否在导航栏展示">
-                <el-switch
-                        v-model="form.PSTS"
+                        v-model="form.showType"
                         :active-value="1"
                         :inactive-value="0"
                         active-text="展示"
                         inactive-text="不展示">
                 </el-switch>
             </el-form-item>
+            <el-form-item label="是否在导航栏展示">
+                <el-switch
+                        v-model="form.status"
+                        :active-value="true"
+                        :inactive-value="false"
+                        active-text="展示"
+                        inactive-text="不展示">
+                </el-switch>
+            </el-form-item>
         </el-form>
-        <!--        <el-form :model="form" :rules="rules" ref="form" label-position="right" label-width="90px">-->
-        <!--            <el-form-item label="菜单名" prop="NAME">-->
-        <!--                <el-input v-model="form.NAME" placeholder="菜单名称" autocomplete="off"></el-input>-->
-        <!--            </el-form-item>-->
-        <!--            <el-form-item label="菜单URL" prop="DESCRIPTION">-->
-        <!--                <el-input v-model="form.DESCRIPTION" autocomplete="off"></el-input>-->
-        <!--            </el-form-item>-->
-        <!--            <el-form-item label="菜单状态">-->
-        <!--                <el-switch-->
-        <!--                        v-model="form.PSTS"-->
-        <!--                        :active-value="1"-->
-        <!--                        :inactive-value="0"-->
-        <!--                        active-text="启用"-->
-        <!--                        inactive-text="暂停">-->
-        <!--                </el-switch>-->
-        <!--            </el-form-item>-->
-        <!--        </el-form>-->
         <div slot="footer" class="dialog-footer">
             <el-button @click="hideDialog">取 消</el-button>
             <el-button type="primary" @click="addMenu">确 定</el-button>
@@ -72,52 +56,46 @@
         data() {
             return {
                 form: {
-                    PNAME: "",
-                    PURL: "",
-                    PLOGOURL: "",
-                    PDIS: '0', //是否在首页展示
-                    PSTS: 1, //是否启用
-                    PINDEX: 0,
-
-                    // NAME: '',
-                    // DESCRIPTION: '测试', //  说明
-                    // PARENTCATEGORYID: 0, // 父节点
-                    // PICTUREURL: '', //banner
-                    // SHOWONHOMEPAGE: false,  //是否在首页显示
-                    // INCLUDEINTOPMENU: true, //是否显示在菜单
-                    // PUBLISHED: true,
-                    // DISPLAYORDER: '', // 排序
+                    name: "",
+                    url: "",
+                    bannerUrl: "",
+                    showType: "0", //是否在首页展示
+                    status: true, //是否启用
+                    sort: 0,
                 },
                 rules: {
-                    PNAME: [
+                    name: [
                         {required: true, message: "请输入菜单名", trigger: "blur"},
                     ],
-                    PURL: [
+                    url: [
                         {required: true, message: "请输入菜单URL", trigger: "blur"},
                     ],
                 },
             };
         },
         created() {
+            this.form = {
+                ...this.form,
+                ...this.data,
+            };
         },
         methods: {
             hideDialog() {
                 this.$emit("hideDialog");
                 this.$refs.form.resetFields();
                 this.form = {
-                    PNAME: "",
-                    PURL: "",
-                    PLOGOURL: "",
-                    PDIS: '0',
-                    PSTS: 1,
+                    name: "",
+                    url: "",
+                    bannerUrl: "",
+                    showType: "0",
+                    status: 1,
                 };
             },
             async addMenu() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        const {add, updateCategory, updateMenu, addMenu} = this.api.menu;
-                        let fun = this.form.ID ? updateMenu : addMenu;
-                        // let fun = this.form.ID ?updateCategory: add ;
+                        const {update, add} = this.api.menu;
+                        let fun = this.form.id ? update : add;
                         fun({...this.form}).then(res => {
                             this.$message.success("操作成功");
                             this.$emit("hideDialog", true);
@@ -132,10 +110,11 @@
         watch: {
             data: {
                 handler(newValue, oldValue) {
-                    const {ID} = newValue;
-                    if (ID) {
+                    const {id} = newValue;
+                    if (id) {
                         this.form = {
-                            ...this.from, ...newValue,
+                            ...this.form,
+                            ...newValue,
                         };
                         console.log(this.from);
                     }

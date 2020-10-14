@@ -14,20 +14,20 @@
             <div class="content_box">
                 <router-link tag="div" to="/home" class="home">首页</router-link>
                 <div v-for="item in showMenu"
-                     :key="item.ID">
-                    <router-link tag="div" :to="`/home/list/${item.PURL}`" class="other">
-                        {{item.PNAME}}
+                     :key="item.id">
+                    <router-link tag="div" :to="`/home/list/${item.url}`" class="other">
+                        {{item.name}}
                     </router-link>
                     <div class="select_box">
                         <router-link class="child_item" tag="div"
-                                     :to="`/home/list/${item.PURL}/${child.PURL}${child.PINDEX&&child.PDIS?`/${child.PDIS}`:''}`"
-                                     v-for="child in item.Children"
-                                     :key="child.ID"
-                        >{{child.PNAME}}
+                                     :to="`/home/list/${item.url}/${child.url}${child.contentId&&child.showType==1?'/'+child.contentId:''}`"
+                                     v-for="child in item.menus"
+                                     :key="child.id"
+                        >{{child.name}}
                         </router-link>
                     </div>
                 </div>
-
+                <router-link tag="div" to="/home/unit" class="home">联合单位</router-link>
             </div>
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
@@ -43,8 +43,7 @@
         },
         computed: {
             showMenu() {
-                // PSTS
-                return this.$store.state.menuList.filter(val => val.PSTS == 1);
+                return this.$store.state.menuList.filter(val => val.status);
             }
         }
     };
