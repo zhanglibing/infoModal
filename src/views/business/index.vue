@@ -3,7 +3,7 @@
         <el-card>
             <div class="search-box">
                 <label for=""><b>企业名称：</b>
-                    <el-input placeholder="请输入" v-model.trim="title" clearable></el-input>
+                    <el-input placeholder="请输入" v-model.trim="name" clearable></el-input>
                 </label>
                 <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
                 <el-button type="primary" @click="add">新增</el-button>
@@ -51,7 +51,7 @@
                 page: 1,
                 limit: 10,
                 count: 2,
-                title: "",
+                name: "",
             };
         },
         created() {
@@ -70,7 +70,7 @@
                 let params = {
                     page: this.page,
                     pageSize: this.limit,
-                    title: this.title,
+                    name: this.name,
                 };
                 const {count, rows} = await this.api.business.getList(params);
                 this.data = rows;

@@ -34,7 +34,7 @@
                     page: 1,
                     pageSize: 10,
                     type: 3,
-                    categoryId: this.currentMenu.menus.map(v => v.id).join(','),
+                    categoryId: this.currentMenu.menus.map(v => v.id).join(","),
                 };
                 const {rows, count} = await this.api.content.getList(params);
                 this.list = rows;
@@ -43,7 +43,7 @@
             goView({id, categoryId}) {
                 const {url, menus = []} = this.currentMenu;
                 const childUrl = menus.find(v => v.id == categoryId) || {};
-                console.log(`/home/list/${url}/${childUrl.url || ""}/${id}`)
+                console.log(`/home/list/${url}/${childUrl.url || ""}/${id}`);
                 this.$router.push(`/home/list/${url}/${childUrl.url || ""}/${id}`);
             },
         },
@@ -65,12 +65,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #F27102;
+            border-bottom: 2px solid #F27102;
             margin-bottom: 10px;
             padding: 4px;
 
             .name {
                 font-size: 18px;
+                font-weight: bold;
                 color: #F27102;
                 display: flex;
                 align-items: center;

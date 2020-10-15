@@ -9,6 +9,10 @@
             <el-form-item label="英文名" prop="url">
                 <el-input v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="显示顺序" prop="sort">
+                <el-input-number v-model="form.sort" :min="0" :max="1000"
+                                 label="显示顺序"></el-input-number>
+            </el-form-item>
             <el-form-item label="展示类型">
                 <el-switch
                         v-model="form.showType"
@@ -73,6 +77,7 @@
                     contentId: "",
                     status: true,
                     showType: 0,
+                    sort: 0,
                 },
                 rules: {
                     name: [
@@ -84,7 +89,7 @@
                 },
             };
         },
-        created(){
+        created() {
             this.form = {
                 ...this.form,
                 ...this.data,
@@ -100,6 +105,7 @@
                     bannerUrl: "",
                     showType: "",
                     status: 1,
+                    sort: 0,
                 };
             },
             async addMenu() {
@@ -132,7 +138,7 @@
                 handler(newValue, oldValue) {
                     const {id} = newValue;
                     if (id) {
-                        this.form = {...this.form, ...newValue,};
+                        this.form = {...this.form, ...newValue};
                     }
                 },
                 deep: true,

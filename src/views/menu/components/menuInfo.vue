@@ -6,7 +6,8 @@
         <el-form label-position="right" label-width="110px" v-if="data.id">
             <el-form-item label="菜单名：">{{data.name}}</el-form-item>
             <el-form-item label="英文名：">{{data.url}}</el-form-item>
-            <el-form-item label="是否在导航栏展示：">{{data.status?"展示":"不展示"}}</el-form-item>
+            <el-form-item label="是否在导航栏展示：" v-if="data.parentId==0">{{data.status?"展示":"不展示"}}</el-form-item>
+            <el-form-item label="启用状态：" v-else>{{data.status?"启用":"禁用"}}</el-form-item>
             <el-form-item label="banner：" v-if="data.parentId!==0">
                 <el-image
                         style="width: 100px; height: 50px"
@@ -17,7 +18,7 @@
             <el-form-item label="首页是否展示：" v-if="data.parentId==0">
                 {{data.showType==1?"展示":"不展示"}}
             </el-form-item>
-            <el-form-item label="显示顺序：" v-if="data.parentId==0">
+            <el-form-item label="显示顺序：">
                 {{data.sort}}
             </el-form-item>
             <el-form-item label="展示类型" v-if="data.parentId!=0">

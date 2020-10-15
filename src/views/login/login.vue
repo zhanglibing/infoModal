@@ -18,8 +18,10 @@
         </div>
         <div class="btn_box">
             <div>
-                <el-checkbox v-model="checked"></el-checkbox>
-                记住用户名
+                <template  v-if="!isReg">
+                    <el-checkbox v-model="checked"></el-checkbox>
+                    记住用户名
+                </template>
             </div>
             <el-button type="primary" :loading="loading" @click="reg" v-if="isReg">注册</el-button>
             <el-button type="primary" :loading="loading" @click="login" v-else>登录</el-button>
@@ -43,6 +45,12 @@
                 isReg: false,
             };
         },
+        created() {
+            const {type = ""} = this.$route.query;
+            if (type == "reg") {
+                this.isReg = true;
+            }
+        },
         mounted() {
             let {username = "", password = ""} = getLogin();
             this.username = username;
@@ -54,8 +62,8 @@
         methods: {
             goReg() {
                 this.isReg = true;
-                this.username = '';
-                this.password = '';
+                this.username = "";
+                this.password = "";
             },
             // 核对手机号
             checkUserName() {
@@ -120,15 +128,15 @@
             },
             async init(userId) {
                 const data = await this.api.business.getContentByUser({userId});
-                console.log(data)
-                if(data){
-                    this.$router.push({path: "/admin/business/edit", query: {id:data.id}});
-                }else{
+                console.log(data);
+                if (data) {
+                    this.$router.push({path: "/admin/business/edit", query: {id: data.id}});
+                } else {
                     this.$router.push("/admin/business/add");
                 }
                 this.$message.success("登录成功");
 
-            }
+            },
         },
     };
 </script>

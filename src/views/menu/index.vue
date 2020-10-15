@@ -17,8 +17,7 @@
                         <div class="custom-tree-node" slot-scope="{ node, data }">
                             <div :class="`flex_box ${clickId==data.id?'active':''}`">
                                 <span>{{ data.name }}
-                                    <span v-if="data.parentId==0"
-                                          style="color:red;font-size:10px;"> 顺序：{{data.sort}}</span></span>
+                                    <span :class="{red:data.parentId==0}" class="sort"> 顺序：{{data.sort}}</span></span>
                                 <div class="tree_btn_box" v-if="clickId==data.id">
                                     <template>
                                         <i v-if="data.parentId==0" class="el-icon-circle-plus"
@@ -38,7 +37,8 @@
             </div>
         </div>
 
-        <add-root-menu :data="activeMenu" v-if="isShowRootDialog" :dialogVisible="isShowRootDialog" @hideDialog="hideDialog"></add-root-menu>
+        <add-root-menu :data="activeMenu" v-if="isShowRootDialog" :dialogVisible="isShowRootDialog"
+                       @hideDialog="hideDialog"></add-root-menu>
         <add-child-menu :data="activeMenu" v-if="isShowChildDialog" :PPID="clickId" :dialogVisible="isShowChildDialog"
                         @hideDialog="hideDialog"></add-child-menu>
 
@@ -109,13 +109,13 @@
 
             },
             deleteMenu(data, node) {
-                console.log(data,node)
+                console.log(data, node);
                 this.$confirm("确认删除该菜单吗?", "提示", {
                     confirmButtonText: "确定",
                     cancelButtonText: "取消",
                     type: "warning",
                 }).then(() => {
-                    this.api.menu.deleteMenu({id:data.id}).then(res => {
+                    this.api.menu.deleteMenu({id: data.id}).then(res => {
                         this.$message({
                             type: "success",
                             message: "删除成功!",
@@ -153,6 +153,14 @@
                 height: 100%;
                 display: flex;
                 justify-content: space-between;
+                .sort{
+                    font-size: 12px;
+                    color:green;
+                    &.red{
+                        color:red;
+                        font-size: 8px;
+                    }
+                }
             }
 
             .flex_box {

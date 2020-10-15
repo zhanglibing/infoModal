@@ -1,8 +1,12 @@
 import {axios, post, get} from "./Ajax";
 
 //登录
-function getList(params) {
-    return get("/menu/list", params);
+async function getList(params) {
+    const data=await get("/menu/list", params);
+    data.forEach(v=>{
+        v.menus.sort((a,b)=>a.sort-b.sort);
+    })
+    return data;
 }
 
 //登录

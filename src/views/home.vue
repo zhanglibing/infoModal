@@ -183,7 +183,7 @@
         overflow: hidden;
 
         .title {
-            background: #f3d548;
+            background: #ee6c02;
             padding: 8px 15px;
             font-size: 16px;
         }

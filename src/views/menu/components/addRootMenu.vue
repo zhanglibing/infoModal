@@ -10,7 +10,7 @@
                 <el-input v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="显示顺序" prop="sort">
-                <el-input-number v-model="form.sort" @change="handleChange" :min="0" :max="1000"
+                <el-input-number v-model="form.sort"  :min="0" :max="1000"
                                  label="显示顺序"></el-input-number>
             </el-form-item>
             <el-form-item label="首页是否展示">

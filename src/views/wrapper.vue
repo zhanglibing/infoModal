@@ -3,9 +3,12 @@
         <div class="header_box">
             <div class="content">
                 <img src="../assets/logo.png" alt="">
-                <div>
+                <div class="title_box">
                     <p class="zh">工业互联网信息模型联合实验室</p>
                     <p class="en">Industrial Internet Information Model Joint Laboratory </p>
+                    <div class="login_box" v-if="!userInfo">
+                        <span @click="goLogin">登录</span>/<span @click="goReg">注册</span>
+                    </div>
                 </div>
             </div>
             <p class="name">中国信通院</p>
@@ -20,14 +23,14 @@
                     </router-link>
                     <div class="select_box">
                         <router-link class="child_item" tag="div"
-                                     :to="`/home/list/${item.url}/${child.url}${child.contentId&&child.showType==1?'/'+child.contentId:''}`"
+                                     :to="`/home/list/${item.url}/${child.url}${child.contentId&&child.showType===1?'/'+child.contentId:''}`"
                                      v-for="child in item.menus"
                                      :key="child.id"
                         >{{child.name}}
                         </router-link>
                     </div>
                 </div>
-                <router-link tag="div" to="/home/unit" class="home">联合单位</router-link>
+                <router-link tag="div" to="/home/unit" class="home">互联互通互测</router-link>
             </div>
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
@@ -37,15 +40,26 @@
     </div>
 </template>
 <script>
+    import {mapState} from "vuex";
+
     export default {
         created() {
             this.$store.dispatch("getMenuList");
         },
+        methods: {
+            goLogin() {
+                this.$router.push({path: "/login", query: {type: "login"}});
+            },
+            goReg() {
+                this.$router.push({path: "/login", query: {type: "reg"}});
+            },
+        },
         computed: {
             showMenu() {
                 return this.$store.state.menuList.filter(val => val.status);
-            }
-        }
+            },
+            ...mapState(["userInfo"]),
+        },
     };
 </script>
 <style lang="scss" scoped>
@@ -59,6 +73,7 @@
             justify-content: center;
             padding-top: 20px;
             color: #000;
+            position: relative;
 
             img {
                 width: 133px;
@@ -72,6 +87,25 @@
 
             .en {
                 font-size: 14px;
+            }
+
+            .login_box {
+                position: absolute;
+                top: 25px;
+                right: 0;
+                background: #02145F;
+                color: #fff;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                padding: 0 6px;
+                font-size: 12px;
+
+                span {
+                    display: inline-block;
+                    padding: 5px;
+                    cursor: pointer;
+                }
             }
         }
 

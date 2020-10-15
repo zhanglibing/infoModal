@@ -9,9 +9,13 @@
                     <el-input v-model.trim="newData.modelName" placeholder="模型名称"></el-input>
                 </el-form-item>
                 <el-form-item prop="testDoc" label="测试文档">
-                    <el-input v-model.trim="newData.testDoc" placeholder="测试文档"></el-input>
+                    <div class="testDoc">
+                        <span v-if="newData.testDoc">{{newData.testDoc}}</span>
+                        <uploadFile @getImgUrl="getImgUrl"></uploadFile>
+                        <el-button v-if="newData.bannerUrl" @click="uploadFileByUrl">下载</el-button>
+                    </div>
                 </el-form-item>
-                <el-form-item prop="testDoc" label="已测试项">
+                <el-form-item prop="hasTset" label="已测试项">
                     <el-input v-model.trim="newData.hasTset" placeholder="已测试项"></el-input>
                 </el-form-item>
                 <template v-if="type==='edit'">
@@ -28,7 +32,12 @@
     </div>
 </template>
 <script>
+    import uploadFile from "@/components/uploadFile";
+
     export default {
+        components: {
+            uploadFile,
+        },
         props: {
             type: {
                 type: String,
@@ -45,14 +54,20 @@
                     modelName: "",
                     hasTset: "",
                     testDoc: "",
-
+                    bannerUrl: "",
                 },
                 rules: {
-                    title: [
+                    name: [
                         {required: true, message: "合作单位名称不能为空", trigger: "blur"},
                     ],
-                    bannerUrl: [
+                    modelName: [
                         {required: true, message: "跳转链接不能为空", trigger: "blur"},
+                    ],
+                    testDoc: [
+                        {required: true, message: "跳转链接不能为空", trigger: "blur"},
+                    ],
+                    hasTset: [
+                        {required: true, message: "已测试项不能为空", trigger: "blur"},
                     ],
                 },
             };
@@ -63,6 +78,13 @@
             }
         },
         methods: {
+            getImgUrl({url, name}) {
+                this.newData.testDoc = name;
+                this.newData.bannerUrl = url;
+            },
+            uploadFileByUrl(){
+                window.open(this.newData.bannerUrl,'_self')
+            },
             async getProduct() {
                 try {
                     this.newData = await this.api.business.detail({id: this.$route.query.id});
@@ -100,7 +122,6 @@
 
             },
         },
-
     };
 </script>
 <style lang="scss" scoped="">
@@ -110,14 +131,15 @@
 
     }
 
-    .smscode_box {
+    .testDoc{
         display: flex;
         align-items: center;
-
-        img_box {
-            margin-left: 10px;
+        button{
+            margin-right: 15px;
+        }
+        span{
+            margin-right: 15px;
         }
     }
-
 
 </style>

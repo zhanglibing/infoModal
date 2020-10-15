@@ -3,7 +3,7 @@
         <div class="bread_box">
             当前位置：
             <router-link to="/home">首页</router-link>
-            / {{currentMenu.PNAME}}
+            / {{currentMenu.name}}
         </div>
         <div class="page_box">
             <div class="nav_box">
