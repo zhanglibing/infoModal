@@ -1,7 +1,7 @@
 <template>
     <div class="page_wrapper">
         <div class="banner_box">
-            <img src="../../static/images/unit_bg.jpeg" alt="">
+            <img src="../../static/images/unit_bg.png" alt="">
         </div>
         <el-table :data="data"
                   ref="multipleTable"

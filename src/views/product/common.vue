@@ -9,6 +9,13 @@
                 <el-form-item prop="content" label="内容">
                     <editor ref="editor" :msg="newData.content"></editor>
                 </el-form-item>
+                <el-form-item prop="testDoc" label="文件上传">
+                    <div class="testDoc">
+                        <span v-if="newData.content1">{{newData.content1}}</span>
+                        <uploadFile @getImgUrl="getImgUrl" style="margin-right: 10px;"></uploadFile>
+                        <el-button v-if="newData.content2" @click="uploadFileByUrl">下载</el-button>
+                    </div>
+                </el-form-item>
                 <el-form-item prop="IDETAILS" @change="rootChange" label="关联一级菜单">
                     <el-select @change="rootChange" v-model="rootId">
                         <el-option v-for="item in menuData" :key="item.id" :value="item.id"
@@ -35,9 +42,11 @@
 </template>
 <script>
     import editor from "@/components/editor/editor";
+    import uploadFile from "@/components/uploadFile";
 
     export default {
         components: {
+            uploadFile,
             editor,
         },
         props: {
@@ -55,9 +64,10 @@
                 newData: {
                     type: 3,
                     title: "",
-                    SHORT: "测试",
                     content: "",
                     categoryId: "",
+                    content1: '',
+                    content2: '',
                 },
                 rules: {
                     title: [
@@ -78,6 +88,13 @@
 
         },
         methods: {
+            getImgUrl({url, name}) {
+                this.newData.content1 = name;
+                this.newData.content2 = url;
+            },
+            uploadFileByUrl() {
+                window.open(this.newData.content2, '_self')
+            },
             //获取菜单
             async getMenus() {
                 let data = await this.api.menu.getList({});
@@ -147,12 +164,16 @@
 
     }
 
-    .smscode_box {
+    .testDoc {
         display: flex;
         align-items: center;
 
-        img_box {
-            margin-left: 10px;
+        button {
+            margin-right: 15px;
+        }
+
+        span {
+            margin-right: 15px;
         }
     }
 

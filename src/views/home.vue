@@ -3,8 +3,9 @@
         <div class="banner_box">
             <el-carousel height="450px">
                 <el-carousel-item v-for="item in data" :key="item.ID">
-                    <img :src="item.bannerUrl" alt="" class="banner_img" @click="goBanner(item.IDETAILS)">
-                    <div class="tip_wrapper">
+                    <img :src="item.bannerUrl" alt="" class="banner_img"
+                         @click="goBanner(item)">
+                    <div class="tip_wrapper" @click="goBanner(item)">
                         <div class="title">
                             {{item.title}}
                         </div>
@@ -12,7 +13,7 @@
                             {{item.introduce}}
                         </div>
                         <div class="more_box">
-                            <div class="more" @click="goBanner(item)">了解更多</div>
+                            <div class="more">了解更多</div>
                         </div>
                     </div>
                 </el-carousel-item>
@@ -24,7 +25,7 @@
         <div class="partners">
             <div class="partners_list">
                 <a :href="item.bannerUrl" target="_blank" v-for="item in partnersList"
-                   :key="item.ID">{{item.title}}</a>
+                   :key="item.id">{{item.title}}</a>
             </div>
         </div>
     </div>

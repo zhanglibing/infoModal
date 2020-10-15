@@ -5,6 +5,7 @@ async function getList(params) {
     const data=await get("/menu/list", params);
     data.forEach(v=>{
         v.menus.sort((a,b)=>a.sort-b.sort);
+        v.menus=v.menus.filter(v=>!v.delFlag)
     })
     return data;
 }

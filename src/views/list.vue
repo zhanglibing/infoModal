@@ -56,7 +56,7 @@
                 const {name, child, id} = this.$route.params;
                 const data = await this.$store.dispatch("getMenuList");
                 this.currentMenu = data.find(v => v.url == name);
-                this.navs = data.find(v => v.url == name).menus;
+                this.navs = data.find(v => v.url == name).menus.filter(v=>v.status);
                 if (!child && this.navs.length && !id) {
                     const child = this.navs[0];
                     this.$router.push(`/home/list/${name}/${child.url}${child.contentId && child.showType == 1 ? '/' + child.contentId : ''}`);

@@ -5,12 +5,12 @@
             <div class="time">{{detail.createdAt.slice(0,10)}}</div>
             <div v-html="detail.content"></div>
         </div>
-        <!--        <div class="card_box">-->
-        <!--            <div class="upload_box">-->
-        <!--                <div class="btn">下载专区</div>-->
-        <!--                点击下载-->
-        <!--            </div>-->
-        <!--        </div>-->
+        <div class="card_box" v-if="detail.content1">
+            <div class="upload_box">
+                {{detail.content1}}
+                <div class="btn" @click="uploadFileByUrl">下载专区,点击下载</div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -24,6 +24,9 @@
             this.getProduct();
         },
         methods: {
+            uploadFileByUrl() {
+                window.open(this.detail.content2, '_self')
+            },
             async getProduct() {
                 try {
                     this.detail = await this.api.content.detail({id: this.$route.params.id});
@@ -69,6 +72,8 @@
             color: #fff;
             text-align: center;
             margin-right: 10px;
+            border-radius: 6px;
+            margin-left: 10px;
         }
     }
 </style>
