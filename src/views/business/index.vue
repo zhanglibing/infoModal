@@ -14,7 +14,12 @@
                 <el-table-column prop="id" label="序号"></el-table-column>
                 <el-table-column prop="name" label="企业名称"></el-table-column>
                 <el-table-column prop="modelName" label="模型名称"></el-table-column>
-                <el-table-column prop="testDoc" label="测试文档"></el-table-column>
+                <el-table-column prop="testDoc" label="测试文档">
+                    <template slot-scope="{row:{testDoc,bannerUrl}}">
+                        {{testDoc}}
+                        <a style="color:#02145F;text-decoration: underline;margin-left: 10px;" v-if="bannerUrl" :href="bannerUrl" target="_blank">点击下载</a>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="hasTset" label="已测试项"></el-table-column>
                 <el-table-column prop="user.username" label="创建者"></el-table-column>
                 <el-table-column prop="createdAt" label="创建时间"></el-table-column>

@@ -15,6 +15,7 @@
                                 :src="row.bannerUrl"
                                 :preview-src-list="[row.bannerUrl]">
                         </el-image>
+                        点击图片预览
                     </template>
                 </el-table-column>
                 <el-table-column prop="createdAt" label="创建时间"></el-table-column>

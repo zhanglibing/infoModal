@@ -16,6 +16,9 @@
                         </el-option>
                     </el-select>
                 </label>
+                <label for=""><b>标题：</b>
+                   <el-input v-model.trim="title" clearable></el-input>
+                </label>
                 <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
                 <el-button type="primary" @click="add">新增</el-button>
             </div>
@@ -71,6 +74,7 @@
                 childData: [],
                 rootId: "",
                 categoryId: "",
+                // title:'',
             };
         },
         created() {

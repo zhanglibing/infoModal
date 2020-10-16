@@ -13,7 +13,7 @@
                 </el-form-item>
                 <el-form-item prop="content" label="选择跳转内容:">
                     <span style="margin-right: 10px;">{{newData.content}}</span>
-                    <el-button type="primary" @click="dialogVisible=true">选择产品</el-button>
+                    <el-button type="primary" size="mini" @click="dialogVisible=true">选择产品</el-button>
                 </el-form-item>
                 <el-form-item label="创建时间:" v-if="newData.id">
                     {{newData.createdAt}}

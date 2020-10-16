@@ -3,8 +3,11 @@
         <div class="title_box">
             <p class="title">工业互联网信息模型联合实验室</p>
         </div>
-        <p class="login_link" @click="goReg" style="cursor: pointer">新用户？
+        <p class="login_link" v-if="!isReg" @click="goReg" style="cursor: pointer">新用户？
             创建账户
+        </p>
+        <p class="login_link" v-else="" @click="goLogin">已有账号？
+            <router-link to="/">马上登录</router-link>
         </p>
         <div class="content_box">
             <div class="item">
@@ -15,10 +18,19 @@
                 <p class="desc">密码</p>
                 <input type="password" placeholder="请输入密码" v-model.trim="password" @keyup.enter="login">
             </div>
+            <div class="item">
+                <p class="desc">验证码</p>
+                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">
+                <div class="img_box" @click="getVerifyCode">
+                    <img :src="`${$HOST}captcha?Random=${random}`"
+                         alt="">
+                    <span>换一个</span>
+                </div>
+            </div>
         </div>
         <div class="btn_box">
             <div>
-                <template  v-if="!isReg">
+                <template v-if="!isReg">
                     <el-checkbox v-model="checked"></el-checkbox>
                     记住用户名
                 </template>
@@ -43,6 +55,8 @@
                 checked: false,
                 loading: false,
                 isReg: false,
+                vcode: "",
+                random: Math.random(),
             };
         },
         created() {
@@ -50,6 +64,7 @@
             if (type == "reg") {
                 this.isReg = true;
             }
+            this.getVerifyCode()
         },
         mounted() {
             let {username = "", password = ""} = getLogin();
@@ -60,10 +75,22 @@
             }
         },
         methods: {
+            getVerifyCode() {
+                this.random = (Math.random()).toFixed(5) * 100000;
+            },
             goReg() {
                 this.isReg = true;
                 this.username = "";
                 this.password = "";
+                this.getVerifyCode();
+                this.vcode='';
+            },
+            goLogin() {
+                this.isReg = false;
+                this.username = "";
+                this.password = "";
+                this.getVerifyCode();
+                this.vcode='';
             },
             // 核对手机号
             checkUserName() {
@@ -75,6 +102,14 @@
                     this.$message.error("密码不能为空");
                     return false;
                 }
+                if (!this.vcode) {
+                    this.$message.error("验证码不能为空");
+                    return false;
+                }
+                if (this.vcode.length < 4) {
+                    this.$message.error("请输入正确的验证码");
+                    return false;
+                }
                 return true;
             },
             login() {
@@ -84,6 +119,8 @@
                 let option = {
                     username: this.username,
                     password: this.$md5(this.password),
+                    vcode: this.vcode,
+                    random: this.random,
                 };
                 this.loading = true;
                 this.api.login.login(option).then(res => {
@@ -106,6 +143,7 @@
                 }).catch(res => {
                     this.$message.error(res);
                     this.loading = false;
+                    this.getVerifyCode();
                 });
             },
             reg() {
@@ -115,20 +153,22 @@
                 let option = {
                     username: this.username,
                     password: this.$md5(this.password),
+                    vcode: this.vcode,
+                    random: this.random,
                 };
                 this.loading = true;
                 this.api.login.reg(option).then(res => {
                     this.$message.success("注册成功");
-                    this.isReg = false;
+                    this.goLogin();
                     this.loading = false;
                 }).catch(res => {
                     this.$message.error(res);
                     this.loading = false;
+                    this.getVerifyCode();
                 });
             },
             async init(userId) {
                 const data = await this.api.business.getContentByUser({userId});
-                console.log(data);
                 if (data) {
                     this.$router.push({path: "/admin/business/edit", query: {id: data.id}});
                 } else {

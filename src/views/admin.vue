@@ -11,7 +11,10 @@
                   </span>
                     <div class="menu_icon">
                         <el-button size="mini" @click="loginOut">退出登录</el-button>
-                        <el-button size="mini" @click="$router.push('/home')">首页</el-button>
+
+                        <el-button size="mini">
+                            <router-link to="/home" target="_blank">查看官网</router-link>
+                        </el-button>
                     </div>
                 </div>
             </div>

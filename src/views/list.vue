@@ -103,7 +103,8 @@
 
                 li {
                     position: relative;
-                    line-height: 60px;
+                    line-height: 20px;
+                    padding:15px 15px;
                     /*box-shadow: 0px 0px 5px 0px rgba(187, 187, 187, 0.38);*/
                     border-bottom: 1px solid rgba(187, 187, 187, 0.38);
                     padding-left: 40px;

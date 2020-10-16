@@ -200,6 +200,8 @@
             padding: 10px 15px;
 
             .more {
+                color: #ee6c02;
+                text-decoration: underline;
 
             }
         }
