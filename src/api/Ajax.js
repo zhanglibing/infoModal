@@ -9,13 +9,13 @@ import store from "../vuex/store";
 import router from "../router";
 import {Message} from "element-ui";
 
-// const HOST = "http://106.13.74.51:8888/api/";
-const HOST = "http://localhost:5005/api/";
+const HOST = "http://106.13.74.51:8888/api/";
+// const HOST = "http://localhost:5005/api/";
 // const apiHost = HOST;
 window.apiHost = HOST;
 axios.defaults.baseURL = HOST;
 axios.defaults.timeout = 50000;
-axios.defaults.withCredentials=true;
+axios.defaults.withCredentials = true;
 // axios.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8", "xml";// 这个无需使用qs转化
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded;charset=UTF-8", "xml";//POST传参序列化
 axios.interceptors.request.use((config) => {

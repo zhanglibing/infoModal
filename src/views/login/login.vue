@@ -18,15 +18,15 @@
                 <p class="desc">密码</p>
                 <input type="password" placeholder="请输入密码" v-model.trim="password" @keyup.enter="login">
             </div>
-            <div class="item">
-                <p class="desc">验证码</p>
-                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">
-                <div class="img_box" @click="getVerifyCode">
-                    <img :src="`${$HOST}captcha?Random=${random}`"
-                         alt="">
-                    <span>换一个</span>
-                </div>
-            </div>
+<!--            <div class="item">-->
+<!--                <p class="desc">验证码</p>-->
+<!--                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">-->
+<!--                <div class="img_box" @click="getVerifyCode">-->
+<!--                    <img :src="`${$HOST}captcha?Random=${random}`"-->
+<!--                         alt="">-->
+<!--                    <span>换一个</span>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
         <div class="btn_box">
             <div>
@@ -102,14 +102,14 @@
                     this.$message.error("密码不能为空");
                     return false;
                 }
-                if (!this.vcode) {
-                    this.$message.error("验证码不能为空");
-                    return false;
-                }
-                if (this.vcode.length < 4) {
-                    this.$message.error("请输入正确的验证码");
-                    return false;
-                }
+                // if (!this.vcode) {
+                //     this.$message.error("验证码不能为空");
+                //     return false;
+                // }
+                // if (this.vcode.length < 4) {
+                //     this.$message.error("请输入正确的验证码");
+                //     return false;
+                // }
                 return true;
             },
             login() {
