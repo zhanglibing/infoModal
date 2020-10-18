@@ -96,7 +96,7 @@
                 console.log(obj)
                 const {categoryId, content1} = obj;
                 const menuData = this.getMenu(categoryId);
-                this.$router.push(`/home/list/${menuData.parent.url}/${menuData.child.url}/${content1}`);
+                this.$router.push(`/list/${menuData.parent.url}/${menuData.child.url}/${content1}`);
             },
             getMenu(categoryId) {
                 let child;

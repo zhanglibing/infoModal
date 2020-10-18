@@ -17,30 +17,29 @@ Vue.use(Router);
 const routers = new Router({
     // mode: "history",
     routes: [
-        {
-            path: "/",
-            name: "login",
-            component: login,
-        },
+        // {
+        //     path: "/",
+        //     name: "login",
+        // },
         {
             path: "/login",
             name: "login",
             component: login,
         },
         {
-            path: "/home",
+            path: "/",
             component: resolve => require(["@/views/wrapper"], resolve),
-            name: "home",
+            name: "首页",
             children: [
                 {
                     path: "",
                     component: resolve => require(["@/views/home"], resolve),
-                    name: "home",
+                    name: "首页",
                 },
                 {
                     path: "unit",
                     component: resolve => require(["@/views/unit"], resolve),
-                    name: "unit",
+                    name: "测试工作",
                 },
                 {
                     path: "list/:name/:child?/:id?",
@@ -245,7 +244,7 @@ const routers = new Router({
 
 // 全局判断登录访问权限
 routers.beforeEach((to, from, next) => {
-    document.title = to.name + ` / 工业互联网信息模型联合实验室`;
+    document.title = `工业互联网信息模型联合实验室-` + to.name;
     if (to.matched.some(m => m.meta.auth)) {// 对路由进行验证
         if (store.state.userInfo) { // 已经登陆
             // let {authId,authIds}=to.meta;
@@ -260,7 +259,7 @@ routers.beforeEach((to, from, next) => {
             // }
             next();
         } else {
-            next({path: "/"});
+            next({path: "/login"});
         }
     } else {
         next();

@@ -2,7 +2,7 @@
     <div class="new_box">
         <div class="model_box">
             <span class="name"><img src="../assets/icon1.png" alt="">{{currentMenu.name}}</span>
-            <router-link :to="`/home/list/${currentMenu.url}`">更多 ></router-link>
+            <router-link :to="`/list/${currentMenu.url}`">更多 ></router-link>
         </div>
         <div class="new_item" v-for="item in list" :key="item.ID"
              @click="goView(item)">
@@ -43,8 +43,8 @@
             goView({id, categoryId}) {
                 const {url, menus = []} = this.currentMenu;
                 const childUrl = menus.find(v => v.id == categoryId) || {};
-                console.log(`/home/list/${url}/${childUrl.url || ""}/${id}`);
-                this.$router.push(`/home/list/${url}/${childUrl.url || ""}/${id}`);
+                console.log(`/list/${url}/${childUrl.url || ""}/${id}`);
+                this.$router.push(`/list/${url}/${childUrl.url || ""}/${id}`);
             },
         },
     };

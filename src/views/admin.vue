@@ -13,7 +13,7 @@
                         <el-button size="mini" @click="loginOut">退出登录</el-button>
 
                         <el-button size="mini">
-                            <router-link to="/home" target="_blank">查看官网</router-link>
+                            <router-link to="/" target="_blank">查看官网</router-link>
                         </el-button>
                     </div>
                 </div>
@@ -193,7 +193,6 @@
 
         .header_content {
             flex: 1;
-            border-bottom: 1px solid #EFEFEF;
             height: 100%;
             display: flex;
             justify-content: space-between;

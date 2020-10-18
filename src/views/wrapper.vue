@@ -19,22 +19,22 @@
         </div>
         <div class="nav_box">
             <div class="content_box">
-                <router-link tag="div" to="/home" class="home">首页</router-link>
+                <router-link tag="div" to="/" class="home">首页</router-link>
                 <div v-for="item in showMenu"
                      :key="item.id">
-                    <router-link tag="div" :to="`/home/list/${item.url}`" class="other">
+                    <router-link tag="div" :to="`/list/${item.url}`" class="other">
                         {{item.name}}
                     </router-link>
                     <div class="select_box">
                         <router-link class="child_item" tag="div"
-                                     :to="`/home/list/${item.url}/${child.url}${child.contentId&&child.showType===1?'/'+child.contentId:''}`"
+                                     :to="`/list/${item.url}/${child.url}${child.contentId&&child.showType===1?'/'+child.contentId:''}`"
                                      v-for="child in item.menus.filter(v=>v.status)"
                                      :key="child.id"
                         >{{child.name}}
                         </router-link>
                     </div>
                 </div>
-                <router-link tag="div" to="/home/unit" class="home">测试工作</router-link>
+                <router-link tag="div" to="/unit" class="home">测试工作</router-link>
             </div>
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
@@ -64,7 +64,7 @@
             //注销登录
             loginOut() {
                 this.$store.commit('setUserInfo', null);
-                this.$router.push('/home')
+                this.$router.push('')
                 // this.api.login.loginOut();
             },
         },

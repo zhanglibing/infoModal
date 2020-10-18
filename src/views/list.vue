@@ -2,7 +2,7 @@
     <div>
         <div class="bread_box">
             当前位置：
-            <router-link to="/home">首页</router-link>
+            <router-link to="">首页</router-link>
             / {{currentMenu.name}}
         </div>
         <div class="page_box">
@@ -10,7 +10,7 @@
                 <div class="nav_bg">
                     <ul>
                         <router-link tag="li"
-                                     :to="`/home/list/${$route.params.name}/${item.url}${item.contentId&&item.showType==1?'/'+item.contentId:''}`"
+                                     :to="`/list/${$route.params.name}/${item.url}${item.contentId&&item.showType==1?'/'+item.contentId:''}`"
                                      v-for="item in navs"
                                      :key="item.id">
                             {{item.name}}
@@ -59,7 +59,7 @@
                 this.navs = data.find(v => v.url == name).menus.filter(v=>v.status);
                 if (!child && this.navs.length && !id) {
                     const child = this.navs[0];
-                    this.$router.push(`/home/list/${name}/${child.url}${child.contentId && child.showType == 1 ? '/' + child.contentId : ''}`);
+                    this.$router.push(`/list/${name}/${child.url}${child.contentId && child.showType == 1 ? '/' + child.contentId : ''}`);
                 } else {
                     this.currentChild = this.navs.find(v => v.url === child);
                 }

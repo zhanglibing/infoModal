@@ -1,5 +1,5 @@
 <template>
-    <el-card class="box-card" shadow="hover">
+    <el-card class="box-card" shadow="hover" v-if="data.id">
         <div slot="header" class="clearfix">
             <span>{{data.parentId==0?"一级":"二级"}}菜单详细信息</span>
         </div>
