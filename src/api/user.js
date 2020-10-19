@@ -1,4 +1,4 @@
-import {axios,HOST} from './Ajax'
+import {axios,HOST,post} from './Ajax'
 //获取用户列表
 async function getUserList(params) {
     return new Promise((resolve, reject) => {
@@ -132,6 +132,19 @@ async function deleteRoleById(id) {
     });
 };
 
+//删除角色
+async function deleteCaptcha(params) {
+    return new Promise((resolve, reject) => {
+        axios.post('user/deleteCaptcha/',params).then(res => {
+            if (res.code == '200') {
+                resolve('ok');
+            }
+            reject('error')
+        })
+
+    });
+};
+
 export default {
     getUserList,
     deleteUserById,
@@ -143,4 +156,5 @@ export default {
     deleteRoleById,
     saveAddUser,
     updatePermission,
+    deleteCaptcha,
 }

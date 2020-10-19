@@ -21,7 +21,7 @@
         </el-header>
         <div class="container maxH ">
             <div class="aside" :class="{active:collapse}">
-                <div class="menu_list_box" v-if="!isShowMenu&&userInfo.isSystemUser">
+                <div class="menu_list_box" v-if="userInfo.isSystemUser">
                     <el-menu
                             class="el-menu-vertical-demo"
                             @open="handleOpen"
@@ -106,7 +106,7 @@
         },
         methods: {
             initMenu() {
-                let showMenu = this.$router.options.routes[3];
+                let showMenu = this.$router.options.routes.find(v=>v.path=='/admin');
                 let arr = [];
                 showMenu.children.forEach(val => {
                     if (val.hideMenu) {
@@ -136,9 +136,6 @@
             ...mapState(['userInfo']),
             activePath() {
                 return this.$route.path;
-            },
-            isShowMenu() {
-                return this.$route.path.includes('mall');
             },
             routerList() {
                 return this.$route.matched.filter(v => v.path !== '/admin');

@@ -18,15 +18,15 @@
                 <p class="desc">密码</p>
                 <input type="password" placeholder="请输入密码" v-model.trim="password" @keyup.enter="login">
             </div>
-<!--            <div class="item">-->
-<!--                <p class="desc">验证码</p>-->
-<!--                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">-->
-<!--                <div class="img_box" @click="getVerifyCode">-->
-<!--                    <img :src="`${$HOST}captcha?Random=${random}`"-->
-<!--                         alt="">-->
-<!--                    <span>换一个</span>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="item">
+                <p class="desc">验证码</p>
+                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">
+                <div class="img_box" @click="getVerifyCode">
+                    <img :src="`${$HOST}captcha?Random=${random}`"
+                         alt="">
+                    <span>换一个</span>
+                </div>
+            </div>
         </div>
         <div class="btn_box">
             <div>
@@ -56,7 +56,7 @@
                 loading: false,
                 isReg: false,
                 vcode: "",
-                random: Math.random(),
+                random: (Math.random()* 100000).toFixed(0),
             };
         },
         created() {
@@ -64,7 +64,7 @@
             if (type == "reg") {
                 this.isReg = true;
             }
-            this.getVerifyCode()
+            this.getVerifyCode();
         },
         mounted() {
             let {username = "", password = ""} = getLogin();
@@ -76,21 +76,22 @@
         },
         methods: {
             getVerifyCode() {
-                this.random = (Math.random()).toFixed(5) * 100000;
+                this.api.user.deleteCaptcha({random:this.random})
+                this.random = (Math.random()* 100000).toFixed(0);
             },
             goReg() {
                 this.isReg = true;
                 this.username = "";
                 this.password = "";
                 this.getVerifyCode();
-                this.vcode='';
+                this.vcode = "";
             },
             goLogin() {
                 this.isReg = false;
                 this.username = "";
                 this.password = "";
                 this.getVerifyCode();
-                this.vcode='';
+                this.vcode = "";
             },
             // 核对手机号
             checkUserName() {
@@ -102,14 +103,14 @@
                     this.$message.error("密码不能为空");
                     return false;
                 }
-                // if (!this.vcode) {
-                //     this.$message.error("验证码不能为空");
-                //     return false;
-                // }
-                // if (this.vcode.length < 4) {
-                //     this.$message.error("请输入正确的验证码");
-                //     return false;
-                // }
+                if (!this.vcode) {
+                    this.$message.error("验证码不能为空");
+                    return false;
+                }
+                if (this.vcode.length < 4) {
+                    this.$message.error("请输入正确的验证码");
+                    return false;
+                }
                 return true;
             },
             login() {
