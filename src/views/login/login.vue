@@ -20,7 +20,7 @@
             </div>
             <div class="item">
                 <p class="desc">验证码</p>
-                <input type="text" placeholder="请输入密码" v-model.trim="vcode" @keyup.enter="login">
+                <input type="text" placeholder="请输入验证码" v-model.trim="vcode" @keyup.enter="login">
                 <div class="img_box" @click="getVerifyCode">
                     <img :src="`${$HOST}captcha?Random=${random}`"
                          alt="">
