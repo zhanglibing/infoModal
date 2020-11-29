@@ -1,20 +1,39 @@
 <template>
     <div class="customerEdit">
         <el-card>
-            <el-form label-position="right" ref="ruleForm" label-width="130px" :rules="rules" :model="newData">
+            <el-form label-position="right" ref="ruleForm" label-width="130px" :rules="newData.isLink?rules1:rules"
+                     :model="newData">
                 <el-form-item prop="title" label="标题">
                     <el-input v-model.trim="newData.title" placeholder="标题"></el-input>
                 </el-form-item>
-
-                <el-form-item prop="content" label="内容">
-                    <editor ref="editor" :msg="newData.content"></editor>
+                <el-form-item prop="isLink" label="是否有外链">
+                    <el-checkbox v-model="newData.isLink">跳转链接</el-checkbox>
+<!--                    <p style="color:red;">勾选后,跳转到指定链接</p>-->
                 </el-form-item>
-                <el-form-item prop="testDoc" label="文件上传">
-                    <div class="testDoc">
-                        <span v-if="newData.content1">{{newData.content1}}</span>
-                        <uploadFile @getImgUrl="getImgUrl" style="margin-right: 10px;"></uploadFile>
-                        <el-button v-if="newData.content2" @click="uploadFileByUrl">下载</el-button>
-                    </div>
+                <template v-if="newData.isLink">
+                    <el-form-item prop="link" label="链接地址">
+                        <el-input v-model.trim="newData.link" placeholder="链接地址"></el-input>
+                    </el-form-item>
+                </template>
+                <template v-else>
+                    <el-form-item prop="content" label="内容">
+                        <editor ref="editor" :msg="newData.content"></editor>
+                    </el-form-item>
+                    <el-form-item prop="testDoc" label="文件上传">
+                        <div class="testDoc">
+                            <span v-if="newData.content1">{{newData.content1}}</span>
+                            <uploadFile @getImgUrl="getImgUrl" style="margin-right: 10px;"></uploadFile>
+                            <el-button v-if="newData.content2" @click="uploadFileByUrl">下载</el-button>
+                        </div>
+                    </el-form-item>
+                </template>
+                <el-form-item prop="orderby" label="显示顺序权重:">
+                    <el-input-number v-model="newData.orderby" :min="0" :max="100000"
+                                     label="显示顺序权重"></el-input-number>
+                    <p style="color:red">权重越高，排序越靠前</p>
+                </el-form-item>
+                <el-form-item prop="bannerUrl" label="banner图片:">
+                    <bannerUpload :imgPath="newData.bannerUrl" @getImgUrl="getBannerUrl"></bannerUpload>
                 </el-form-item>
                 <el-form-item prop="IDETAILS" @change="rootChange" label="关联一级菜单">
                     <el-select @change="rootChange" v-model="rootId">
@@ -43,11 +62,13 @@
 <script>
     import editor from "@/components/editor/editor";
     import uploadFile from "@/components/uploadFile";
+    import bannerUpload from "@/components/bannerUpload";
 
     export default {
         components: {
             uploadFile,
             editor,
+            bannerUpload,
         },
         props: {
             type: {
@@ -68,6 +89,9 @@
                     categoryId: "",
                     content1: '',
                     content2: '',
+                    isLink: false,
+                    link: '',
+                    ordery: 0,
                 },
                 rules: {
                     title: [
@@ -75,6 +99,17 @@
                     ],
                     content: [
                         {required: true, message: "内容不能为空", trigger: "blur"},
+                    ],
+                    categoryId: [
+                        {required: true, message: "请选择二级菜单", trigger: "change"},
+                    ],
+                },
+                rules1: {
+                    title: [
+                        {required: true, message: "标题不能为空", trigger: "blur"},
+                    ],
+                    link: [
+                        {required: true, message: "跳转链接不能为空", trigger: "blur"},
                     ],
                     categoryId: [
                         {required: true, message: "请选择二级菜单", trigger: "change"},
@@ -129,7 +164,9 @@
             },
             //保存产品信息
             save() {
-                this.newData.content = this.$refs.editor.getUEContent();
+                if (!this.newData.isLink) {
+                    this.newData.content = this.$refs.editor.getUEContent();
+                }
                 this.$refs.ruleForm.validate((valid) => {
                     if (valid) {
                         this.isHttp = true;
@@ -149,7 +186,7 @@
                 });
 
             },
-            getVideoInfo(url) {
+            getBannerUrl(url) {
                 this.newData.bannerUrl = url;
             },
         },

@@ -26,7 +26,13 @@
                 <div class="banner_box" v-if="currentChild.bannerUrl">
                     <el-image :src="currentChild.bannerUrl"></el-image>
                 </div>
-                <new-list v-if="$route.params.child&&!$route.params.id" :categoryId="currentChild.id"></new-list>
+                <template v-if="$route.params.child&&!$route.params.id">
+                    <new-show-banner-list v-if="currentChild.listShowBanner"
+                                          :categoryId="currentChild.id"></new-show-banner-list>
+                    <new-list v-else :categoryId="currentChild.id"></new-list>
+
+                </template>
+
                 <views v-if="$route.params.id"></views>
             </div>
         </div>
@@ -34,12 +40,14 @@
 </template>
 <script>
     import newList from "./newlist";
+    import newShowBannerList from "./newShowBannerList";
     import views from "./view";
 
     export default {
         components: {
             newList,
             views,
+            newShowBannerList,
         },
         data() {
             return {
@@ -56,7 +64,7 @@
                 const {name, child, id} = this.$route.params;
                 const data = await this.$store.dispatch("getMenuList");
                 this.currentMenu = data.find(v => v.url == name);
-                this.navs = data.find(v => v.url == name).menus.filter(v=>v.status);
+                this.navs = data.find(v => v.url == name).menus.filter(v => v.status);
                 if (!child && this.navs.length && !id) {
                     const child = this.navs[0];
                     this.$router.push(`/list/${name}/${child.url}${child.contentId && child.showType == 1 ? '/' + child.contentId : ''}`);
@@ -104,7 +112,7 @@
                 li {
                     position: relative;
                     line-height: 20px;
-                    padding:15px 15px;
+                    padding: 15px 15px;
                     /*box-shadow: 0px 0px 5px 0px rgba(187, 187, 187, 0.38);*/
                     border-bottom: 1px solid rgba(187, 187, 187, 0.38);
                     padding-left: 40px;

@@ -9,10 +9,12 @@ function getList(params) {
 function add(params) {
     return post("/business/add", params);
 }
+
 //登录
 function update(params) {
     return post("/business/update", params);
 }
+
 //登录
 function detail(params) {
     return get("/business/detail", params);
@@ -22,6 +24,12 @@ function detail(params) {
 function deleteContent(option) {
     return post("/business/delete", option);
 }
+
+//审核
+function audit(option) {
+    return post("/business/audit", option);
+}
+
 //
 function getContentByUser(option) {
     return get("/business/getByUserId", option);
@@ -34,4 +42,5 @@ export default {
     update,
     detail,
     getContentByUser,
+    audit,
 };

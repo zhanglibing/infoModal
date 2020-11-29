@@ -22,8 +22,12 @@ axios.interceptors.request.use((config) => {
     config.headers.common["Token"] = store.getters.getToken;
 
     if (config.method === "post") {
+        const createId = store.state.userInfo ? store.state.userInfo.id : '';
+        if(createId){
+            config.data.createId=createId;
+        }
         config.data = qs.stringify({
-            createId: store.state.userInfo ? store.state.userInfo.id : '',
+            // createId: store.state.userInfo ? store.state.userInfo.id : '',
             ...config.data,
         });
     } else {

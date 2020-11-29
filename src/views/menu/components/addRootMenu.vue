@@ -2,15 +2,16 @@
     <el-dialog :title="`${form.ID?'编辑':'新增'}根菜单`" :visible.sync="dialogVisible"
                :close-on-click-modal="false"
                @close="hideDialog">
-        <el-form :model="form" :rules="rules" ref="form" label-position="right" label-width="110px">
+        <el-form :model="form" :rules="rules" ref="form" label-position="right" label-width="120px">
             <el-form-item label="菜单名" prop="name">
                 <el-input v-model="form.name" placeholder="菜单名称" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="英文名" prop="PURL">
-                <el-input v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格" autocomplete="off"></el-input>
+                <el-input :disabled="form.url=='unit'" v-model.trim="form.url" placeholder="菜单英文名,注意不能有空格"
+                          autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="显示顺序" prop="sort">
-                <el-input-number v-model="form.sort"  :min="0" :max="1000"
+                <el-input-number v-model="form.sort" :min="0" :max="1000"
                                  label="显示顺序"></el-input-number>
             </el-form-item>
             <el-form-item label="首页是否展示">
@@ -20,6 +21,15 @@
                         :inactive-value="0"
                         active-text="展示"
                         inactive-text="不展示">
+                </el-switch>
+            </el-form-item>
+            <el-form-item v-if="form.showType==1" label="首页入口方法">
+                <el-switch
+                        v-model="form.listShowMore"
+                        :active-value="true"
+                        :inactive-value="false"
+                        active-text="首页列表更多入口"
+                        inactive-text="正常入口">
                 </el-switch>
             </el-form-item>
             <el-form-item label="是否在导航栏展示">
@@ -62,6 +72,7 @@
                     showType: "0", //是否在首页展示
                     status: true, //是否启用
                     sort: 0,
+                    listShowMore: false,
                 },
                 rules: {
                     name: [
@@ -74,9 +85,10 @@
             };
         },
         created() {
+            const {menus = [], ...other} = this.data;
             this.form = {
                 ...this.form,
-                ...this.data,
+                ...other,
             };
         },
         methods: {
@@ -116,7 +128,6 @@
                             ...this.form,
                             ...newValue,
                         };
-                        console.log(this.from);
                     }
                 },
                 deep: true,

@@ -2,7 +2,7 @@
     <el-dialog :title="`${form.ID?'编辑':'新增'}下级菜单`" :visible.sync="dialogVisible"
                :close-on-click-modal="false"
                @close="hideDialog">
-        <el-form :model="form" ref="form" :rules="rules" label-position="right" label-width="90px">
+        <el-form :model="form" ref="form" :rules="rules" label-position="right" label-width="110px">
             <el-form-item label="菜单名" prop="name">
                 <el-input v-model="form.name" placeholder="菜单名称" autocomplete="off"></el-input>
             </el-form-item>
@@ -20,6 +20,15 @@
                         :inactive-value="1"
                         active-text="列表"
                         inactive-text="详情">
+                </el-switch>
+            </el-form-item>
+            <el-form-item v-if="form.showType==0" label="是否显示缩略图">
+                <el-switch
+                        v-model="form.listShowBanner"
+                        :active-value="true"
+                        :inactive-value="false"
+                        active-text="显示"
+                        inactive-text="不显示">
                 </el-switch>
             </el-form-item>
             <el-form-item label="关联内容ID" prop="contentId" v-if="form.showType==1">
@@ -78,6 +87,7 @@
                     status: true,
                     showType: 0,
                     sort: 0,
+                    listShowBanner: 0,
                 },
                 rules: {
                     name: [

@@ -3,8 +3,11 @@
         <div class="banner_box">
             <el-carousel height="450px">
                 <el-carousel-item v-for="item in data" :key="item.ID">
-                    <img :src="item.bannerUrl" alt="" class="banner_img"
-                         @click="goBanner(item)">
+                    <el-image
+                            style="width:100%;height:100%;"
+                            :src="item.bannerUrl"
+                            fit="cover" @click="goBanner(item)">
+                    </el-image>
                     <div class="tip_wrapper" @click="goBanner(item)">
                         <div class="title">
                             {{item.title}}
@@ -20,7 +23,8 @@
             </el-carousel>
         </div>
         <div class="news_wrapper" v-if="$store.state.menuList.length">
-            <newBox :currentMenu="item" v-for="item in showHomeMenu" :key="item.id"></newBox>
+            <newBox :currentMenu="item" :isShowListMore="item.listShowMore" v-for="item in showHomeMenu"
+                    :key="item.id"></newBox>
         </div>
         <div class="partners">
             <div class="partners_list">
@@ -90,10 +94,6 @@
                 this.partnersList = rows;
             },
             goBanner(obj) {
-                // content1: id,
-                //     content: title,
-                //     categoryId,
-                console.log(obj)
                 const {categoryId, content1} = obj;
                 const menuData = this.getMenu(categoryId);
                 this.$router.push(`/list/${menuData.parent.url}/${menuData.child.url}/${content1}`);

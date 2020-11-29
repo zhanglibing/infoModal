@@ -8,6 +8,7 @@
                       :stripe="true" :size="size">
                 <el-table-column prop="id" label="ID"></el-table-column>
                 <el-table-column prop="title" label="Banner 名称"></el-table-column>
+                <el-table-column prop="orderby" label="显示顺序权重"></el-table-column>
                 <el-table-column prop="bannerUrl" label="缩略图">
                     <template slot-scope="{row}">
                         <el-image

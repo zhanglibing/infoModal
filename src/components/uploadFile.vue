@@ -5,7 +5,7 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-        <el-button type="primary">文件上传</el-button>
+        <el-button type="primary">点击上传测试文档</el-button>
     </el-upload>
 </template>
 <script>
@@ -27,7 +27,6 @@
             };
         },
         created() {
-            console.log(this.getHttp());
         },
         methods: {
             getHttp() { //返回上传图片host
@@ -45,9 +44,9 @@
             },
             beforeAvatarUpload(file) {
                 this.name = file.name;
-                const isLt5M = file.size / 1024 / 1024 < 5;
+                const isLt5M = file.size / 1024 / 1024 < 20;
                 if (!isLt5M) {
-                    this.$message.error("上传图片大小不能超过 5MB!");
+                    this.$message.error("上传图片大小不能超过 20MB!");
                 }
                 return isLt5M;
             },

@@ -15,6 +15,11 @@
                     <span style="margin-right: 10px;">{{newData.content}}</span>
                     <el-button type="primary" size="mini" @click="dialogVisible=true">选择产品</el-button>
                 </el-form-item>
+                <el-form-item prop="content" label="显示顺序权重:">
+                    <el-input-number v-model="newData.orderby" :min="0" :max="100000"
+                                     label="显示顺序权重"></el-input-number>
+                    <p style="color:red">权重越高，排序越靠前</p>
+                </el-form-item>
                 <el-form-item label="创建时间:" v-if="newData.id">
                     {{newData.createdAt}}
                 </el-form-item>
@@ -55,6 +60,7 @@
                     content: '',
                     categoryId: '',
                     content2: '',
+                    orderby: 0,
                 },
                 rules: {
                     title: [

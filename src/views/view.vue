@@ -1,15 +1,18 @@
 <template>
     <div>
+        <!--        <div class="card_box" v-if="detail.content1">-->
+        <!--            <div class="upload_box">-->
+        <!--                {{detail.content1}}-->
+        <!--                <div class="btn" @click="uploadFileByUrl">下载专区,点击下载</div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="card_box">
-            <div class="title">{{detail.title}}</div>
+            <div class="title">
+                <span class="name">{{detail.title}}</span>
+                <div class="btn" v-if="detail.content1" @click="uploadFileByUrl">下载资料</div>
+            </div>
             <div class="time">{{detail.createdAt.slice(0,10)}}</div>
             <div v-html="detail.content"></div>
-        </div>
-        <div class="card_box" v-if="detail.content1">
-            <div class="upload_box">
-                {{detail.content1}}
-                <div class="btn" @click="uploadFileByUrl">下载专区,点击下载</div>
-            </div>
         </div>
     </div>
 </template>
@@ -29,7 +32,10 @@
             },
             async getProduct() {
                 try {
-                    this.detail = await this.api.content.detail({id: this.$route.params.id});
+                    const data = await this.api.content.detail({id: this.$route.params.id});
+                    data.content = data.content.replace(/<img/g, '<img style="max-width:100%"');
+                    console.log(data.content)
+                    this.detail = data;
                 } catch (e) {
                     this.$message.error(e);
                 }
@@ -51,6 +57,22 @@
         font-size: 24px;
         color: #000;
         margin-bottom: 15px;
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        .btn {
+            width: 100px;
+            font-size: 14px;
+            background: #01135F;
+            line-height: 24px;
+            color: #fff;
+            padding:4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+
+        }
     }
 
     .time {
@@ -75,5 +97,9 @@
             border-radius: 6px;
             margin-left: 10px;
         }
+    }
+
+    img {
+        max-width: 100%;
     }
 </style>

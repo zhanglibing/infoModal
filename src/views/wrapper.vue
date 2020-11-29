@@ -1,13 +1,13 @@
 <template>
     <div style="background: #fff;">
         <div class="header_box">
+            <img class="logo" src="../assets/logo.jpeg" alt="">
             <div class="content">
-                <img src="../assets/logo.png" alt="">
                 <div class="title_box">
                     <p class="zh">工业互联网信息模型联合实验室</p>
                     <p class="en">Industrial Internet Information Model Joint Laboratory </p>
                     <div class="login_box" v-if="!userInfo">
-                        <span @click="goLogin">登录</span>/<span @click="goReg">注册</span>
+                        <!--                        <span @click="goLogin">登录</span>/<span @click="goReg">注册</span>-->
                     </div>
                     <div v-else class="user_info">
                         当前账户：{{userInfo.username}}
@@ -22,7 +22,7 @@
                 <router-link tag="div" to="/" class="home">首页</router-link>
                 <div v-for="item in showMenu"
                      :key="item.id">
-                    <router-link tag="div" :to="`/list/${item.url}`" class="other">
+                    <router-link tag="div" :to="`${item.url=='unit'?'/unit':`/list/${item.url}`}`" class="other">
                         {{item.name}}
                     </router-link>
                     <div class="select_box">
@@ -34,7 +34,6 @@
                         </router-link>
                     </div>
                 </div>
-                <router-link tag="div" to="/unit" class="home">测试工作</router-link>
             </div>
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
@@ -80,7 +79,14 @@
     .header_box {
         width: 1200px;
         margin: 0 auto;
-
+        position: relative;
+        .logo {
+            position: absolute;
+            left:0;
+            width: 300px;
+            height: 60px;
+            top:20px;
+        }
         .content {
             display: flex;
             align-items: center;
@@ -88,12 +94,6 @@
             padding-top: 20px;
             color: #000;
             position: relative;
-
-            img {
-                width: 133px;
-                height: 60px;
-                margin-right: 20px;
-            }
 
             .zh {
                 font-size: 26px;
@@ -121,7 +121,8 @@
                     cursor: pointer;
                 }
             }
-            .user_info{
+
+            .user_info {
                 position: absolute;
                 top: 25px;
                 right: 0;
@@ -130,9 +131,10 @@
                 align-items: center;
                 padding: 0 6px;
                 font-size: 12px;
-                span{
+
+                span {
                     cursor: pointer;
-                    padding:3px 6px;
+                    padding: 3px 6px;
                     margin-left: 10px;
                     background: #02145F;
                     color: #fff;

@@ -7,7 +7,7 @@
         <div class="new_item" v-for="item in list" :key="item.ID"
              @click="goView(item)">
             <span class="time">{{item.createdAt.slice(0,10)}}</span>
-            <div class="new_name">{{item.title}}</div>
+            <div class="new_name"><span class="name">{{item.title}}</span> <span class="more" v-if="isShowListMore">更多</span></div>
         </div>
     </div>
 </template>
@@ -18,6 +18,10 @@
                 type: Object,
                 required: true,
             },
+            isShowListMore: {
+                type: Boolean,
+                default: false,
+            }
         },
         data() {
             return {
@@ -40,7 +44,11 @@
                 this.list = rows;
                 this.count = count;
             },
-            goView({id, categoryId}) {
+            goView({id, categoryId, isLink, link}) {
+                if(isLink){
+                    window.open(link,'_blank');
+                    return false;
+                }
                 const {url, menus = []} = this.currentMenu;
                 const childUrl = menus.find(v => v.id == categoryId) || {};
                 console.log(`/list/${url}/${childUrl.url || ""}/${id}`);
@@ -109,6 +117,19 @@
             text-overflow: ellipsis;
             color: #000;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .name{
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+                flex: 1;
+                padding-right: 10px;
+            }
+            .more{
+                width:60px;
+            }
         }
     }
 
