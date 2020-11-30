@@ -128,7 +128,8 @@
                 padding-right: 10px;
             }
             .more{
-                width:60px;
+                width: 40px;
+                text-align: right;
             }
         }
     }
