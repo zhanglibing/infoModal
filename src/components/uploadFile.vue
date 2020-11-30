@@ -44,7 +44,7 @@
             },
             beforeAvatarUpload(file) {
                 this.name = file.name;
-                const isLt5M = file.size / 1024 / 1024 < 20;
+                const isLt5M = file.size / 1024 / 1024 < 50;
                 if (!isLt5M) {
                     this.$message.error("上传图片大小不能超过 20MB!");
                 }

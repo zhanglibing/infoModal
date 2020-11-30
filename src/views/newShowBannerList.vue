@@ -10,7 +10,7 @@
                 </div>
                 <div class="content">
                     <div class="left">
-                        <div class="time"><i class="el-icon-date"></i>{{item.createdAt.slice(0,10)}}</div>
+                        <div class="time1"><i class="el-icon-date"></i>{{item.createdAt.slice(0,10)}}</div>
                         <div class="new_name">
                             {{item.title}}
                         </div>
@@ -88,7 +88,7 @@
 
             &:hover {
                 transform: translate(30px,0);
-                .time, .new_name {
+                .time1, .new_name {
                     color: #02145F;
                 }
 
@@ -115,11 +115,10 @@
                 justify-content: space-between;
                 align-items: center;
 
-                .time {
-                    margin-right: 6px;
+                .time1 {
                     color: #666;
                     transition: all 0.3s;
-
+                    width:100%;
                     i {
                         margin-right: 6px;
                     }
