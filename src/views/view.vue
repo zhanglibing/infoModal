@@ -62,7 +62,7 @@
         align-items: flex-start;
         justify-content: space-between;
         .btn {
-            width: 100px;
+            width: 70px;
             font-size: 14px;
             background: #01135F;
             line-height: 24px;
@@ -71,6 +71,7 @@
             border-radius: 4px;
             cursor: pointer;
             margin-left: 10px;
+            text-align: center;
 
         }
     }
