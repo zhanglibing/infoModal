@@ -6,8 +6,11 @@
         </div>
         <div class="new_item" v-for="item in list" :key="item.ID"
              @click="goView(item)">
-            <span class="time">{{item.createdAt.slice(0,10)}}</span>
+<!--            <span class="time">{{item.createdAt.slice(0,10)}}</span>-->
             <div class="new_name"><span class="name">{{item.title}}</span> <span class="more" v-if="isShowListMore">更多</span></div>
+            <div class="introduce" v-if="item.isIntroduction">
+             {{item.introduce}}
+            </div>
         </div>
     </div>
 </template>
@@ -92,9 +95,10 @@
     }
 
     .new_item {
-        display: flex;
-        align-items: center;
+        /*display: flex;*/
+        /*align-items: center;*/
         cursor: pointer;
+
 
         &:hover {
             .time, .new_name {
@@ -126,11 +130,18 @@
                 text-overflow:ellipsis;
                 flex: 1;
                 padding-right: 10px;
+                color: #F27102;
+
             }
             .more{
                 width: 40px;
                 text-align: right;
             }
+        }
+        .introduce{
+            line-height: 20px;
+            color:rgba(0,0,0,0.65);
+            margin-bottom: 15px;
         }
     }
 

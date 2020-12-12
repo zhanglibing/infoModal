@@ -8,7 +8,7 @@
                 </el-form-item>
                 <el-form-item prop="isLink" label="是否有外链">
                     <el-checkbox v-model="newData.isLink">跳转链接</el-checkbox>
-<!--                    <p style="color:red;">勾选后,跳转到指定链接</p>-->
+                    <!--                    <p style="color:red;">勾选后,跳转到指定链接</p>-->
                 </el-form-item>
                 <template v-if="newData.isLink">
                     <el-form-item prop="link" label="链接地址">
@@ -16,6 +16,13 @@
                     </el-form-item>
                 </template>
                 <template v-else>
+                    <el-form-item prop="isIntroduction" label="是否需要摘要">
+                        <el-checkbox v-model="newData.isIntroduction">需要摘要</el-checkbox>
+                        <p style="color:red;">勾选后,首页展示模块会显示摘要</p>
+                    </el-form-item>
+                    <el-form-item prop="introduce" label="摘要" v-if="newData.isIntroduction">
+                        <el-input type="textarea" style="width:100%;" v-model.trim="newData.introduce" placeholder="摘要"></el-input>
+                    </el-form-item>
                     <el-form-item prop="content" label="内容">
                         <editor ref="editor" :msg="newData.content"></editor>
                     </el-form-item>
@@ -27,6 +34,7 @@
                         </div>
                     </el-form-item>
                 </template>
+
                 <el-form-item prop="orderby" label="显示顺序权重:">
                     <el-input-number v-model="newData.orderby" :min="0" :max="100000"
                                      label="显示顺序权重"></el-input-number>
@@ -92,6 +100,8 @@
                     isLink: false,
                     link: '',
                     ordery: 0,
+                    introduce: '',
+                    isIntroduction: false,
                 },
                 rules: {
                     title: [
