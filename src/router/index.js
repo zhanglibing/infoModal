@@ -15,7 +15,7 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router);
 const routers = new Router({
-    // mode: "history",
+    mode: "history",
     routes: [
         // {
         //     path: "/",

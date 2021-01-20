@@ -1,7 +1,7 @@
 <template>
     <wrapper>
         <div class="title_box">
-            <p class="title">工业互联网信息模型联合实验室</p>
+            <p class="title">工业互联网信息模型综合服务平台</p>
         </div>
         <p class="login_link" v-if="!isReg" @click="goReg" style="cursor: pointer">新用户？
             创建账户

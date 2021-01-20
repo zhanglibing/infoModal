@@ -49,7 +49,7 @@
                         <el-button type="info" size="mini" icon="el-icon-edit-outline" @click="editClick(scope.row.id)">
                             编辑
                         </el-button>
-                        <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteCus(scope.row.id)">删除
+                        <el-button :disabled="scope.row.username=='admin'" type="danger" size="mini" icon="el-icon-delete" @click="deleteCus(scope.row.id)">删除
                         </el-button>
                     </template>
                 </el-table-column>

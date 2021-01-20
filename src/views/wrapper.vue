@@ -1,11 +1,11 @@
 <template>
     <div style="background: #fff;">
         <div class="header_box">
-            <img class="logo" src="../assets/logo.jpeg" alt="">
+            <img class="logo" src="../assets/logo.png" alt="">
             <div class="content">
                 <div class="title_box">
-                    <p class="zh">工业互联网信息模型联合实验室</p>
-                    <p class="en">Industrial Internet Information Model Joint Laboratory </p>
+                    <p class="zh">工业互联网信息模型综合服务平台</p>
+                    <p class="en">The comprehensive services platform of industrial internet information model</p>
                     <div class="login_box" v-if="!userInfo">
                         <!--                        <span @click="goLogin">登录</span>/<span @click="goReg">注册</span>-->
                     </div>
@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <p class="name">中国信通院</p>
+            <!--<p class="name">中国信通院|华为|沈自所|仪综所</p> -->
         </div>
         <div class="nav_box">
             <div class="content_box">
@@ -38,7 +38,7 @@
         </div>
         <router-view class="page_wrapper" :key="$route.path"></router-view>
         <footer>
-            Copyright© 工业互联网信息模型联合实验室
+            Copyright© 工业互联网信息模型综合服务平台
         </footer>
     </div>
 </template>
@@ -83,7 +83,7 @@
         .logo {
             position: absolute;
             left:0;
-            width: 300px;
+            width: 133px;
             height: 60px;
             top:20px;
         }
@@ -91,10 +91,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-top: 20px;
+            padding: 15px 0;
             color: #000;
             position: relative;
-
+            .title_box{
+               text-align:center;
+			}			
             .zh {
                 font-size: 26px;
             }

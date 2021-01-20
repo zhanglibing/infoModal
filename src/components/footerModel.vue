@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <p>工业互联网信息模型联合实验室 <br> Copyright ©  沪ICP备17043267号</p>
+        <p>工业互联网信息模型综合服务平台</p>
     </div>
 </template>
 <script>

@@ -9,7 +9,8 @@ import store from "../vuex/store";
 import router from "../router";
 import {Message} from "element-ui";
 
-const HOST = "http://106.13.74.51:8888/api/";
+// const HOST = "http://219.239.97.46:8888/api/";
+const HOST = "https://3im.caict.ac.cn//api/";
 // const HOST = "http://localhost:5005/api/";
 // const apiHost = HOST;
 window.apiHost = HOST;
