@@ -27,6 +27,11 @@ const routers = new Router({
             component: login,
         },
         {
+            path: "/modelPlatform",
+            name: "web",
+            component: resolve => require(["@/views/iframe"], resolve),
+        },
+        {
             path: "/",
             component: resolve => require(["@/views/wrapper"], resolve),
             name: "首页",

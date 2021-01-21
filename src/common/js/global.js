@@ -27,16 +27,16 @@ function initGlobal() {
     Vue.filter('filterDateFromNow', (value) => {
         return moment(value).fromNow();
     });
-    // Vue.directive('title', {
-    //     inserted: (el, binding) => {
-    //         document.title = el.innerText + '/ ';
-    //         $(el).css({display: 'none'});
-    //     },
-    //     update: (el, binding) => {//组件更新后重新赋值
-    //         document.title = el.innerText + '/ ';
-    //     },
-    // })
-    //
+    Vue.directive('title', {
+        inserted: (el, binding) => {
+            document.title = el.innerText;
+            $(el).css({display: 'none'});
+        },
+        update: (el, binding) => {//组件更新后重新赋值
+            document.title = el.innerText;
+        },
+    })
+
     Vue.filter('filterTest', (value) => {
         return test_status.find(val => val.value == value).label;
     });
