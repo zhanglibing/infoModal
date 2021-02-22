@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-title>ModelPlatform</div>
-        <iframe class="iframe" src="https://139.9.142.131" frameborder="0"></iframe>
+        <iframe class="iframe" src="http://124.70.101.118:4205" frameborder="0"></iframe>
     </div>
 </template>
 <script>
